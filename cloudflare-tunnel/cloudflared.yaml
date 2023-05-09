@@ -27,7 +27,7 @@ data:
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
-    - service: http://ingress-haproxy.default.svc.cluster.local:80
+    - service: http://ingress-haproxy-kubernetes-ingress.default.svc.cluster.local:80
 ---
 apiVersion: apps/v1
 kind: Deployment
