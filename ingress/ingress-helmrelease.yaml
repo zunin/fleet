@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-haproxy
+  namespace: default
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: kubernetes-ingress
+      version: "1.30.4"
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-haproxy
+        namespace: default
+      interval: 1m
+  values:
+    controller:
+      kind: DaemonSet
+      ingressClass: null
+      service:
+        enabled: false
+      daemonset:
+        useHostNetwork: true
+        useHostPort: true
