@@ -14,12 +14,12 @@ spec:
         name: ingress-haproxy
         namespace: default
       interval: 1m
-  values:
-    controller:
-      kind: DaemonSet
-      ingressClass: null
-      service:
-        enabled: false
-      daemonset:
-        useHostNetwork: true
-        useHostPort: true
+  #values:
+  #  controller:
+  #    kind: DaemonSet
+  #    ingressClass: null
+  #    service:
+  #      enabled: false
+  #    daemonset:
+  #      useHostNetwork: true
+  #      useHostPort: true
