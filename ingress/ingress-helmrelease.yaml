@@ -15,13 +15,6 @@ spec:
         namespace: default
       interval: 1m
   values:
-  #  controller:
-  #    kind: DaemonSet
-  #    ingressClass: null
-      service:
-        enabled: true
-        type: LoadBalancer
-
-  #    daemonset:
-  #      useHostNetwork: true
-  #      useHostPort: true
+    service:
+      enabled: true
+      type: LoadBalancer
