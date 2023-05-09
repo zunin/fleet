@@ -18,4 +18,6 @@ spec:
     service:
       enabled: true
       type: LoadBalancer
-
+    keda:
+      minReplicas: 1
+      maxReplicas: 1
