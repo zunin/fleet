@@ -28,6 +28,8 @@ data:
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
     - service: http://ingress-haproxy-kubernetes-ingress.default.svc.cluster.local:80
+      originRequest:
+        noTLSVerify: true
 ---
 apiVersion: apps/v1
 kind: Deployment
