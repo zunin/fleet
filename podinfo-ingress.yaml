@@ -9,6 +9,7 @@ metadata:
     #nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
+  ingressClassName: haproxy
   rules:
   - host: podinfo.nikolaiathome.com
     http:
