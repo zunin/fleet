@@ -16,7 +16,7 @@ spec:
       version: 8.5.2
   values: 
     persistence:
-      grocy.db:
+      grocydb:
         enabled: true
         type: pvc
         size: 1Gi
