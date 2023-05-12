@@ -17,7 +17,8 @@ spec:
   values:
     env:
       # -- Set the container timezone
-      TZ: Europe/Copenhagen
+      TZ: Europe/Copenhagen 
+      GROCY_CURRENCY: DKK
     image:
       # -- image repository
       repository: linuxserver/grocy
