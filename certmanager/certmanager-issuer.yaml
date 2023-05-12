@@ -26,5 +26,6 @@ spec:
     # Add a single challenge solver, HTTP01 
     solvers:
     - http01:
-        ingress: {}
+        ingress:
+        class: haproxy
 
