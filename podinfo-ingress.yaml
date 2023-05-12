@@ -18,9 +18,3 @@ spec:
             name: podinfo
             port:
               number: 9898
-
-  tls:
-    - hosts:
-        - podinfo.nikolaiathome.com
-      secretName: podinfo-cert
-
