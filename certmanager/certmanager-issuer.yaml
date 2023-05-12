@@ -27,5 +27,5 @@ spec:
     solvers:
     - http01:
         ingress:
-        class: haproxy
+          class: haproxy
 
