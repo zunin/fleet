@@ -16,8 +16,8 @@ spec:
       interval: 1m
   values:
     controller:
-      logging:
-        level: debug
+      ingressClassResource:
+        default: true
       service:
         enabled: true
         type: LoadBalancer
