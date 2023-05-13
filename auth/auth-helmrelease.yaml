@@ -1,0 +1,20 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: zitadel
+  namespace: auth
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: zitadel
+      sourceRef:
+        kind: HelmRepository
+        name: zitadel
+        namespace: auth
+      interval: 30m
+      version: 4.3.0
+  valuesFrom:
+    - kind: ConfigMap
+      name: zitadel-values
+    # - kind: Secret
