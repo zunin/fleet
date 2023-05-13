@@ -25,3 +25,11 @@ spec:
       subdomain: auth
       tls:
         enabled: false
+    session:
+      redis:
+        enabled: false
+    storage:
+      local:
+        enabled: true
+      postgres:
+        enabled: false
