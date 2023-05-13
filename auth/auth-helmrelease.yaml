@@ -34,3 +34,6 @@ spec:
           enabled: true
         postgres:
           enabled: false
+      notifier:
+        smtp:
+          enabled: false
