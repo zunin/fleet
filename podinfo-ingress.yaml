@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: podinfo
   namespace: default
-  annotations:
-    haproxy.org/ssl-redirect: "true"
 spec:
   rules:
   - host: podinfo.nikolaiathome.com
