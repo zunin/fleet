@@ -36,6 +36,7 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName:  "nginx"
         hosts:
           - host: "grocy.nikolaiathome.com"
             paths:
