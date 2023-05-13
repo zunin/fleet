@@ -23,3 +23,5 @@ spec:
     ingress:
       enabled: true
       subdomain: auth
+      tls:
+        enabled: false
