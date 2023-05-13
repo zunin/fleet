@@ -15,6 +15,7 @@ spec:
       interval: 30m
       version: 10.0.10
   values: 
+    fullnameOverride: crdb
     image:
       repository: cockroachdb/cockroach
       tag: v22.2.9
