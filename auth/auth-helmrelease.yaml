@@ -14,7 +14,15 @@ spec:
         namespace: auth
       interval: 30m
       version: 4.3.0
-  valuesFrom:
-    - kind: ConfigMap
-      name: zitadel-values
-    # - kind: Secret
+  values:
+    image:
+      repository: ghcr.io/zitadel/zitadel
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "v2.23.1"
+    zitadel:
+      configmapConfig:
+        ExternalSecure: false
+        TLS:
+          Enabled: false
+      masterkeySecretName: "zitadel-masterkey"
+    replicaCount: 1
