@@ -21,6 +21,8 @@ spec:
       tag: "v2.23.1"
     zitadel:
       configmapConfig:
+        Database:
+          Host: "cockroachdb-public"
         ExternalSecure: false
         TLS:
           Enabled: false
