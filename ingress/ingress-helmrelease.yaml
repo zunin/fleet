@@ -18,6 +18,7 @@ spec:
     controller:
       ingressClassResource:
         default: true
+      watchIngressWithoutClass: true
       service:
         enabled: true
         type: LoadBalancer
