@@ -15,12 +15,6 @@ spec:
       interval: 30m
       version: 8.5.2
   values: 
-    persistence:
-      grocydb:
-        enabled: true
-        type: pvc
-        size: 1Gi
-        mountPath: /config/data/grocy.db      
     env:
       # -- Set the container timezone
       TZ: Europe/Copenhagen 
