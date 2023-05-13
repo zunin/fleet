@@ -25,6 +25,9 @@ spec:
         TLS:
           Enabled: false
       masterkeySecretName: "zitadel-masterkey"
+      dbSslRootCrtSecret: "cockroachdb-ca-secret"
+      dbSslClientCrtSecret: "cockroachdb-client-secret"
+      
     replicaCount: 1
     ingress:
       enabled: true
