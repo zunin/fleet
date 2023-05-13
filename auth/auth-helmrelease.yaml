@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: authelia
+  namespace: auth
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: authelia
+      sourceRef:
+        kind: HelmRepository
+        name: authelia
+        namespace: auth
+      interval: 30m
+      version: 0.8.57
+  values: 
+    image:
+      registry: ghcr.io
+      repository: authelia/authelia
+      tag: "4.37.5"
+    domain: nikolaiathome.com
+    ingress:
+      enabled: true
+      subdomain: auth
