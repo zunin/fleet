@@ -24,21 +24,6 @@ spec:
     serverName: nikolaiathome.com
     ingress:
       enabled: true
-    extraConfig:
-      oidc_providers:
-        - idp_id: oelleguard
-          idp_name: oelleguard
-          discover: true
-          issuer: "https://auth.nikolaiathome.com" # TO BE FILLED: domain and slug
-          scopes:
-            - "openid"
-            - "profile"
-            - "email"
-          # user_mapping_provider:
-          #   config:
-          #     localpart_template: "{{ user.preferred_username }}"
-          #     display_name_template: "{{ user.preferred_username|capitalize }}" # TO BE FILLED: If your users have names in Authentik and you want those in Synapse, this should be replaced with user.name|capitalize.
-
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
@@ -50,9 +35,5 @@ spec:
       targetPath: redis.password
     - kind: Secret
       name: synapse-oauth-app
-      valuesKey: ClientSecret
-      targetPath: extraConfig.oidc_providers.[0].client_secret
-    - kind: Secret
-      name: synapse-oauth-app
-      valuesKey: ClientId
-      targetPath: extraConfig.oidc_providers.[0].client_id
+      valuesKey: oicd_providers
+      targetPath: extraConfig.oidc_providers
