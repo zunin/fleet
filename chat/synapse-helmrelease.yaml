@@ -42,17 +42,17 @@ spec:
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
-      valueKey: password
+      valuesKey: password
       targetPath: postgresql.postgresqlPassword
     - kind: Secret
       name: synapse-redis-password
-      valueKey: password
+      valuesKey: password
       targetPath: redis.password
     - kind: Secret
       name: synapse-oauth-app
-      valueKey: ClientSecret
+      valuesKey: ClientSecret
       targetPath: extraConfig.oidc_providers[0].client_secret
     - kind: Secret
       name: synapse-oauth-app
-      valueKey: ClientId
+      valuesKey: ClientId
       targetPath: extraConfig.oidc_providers[0].client_id
