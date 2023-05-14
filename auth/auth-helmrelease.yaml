@@ -14,27 +14,11 @@ spec:
         namespace: auth
       interval: 30m
       version: 4.3.0
-  values:
-    image:
-      repository: ghcr.io/zitadel/zitadel
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "v2.23.1"
-    zitadel:
-      configmapConfig:
-        Database:
-          Host: "crdb-public"
-        ExternalSecure: false
-        TLS:
-          Enabled: false
-      masterkeySecretName: "zitadel-masterkey"
-      dbSslRootCrtSecret: "crdb-ca-secret"
-      dbSslClientCrtSecret: "crdb-client-secret"
-      
-    replicaCount: 1
-    ingress:
-      enabled: true
-      hosts:
-        - host: auth.nikolaiathome.com
-          paths:
-            - pathType: Prefix
-              path: /
+  valuesFrom:
+  - kind: ConfigMap
+    name: zitadel-config
+    valuesKey: zitadel-values.yaml
+  - kind: Secret
+    name: zitadel.db.user
+    valuesKey: password
+    targetPath: zitadel.secretConfig.Database.cockroach.User.Password

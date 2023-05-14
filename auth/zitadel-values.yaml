@@ -1,0 +1,26 @@
+image:
+  repository: ghcr.io/zitadel/zitadel
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v2.23.1"
+zitadel:
+  configmapConfig:
+    Database:
+      cockroach:
+        Host: "crdb-public"
+        User:
+          Password: ""
+    ExternalSecure: false
+    TLS:
+      Enabled: false
+  masterkeySecretName: "zitadel-masterkey"
+  dbSslRootCrtSecret: "crdb-ca-secret"
+  dbSslClientCrtSecret: "crdb-client-secret"
+  
+replicaCount: 1
+ingress:
+  enabled: true
+  hosts:
+    - host: auth.nikolaiathome.com
+      paths:
+        - pathType: Prefix
+          path: /
