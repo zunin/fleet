@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: ananace-charts
+  namespace: chat
+spec:
+  interval: 1m
+  url: https://ananace.gitlab.io/charts
