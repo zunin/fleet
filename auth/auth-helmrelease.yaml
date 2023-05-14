@@ -16,7 +16,7 @@ spec:
       version: 4.3.0
   valuesFrom:
   - kind: ConfigMap
-    name: zitadel-config
+    name: zitadel-config-14-05-2023
     valuesKey: zitadel-values.yaml
   - kind: Secret
     name: zitadel.db.user
