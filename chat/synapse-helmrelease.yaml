@@ -51,8 +51,8 @@ spec:
     - kind: Secret
       name: synapse-oauth-app
       valuesKey: ClientSecret
-      targetPath: extraConfig.oidc_providers[0].client_secret
+      targetPath: extraConfig.oidc_providers.[0].client_secret
     - kind: Secret
       name: synapse-oauth-app
       valuesKey: ClientId
-      targetPath: extraConfig.oidc_providers[0].client_id
+      targetPath: extraConfig.oidc_providers.[0].client_id
