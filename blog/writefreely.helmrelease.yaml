@@ -21,7 +21,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: auth.nikolaiathome.com
+        - host: blog.nikolaiathome.com
           paths:
             - pathType: Prefix
               path: /
