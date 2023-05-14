@@ -8,12 +8,13 @@ resources:
 - sealed-zitadel.db.user.yaml
 - auth-helmrelease.yaml
 
+
 # declare ConfigMap from a ConfigMapGenerator
 configMapGenerator:
 - name: zitadel-config-14-05-2023
   namespace: auth
   files:
-  - zitadel-values.yaml
+  - zitadel-values-14-05-2023.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
