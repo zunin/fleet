@@ -25,7 +25,7 @@ spec:
           paths:
             - pathType: Prefix
               path: /
-    valuesFrom:
-    - kind: Secret
-      name: writefreely-config
-      valuesKey: config.ini
+  valuesFrom:
+  - kind: Secret
+    name: writefreely-config
+    valuesKey: config.ini
