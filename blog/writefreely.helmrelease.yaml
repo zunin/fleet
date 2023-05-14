@@ -28,4 +28,3 @@ spec:
   valuesFrom:
   - kind: Secret
     name: writefreely-config
-    valuesKey: config.ini
