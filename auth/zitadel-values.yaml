@@ -4,6 +4,8 @@ image:
   tag: "v2.23.1"
 zitadel:
   configmapConfig:
+    ExternalPort: 443
+    ExternalDomain: "nikolaiathome.com"
     Database:
       cockroach:
         Host: "crdb-public"
