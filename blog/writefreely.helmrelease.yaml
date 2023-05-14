@@ -14,9 +14,18 @@ spec:
         namespace: blog
       interval: 30m
       version: 1.0.0
+  values: 
+    image:
+      repository: docker.io/algernon/writefreely
+      tag: "0.13.2-2"
+    ingress:
+      enabled: true
+      hosts:
+        - host: blog.nikolaiathome.com
+          paths:
+            - pathType: Prefix
+              path: /
   valuesFrom:
   - kind: Secret
     name: writefreely-config
     valuesKey: config.ini
-  - kind: ConfigMap
-    name: writefreely-helm-values
