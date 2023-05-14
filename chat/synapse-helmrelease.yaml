@@ -24,6 +24,11 @@ spec:
     serverName: nikolaiathome.com
     ingress:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          more_set_headers "X-Forwarded-Proto $scheme";
+          more_set_headers "X-Forwarded-For   $proxy_add_x_forwarded_for";
+          more_set_headers "Host $host;";
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
