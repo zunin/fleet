@@ -36,4 +36,4 @@ spec:
     - kind: Secret
       name: synapse-oauth-app
       valuesKey: oicd_providers
-      targetPath: extraConfig.oidc_providers
+      targetPath: extraConfig
