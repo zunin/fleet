@@ -25,9 +25,8 @@ spec:
     ingress:
       enabled: true
       annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: HTTP
         nginx.ingress.kubernetes.io/configuration-snippet: |
-          more_set_headers "X-Forwarded-Proto $scheme";
+          more_set_headers "X-Forwarded-Proto https";
           more_set_headers "X-Forwarded-For   $proxy_add_x_forwarded_for";
   valuesFrom:
     - kind: Secret
