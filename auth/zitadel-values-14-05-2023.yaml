@@ -4,13 +4,13 @@ image:
 zitadel:
   configmapConfig:
     ExternalPort: 443
-    ExternalDomain: "nikolaiathome.com"
+    ExternalDomain: "auth.nikolaiathome.com"
     Database:
       cockroach:
         Host: "crdb-public"
         User:
           Password: ""
-    ExternalSecure: false
+    ExternalSecure: true
     TLS:
       Enabled: false
   masterkeySecretName: "zitadel-masterkey"
