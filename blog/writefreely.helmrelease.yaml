@@ -16,8 +16,8 @@ spec:
       version: 1.0.0
   values: 
     image:
-      repository: docker.io/algernon/writefreely
-      tag: "0.13.2-2"
+      repository: ghcr.io/nicholaswilde/writefreely
+      tag: "version-0.13.1"
     ingress:
       enabled: true
       hosts:
