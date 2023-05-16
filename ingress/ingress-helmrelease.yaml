@@ -23,3 +23,6 @@ spec:
         enabled: true
         type: LoadBalancer
       replicaCount: 1
+      config:
+        entries:
+          use-forwarded-headers: true
