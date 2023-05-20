@@ -23,4 +23,4 @@ spec:
     ingress:
       enabled: true
       hosts:
-        -  "oauth.grocy.nikolaiathome.com"
+        -  "grocy-oauth-proxy.nikolaiathome.com"
