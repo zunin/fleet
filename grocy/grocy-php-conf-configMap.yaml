@@ -4,7 +4,7 @@ metadata:
   namespace: grocy
   name: php-conf
 data:
-  ww2.conf: |
+  www2.conf: |
     ; Edit this file to override www.conf and php-fpm.conf directives and restart the container
 
     ; Pool name
