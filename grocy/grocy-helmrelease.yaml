@@ -51,9 +51,9 @@ spec:
         enabled: true
         type: configMap
         name: www2-conf
-        mountPath: /config/php
+        mountPath: /config/php/ww2.conf
         readOnly: true
-
+        items: www2.conf
       viewcache:
         enabled: true
         type: emptyDir
