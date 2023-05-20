@@ -47,15 +47,12 @@ spec:
         accessMode: ReadWriteOnce
         size: 2Gi
     persistence:
-      www2-conf:
-        enabled: true
+      php-conf:
+        enabled: false
         type: configMap
         name: www2-conf
         mountPath: /config/php
         readOnly: true
-        items: 
-          - key: www2.conf
-            path: www2.conf
       viewcache:
         enabled: true
         type: emptyDir
