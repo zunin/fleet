@@ -32,7 +32,7 @@ spec:
     - kind: Secret
       name: synapse-redis-password
       valuesKey: password
-      targetPath: redis.password
+      targetPath: redis.auth.password
     - kind: Secret
       name: synapse-oauth-app
       valuesKey: oicd_providers
