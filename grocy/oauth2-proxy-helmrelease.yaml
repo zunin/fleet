@@ -20,22 +20,23 @@ spec:
       tag: v7.4.0
     config:
       existingSecret: grocy-oauth2-credentials
+      configFile: |-
+        provider = "oidc"
+        provider_display_name = "Ølleguard"
+        oidc_issuer_url = "https://auth.nikolaiathome.com"
+        email_domains = [ "*" ]
+        scope = "openid profile email"
+        cookie_domain = ".nikolaiathome.com"
+        whitelist_domains = ".nikolaiathome.com"
+        pass_authorization_header = true
+        pass_access_token = true
+        pass_user_headers = true
+        set_authorization_header = true
+        set_xauthrequest = true
+        cookie_refresh = "1m"
+        cookie_expire = "30m"
     ingress:
       enabled: true
       hosts:
         -  "grocy-oauth-proxy.nikolaiathome.com"
-    configFile: |-
-      provider = "oidc"
-      provider_display_name = "Ølleguard"
-      oidc_issuer_url = "https://auth.nikolaiathome.com"
-      email_domains = [ "*" ]
-      scope = "openid profile email"
-      cookie_domain = ".nikolaiathome.com"
-      whitelist_domains = ".nikolaiathome.com"
-      pass_authorization_header = true
-      pass_access_token = true
-      pass_user_headers = true
-      set_authorization_header = true
-      set_xauthrequest = true
-      cookie_refresh = "1m"
-      cookie_expire = "30m"
+
