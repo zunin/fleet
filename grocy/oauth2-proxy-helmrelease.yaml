@@ -26,7 +26,6 @@ spec:
         oidc_issuer_url = "https://auth.nikolaiathome.com"
         email_domains = [ "*" ]
         scope = "openid profile email"
-        cookie_domain = ".nikolaiathome.com"
         whitelist_domains = ".nikolaiathome.com"
         pass_authorization_header = true
         pass_access_token = true
