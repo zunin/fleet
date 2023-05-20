@@ -46,7 +46,8 @@ spec:
           nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
           nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
           nginx.ingress.kubernetes.io/auth-response-headers: Authorization
-          nginx.ingress.kubernetes.io/auth-proxy-set-headers: "nikolaioellegaard"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            more_set_headers x-auth-request-preferred-username nikolaioellegaard;
     volumeClaimTemplates:
       - name: config
         mountPath: /config
