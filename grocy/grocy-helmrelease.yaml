@@ -55,6 +55,7 @@ spec:
         readOnly: true
         items: 
           - key: www2.conf
+            path: www2.conf
       viewcache:
         enabled: true
         type: emptyDir
