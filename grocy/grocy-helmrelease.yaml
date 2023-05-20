@@ -53,7 +53,8 @@ spec:
         name: www2-conf
         mountPath: /config/php/ww2.conf
         readOnly: true
-        items: www2.conf
+        items: 
+          - www2.conf
       viewcache:
         enabled: true
         type: emptyDir
