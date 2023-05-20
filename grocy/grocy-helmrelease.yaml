@@ -51,7 +51,7 @@ spec:
         enabled: true
         type: configMap
         name: www2-conf
-        mountPath: /config/php/ww2.conf
+        mountPath: /config/php
         readOnly: true
         items: 
           - key: www2.conf
