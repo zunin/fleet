@@ -54,7 +54,7 @@ spec:
         mountPath: /config/php/ww2.conf
         readOnly: true
         items: 
-          - www2.conf
+          - key: www2.conf
       viewcache:
         enabled: true
         type: emptyDir
