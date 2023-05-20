@@ -4,33 +4,56 @@ metadata:
   name: grocy
   namespace: grocy
 spec:
-  interval: 30m
+  interval: 15m
   chart:
     spec:
-      chart: grocy
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: grocy
-      interval: 30m
-      version: 8.5.2
-  values: 
-    env:
-      # -- Set the container timezone
-      TZ: Europe/Copenhagen 
-      GROCY_CURRENCY: DKK
+  values:
+    controller:
+      type: statefulset
     image:
-      # -- image repository
-      repository: linuxserver/grocy
-      # -- image tag
-      # @default -- chart.appVersion
+      repository: quay.io/linuxserver.io/grocy
       tag: 3.3.2
-      # -- image pull policy
-      pullPolicy: IfNotPresent
+    env:
+      TZ: "Europe/Copenhagen"
+      GROCY_CULTURE: "da"
+      GROCY_CURRENCY: "DKK"
+      GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
+      PUID: "1000"
+      PGID: "1000"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+
     ingress:
       main:
         enabled: true
         hosts:
           - host: "grocy.nikolaiathome.com"
             paths:
-              - path: "/"
+              - path: /
+                pathType: Prefix
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 2Gi
+    persistence:
+      viewcache:
+        enabled: true
+        type: emptyDir
+        mountPath: /config/data/viewcache
+    resources:
+      requests:
+        cpu: 22m
+        memory: 164M
+      limits:
+        memory: 262M
