@@ -5,7 +5,7 @@ metadata:
   name: php-conf
 data:
   ww2.conf: |
-    Edit this file to override www.conf and php-fpm.conf directives and restart the container
+    ; Edit this file to override www.conf and php-fpm.conf directives and restart the container
 
     ; Pool name
     [www]
