@@ -52,7 +52,6 @@ spec:
         type: configMap
         name: www2-conf
         mountPath: /config/php
-        readOnly: true
       viewcache:
         enabled: true
         type: emptyDir
