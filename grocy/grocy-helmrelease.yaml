@@ -24,6 +24,7 @@ spec:
       GROCY_CULTURE: "da"
       GROCY_CURRENCY: "DKK"
       GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
+      GROCY_REVERSE_PROXY_AUTH_HEADER: X-Forwarded-User
       PUID: "1000"
       PGID: "1000"
 
