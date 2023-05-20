@@ -36,6 +36,6 @@ spec:
         cookie_expire = "30m"
     ingress:
       enabled: true
+      path: /oauth2
       hosts:
-        -  "grocy-oauth-proxy.nikolaiathome.com"
-
+        -  "grocy.nikolaiathome.com"
