@@ -39,7 +39,3 @@ spec:
       path: /oauth2
       hosts:
         -  "grocy.nikolaiathome.com"
-      annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-            more_set_headers "x-auth-request-preferred-username nikolaioellegaard";
-            more_set_input_headers "x-auth-request-preferred-username nikolaioellegaard";
