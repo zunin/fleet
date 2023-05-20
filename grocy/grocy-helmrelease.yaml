@@ -23,7 +23,7 @@ spec:
       TZ: "Europe/Copenhagen"
       GROCY_CULTURE: "da"
       GROCY_CURRENCY: "DKK"
-      # GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
+      GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
       GROCY_REVERSE_PROXY_AUTH_HEADER: x-auth-request-preferred-username
       PUID: "1000"
       PGID: "1000"
@@ -42,10 +42,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        #annotations:
+        annotations:
           #nginx.ingress.kubernetes.io/auth-response-headers: Authorization
-          #nginx.ingress.kubernetes.io/auth-signin: https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start?rd=$scheme://$host$request_uri"
-          #nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.grocy.svc.cluster.local/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start?rd=$scheme://$host$request_uri"
+          nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.grocy.svc.cluster.local/oauth2/auth"
           #nginx.ingress.kubernetes.io/configuration-snippet: |
           #  auth_request_set $name_upstream_1 $upstream_cookie_name_1;
           #
