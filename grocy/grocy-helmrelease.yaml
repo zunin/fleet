@@ -44,7 +44,7 @@ spec:
                 pathType: Prefix  
         annotations:
           #nginx.ingress.kubernetes.io/auth-response-headers: Authorization
-          nginx.ingress.kubernetes.io/auth-signin: https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start"
+          nginx.ingress.kubernetes.io/auth-signin: https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start
           nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.grocy.svc.cluster.local/oauth2/auth"
           #nginx.ingress.kubernetes.io/configuration-snippet: |
           #  auth_request_set $name_upstream_1 $upstream_cookie_name_1;
