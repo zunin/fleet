@@ -41,6 +41,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+        annotations:
+          nginx.ingress.kubernetes.io/auth-url: "https://grocy-oauth-proxy.nikolaiathome.com/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: "https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start?rd=$scheme://$best_http_host$request_uri"
+          nginx.ingress.kubernetes.io/auth-response-headers: "x-auth-request-user, x-auth-request-email, x-auth-request-access-token"
     volumeClaimTemplates:
       - name: config
         mountPath: /config
