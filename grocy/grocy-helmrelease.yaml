@@ -50,7 +50,7 @@ spec:
       php-conf:
         enabled: true
         type: configMap
-        name: www2-conf
+        name: php-conf
         mountPath: /config/php
       viewcache:
         enabled: true

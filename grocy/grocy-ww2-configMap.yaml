@@ -2,9 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: grocy
-  name: www2-conf
+  name: php-conf
 data:
-  www2.conf: |
+  ww2.conf: |
     Edit this file to override www.conf and php-fpm.conf directives and restart the container
 
     ; Pool name
