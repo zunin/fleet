@@ -10,3 +10,7 @@ data:
     ; Pool name
     [www]
     clear_env = no
+  php-local.ini: |
+    ; Edit this file to override php.ini directives
+
+    date.timezone = Europe/Copenhagen

@@ -48,7 +48,7 @@ spec:
         size: 2Gi
     persistence:
       php-conf:
-        enabled: false
+        enabled: true
         type: configMap
         name: www2-conf
         mountPath: /config/php
