@@ -24,7 +24,7 @@ spec:
       GROCY_CULTURE: "da"
       GROCY_CURRENCY: "DKK"
       GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
-      GROCY_REVERSE_PROXY_AUTH_HEADER: X-Forwarded-User
+      GROCY_REVERSE_PROXY_AUTH_HEADER: x-auth-request-preferred-username
       PUID: "1000"
       PGID: "1000"
 
@@ -43,6 +43,7 @@ spec:
               - path: /
                 pathType: Prefix
         annotations:
+          nginx.ingress.kubernetes.io/auth-response-headers: x-auth-request-preferred-username
           nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.grocy.svc.cluster.local/oauth2/auth"
           nginx.ingress.kubernetes.io/auth-signin: "https://grocy-oauth-proxy.nikolaiathome.com/oauth2/start"
     volumeClaimTemplates:
