@@ -38,17 +38,14 @@ spec:
             paths:
               - path: /
                 pathType: Prefix  
-    #volumeClaimTemplates:
-    #  - name: config
-    #    mountPath: /config
-    #    accessMode: ReadWriteOnce
-    #    size: 2Gi
-    #persistence:
-    #  writefreely:
-    #    enabled: false
-    #    type: secret
-    #    mountPath: /config/writefreely
-    #    name: writefreely-config
+    persistence:
+      config:
+        enabled: true
+        type: secret
+        name: writefreely-config
+        subPath: config.ini
+        mountPath: /go/config.ini
+        readOnly: false
     resources:
       requests:
         cpu: 22m
