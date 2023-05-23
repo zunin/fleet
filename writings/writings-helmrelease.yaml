@@ -48,7 +48,6 @@ spec:
         enabled: true
         type: secret
         name: writefreely-config
-        mountPath: /go/config.ini
         items:
           - key: config.ini
             path: /go/config.ini
