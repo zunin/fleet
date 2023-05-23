@@ -44,7 +44,7 @@ spec:
         accessMode: ReadWriteOnce
         size: 2Gi
     persistence:
-      go:
+      config:
         enabled: true
         type: secret
         name: writefreely-config
