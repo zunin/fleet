@@ -44,15 +44,10 @@ spec:
         accessMode: ReadWriteOnce
         size: 2Gi
     persistence:
-      config-ini:
+      go:
         enabled: true
         type: secret
         name: writefreely-config
-        items:
-          - key: config.ini
-            path: /go/config.ini
-            
-    resources:
       requests:
         cpu: 22m
         memory: 164M
