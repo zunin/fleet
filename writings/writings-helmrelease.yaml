@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: writings
+  namespace: writings
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: writings
+  values:
+    controller:
+      type: statefulset
+    image:
+      repository: writeas/writefreely
+      tag: 0.12.0
+    env:
+      TZ: "Europe/Copenhagen"
+      PUID: "1000"
+      PGID: "1000"
+
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "writings.nikolaiathome.com"
+            paths:
+              - path: /
+                pathType: Prefix  
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 2Gi
+    persistence:
+      config:
+        enabled: true
+        type: secret
+        name: writefreely-config
+        mountPath: /go/config.ini
+        volumeSpec:
+          name: config
+          mountPath: /go/config.ini
+          subPath: config.ini
+    resources:
+      requests:
+        cpu: 22m
+        memory: 164M
+      limits:
+        memory: 262M
