@@ -45,7 +45,7 @@ spec:
         size: 2Gi
     persistence:
       writefreely:
-        enabled: true
+        enabled: false
         type: secret
         mountPath: /config/writefreely
         name: writefreely-config
