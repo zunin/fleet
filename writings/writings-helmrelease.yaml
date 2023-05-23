@@ -51,7 +51,7 @@ spec:
         mountPath: /go/config.ini
         items:
           - key: config.ini
-            Path: /go/config.ini
+            path: /go/config.ini
             
     resources:
       requests:
