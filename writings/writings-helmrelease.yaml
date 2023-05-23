@@ -43,12 +43,12 @@ spec:
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 2Gi
-    persistence:
-      writefreely:
-        enabled: false
-        type: secret
-        mountPath: /config/writefreely
-        name: writefreely-config
+    #persistence:
+    #  writefreely:
+    #    enabled: false
+    #    type: secret
+    #    mountPath: /config/writefreely
+    #    name: writefreely-config
     resources:
       requests:
         cpu: 22m
