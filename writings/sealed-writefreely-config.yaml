@@ -111,7 +111,7 @@ spec:
         auth_endpoint      = /oauth/v2/authorize
         scope              = openid profile read_user
         allow_disconnect   = false
-        map_user_id        = email
+        map_user_id        = 
         map_username       = preferred_username
-        map_display_name   = name
-        map_email          = email
+        map_display_name   = 
+        map_email          = 
