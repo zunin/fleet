@@ -4,7 +4,8 @@ metadata:
   name: writefreely-config
   namespace: writings
 spec:
-  encryptedData: {}
+  encryptedData:
+    ClientSecret: ZUxpYW9MbkcxSElFYXR1R3NNeXhOVkp3R1V0cUl1ejFIaWFvU3B0b09WazREdk1jSmJWNURGaUx5aWtvS204Ng==
   template:
     metadata:
       creationTimestamp: null
@@ -99,18 +100,18 @@ spec:
         callback_proxy_api = 
 
         [oauth.generic]
-        client_id          = 
-        client_secret      = 
-        host               = 
-        display_name       = 
+        client_id          = 216200988992798736@nikolaiathome
+        client_secret      = {{ index . "ClientSecret" }}
+        host               = https://auth.nikolaiathome.com
+        display_name       = Ølleguard
         callback_proxy     = 
         callback_proxy_api = 
-        token_endpoint     = 
-        inspect_endpoint   = 
-        auth_endpoint      = 
-        scope              = 
+        token_endpoint     = oauth/v2/token
+        inspect_endpoint   = oidc/v1/userinfo
+        auth_endpoint      = oauth/v2/authorize
+        scope              = read_user
         allow_disconnect   = false
-        map_user_id        = 
-        map_username       = 
-        map_display_name   = 
-        map_email          = 
+        map_user_id        = user_id
+        map_username       = username
+        map_display_name   = name
+        map_email          = email
