@@ -106,9 +106,9 @@ spec:
         display_name       = Ølleguard
         callback_proxy     = 
         callback_proxy_api = 
-        token_endpoint     = oauth/v2/token
-        inspect_endpoint   = oidc/v1/userinfo
-        auth_endpoint      = oauth/v2/authorize
+        token_endpoint     = /oauth/v2/token
+        inspect_endpoint   = /oidc/v1/userinfo
+        auth_endpoint      = /oauth/v2/authorize
         scope              = read_user
         allow_disconnect   = false
         map_user_id        = user_id
