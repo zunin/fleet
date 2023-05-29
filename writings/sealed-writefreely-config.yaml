@@ -52,7 +52,7 @@ spec:
         forest                = false
         disable_drafts        = false
         single_user           = true
-        open_registration     = false
+        open_registration     = true
         open_deletion         = false
         min_username_len      = 3
         max_blogs             = 1
