@@ -109,7 +109,7 @@ spec:
         token_endpoint     = /oauth/v2/token
         inspect_endpoint   = /oidc/v1/userinfo
         auth_endpoint      = /oauth/v2/authorize
-        scope              = openid read_user
+        scope              = openid profile read_user
         allow_disconnect   = false
         map_user_id        = userid
         map_username       = preferred_username
