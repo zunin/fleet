@@ -39,6 +39,13 @@ spec:
               - path: /
                 pathType: Prefix  
     persistence:
+      config:
+        enabled: true
+        type: secret
+        name: writefreely-config
+        subPath: config.ini
+        mountPath: /data/config.ini
+        readOnly: false
       data:
         enabled: true
         type: pvc
