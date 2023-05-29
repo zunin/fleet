@@ -74,5 +74,5 @@ spec:
         - name: config
           mountPath: /go/config.ini
           subPath: config.ini
-        - name: workdir
+        - name: writings-keys
           mountPath: /go/keys
