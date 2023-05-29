@@ -44,6 +44,7 @@ spec:
         type: pvc
         accessMode: ReadWriteOnce
         mountPath: /go/keys
+        size: 200Mi
       config:
         enabled: true
         type: secret
