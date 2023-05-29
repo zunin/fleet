@@ -39,19 +39,6 @@ spec:
               - path: /
                 pathType: Prefix  
     persistence:
-      keys:
-        enabled: true
-        type: pvc
-        accessMode: ReadWriteOnce
-        mountPath: /go/keys
-        size: 200Mi
-      config:
-        enabled: true
-        type: secret
-        name: writefreely-config
-        subPath: config.ini
-        mountPath: /go/config.ini
-        readOnly: false
       data:
         enabled: true
         type: pvc
@@ -63,30 +50,3 @@ spec:
         memory: 164M
       limits:
         memory: 262M
-    initContainers:
-      gen-keys:
-        image: writeas/writefreely:0.12.0
-        imagePullPolicy: Always
-        command:
-        - "./cmd/writefreely/writefreely"
-        - "--gen-keys"
-        volumeMounts:
-        - name: config
-          mountPath: /go/config.ini
-          subPath: config.ini
-        - name: keys
-          mountPath: /go/keys
-      init-db:
-        image: writeas/writefreely:0.12.0
-        imagePullPolicy: Always
-        command:
-        - "./cmd/writefreely/writefreely"
-        - "--init-db"
-        volumeMounts:
-        - name: config
-          mountPath: /go/config.ini
-          subPath: config.ini
-        - name: keys
-          mountPath: /go/keys
-        - name: data
-          mountPath: /data

@@ -29,7 +29,7 @@ spec:
 
         [database]
         type     = sqlite3
-        filename = /data/writefreely.sqlite3
+        filename = /data/writefreely.db
         username = 
         password = 
         database = 
