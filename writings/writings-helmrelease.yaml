@@ -44,9 +44,28 @@ spec:
         type: pvc
         accessMode: ReadWriteOnce
         size: 1Gi
+      config:
+        enabled: true
+        type: secret
+        name: writefreely-config
+        subPath: config.ini
+        mountPath: /home/config.ini
+        readOnly: true
     resources:
       requests:
         cpu: 22m
         memory: 164M
       limits:
         memory: 262M
+    initContainers:
+      copy-config:
+        image: alpine:3.17
+        imagePullPolicy: Always
+        command:
+        - "cp /home/config.ini /data/config.ini"
+        volumeMounts:
+        - name: config
+          mountPath: /home/config.ini
+          subPath: config.ini
+        - name: data
+          mountPath: /data
