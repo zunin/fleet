@@ -37,8 +37,8 @@ spec:
         tls      = false
 
         [app]
-        site_name             = blogname
-        site_description      = 
+        site_name             = Nikolais writings!
+        site_description      = where I write about things
         host                  = https://writings.nikolaiathome.com
         theme                 = write
         editor                = 
