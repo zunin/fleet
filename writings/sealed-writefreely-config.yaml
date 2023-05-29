@@ -51,7 +51,7 @@ spec:
         chorus                = false
         forest                = false
         disable_drafts        = false
-        single_user           = true
+        single_user           = false
         open_registration     = true
         open_deletion         = false
         min_username_len      = 3
