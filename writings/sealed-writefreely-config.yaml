@@ -14,7 +14,7 @@ spec:
       config.ini: |
         [server]
         hidden_host = 
-        port        = 8080
+        port        = 80
         bind = 0.0.0.0
         [database]
         type = sqlite3
