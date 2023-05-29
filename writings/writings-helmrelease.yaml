@@ -17,8 +17,8 @@ spec:
     controller:
       type: statefulset
     image:
-      repository: writeas/writefreely
-      tag: 0.12.0
+      repository: algernon/writefreely
+      tag: 0.13.2-2
     env:
       TZ: "Europe/Copenhagen"
       PUID: "1000"
