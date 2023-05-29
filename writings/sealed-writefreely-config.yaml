@@ -20,9 +20,9 @@ spec:
         tls_cert_path        = 
         tls_key_path         = 
         autocert             = false
-        templates_parent_dir = 
-        static_parent_dir    = 
-        pages_parent_dir     = 
+        templates_parent_dir = /writefreely
+        static_parent_dir    = /writefreely
+        pages_parent_dir     = /writefreely
         keys_parent_dir      = 
         hash_seed            = 
         gopher_port          = 0
