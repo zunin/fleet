@@ -5,7 +5,7 @@ metadata:
   namespace: writings
 spec:
   encryptedData:
-    ClientSecret: ZUxpYW9MbkcxSElFYXR1R3NNeXhOVkp3R1V0cUl1ejFIaWFvU3B0b09WazREdk1jSmJWNURGaUx5aWtvS204Ng==
+    ClientSecret: AgCetdYY6k5/8ZuHZAftom1CtSTFRyMFFx6rt98bIRg6UmWUCcmB+ObtSfaUj+triFbsZZ0LwPN2SPJtIVwz/fedz1bndIZivG9xMMwVjs1NKjMNZILbZ2inHSE4WCa0fRLNBpOj/qKHa2OpGxxOGS+duv2eNvpM8CVh6qLzDBT4REFfRzSYE7fRXYwEF9v8T3X2Sz3vvIJlb4llnvW3XMbLDZkxDRs+t6XGXvpw9wGpuK2wAYi563gllBTG87hvxETkOHB3gSNGGcJdsVbcgIyeLnT7bOo8PshyF1SQc59+4x1g9sZENaO9oaV2GUHcGnrbAqs+CihrWbVTQlsqIdtNCMz3kRtbeycgzOZl6LrK5VucgIL1XGDE3UPp7OK9P/Syadl6HGwOUngek2r22HS5JdR0A0RvrRAcDb4uxRjLiQW1A+gOB5hj+qRDTB5QxcEskDr56TeGrVHjvJzN/HbF8SrYun02zsUdlHGRv/VMfxrixoNSylvVoM88nxn5s5vEy/YyNDDxPLXoYsYUL/JbGrflKQUdhjBpef2pB3Z7m6jI9BEYQVJ/SMjjb+RGHrC8Qn1d6BB9IduB8R0TgzjNUu4qUucvX42Y9iusk93KTgVrP8D6UuH6G3qxx/WJm5bO9MC45dNRE9XSsLqY7RwGgVAegjKwyY/erL4fwo6JkIQ/M1fTPkhjVcn3BzGOlSrn1eE9VS13NZ9o2cA/gvEziEf/ePWcezeNowensUC9Sn5z0hqmSSPwJogzv/3CckgRriJe865jA+SOH5Hh4t/B
   template:
     metadata:
       creationTimestamp: null
@@ -100,7 +100,7 @@ spec:
         callback_proxy_api = 
 
         [oauth.generic]
-        client_id          = 216200988992798736@nikolaiathome
+        client_id          = 216202172960931856@nikolaiathome
         client_secret      = {{ index . "ClientSecret" }}
         host               = https://auth.nikolaiathome.com
         display_name       = Ølleguard
