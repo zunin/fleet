@@ -28,7 +28,7 @@ spec:
       main:
         ports:
           http:
-            port: 8080
+            port: 80
 
     ingress:
       main:
@@ -44,13 +44,6 @@ spec:
         type: pvc
         accessMode: ReadWriteOnce
         size: 1Gi
-      config:
-        enabled: true
-        type: secret
-        name: writefreely-config
-        subPath: config.ini
-        mountPath: /data/config.ini
-        readOnly: false
     resources:
       requests:
         cpu: 22m
