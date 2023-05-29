@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: writefreely-deployment
+  labels:
+    app: writefreely
+  namespace: writings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: writefreely
+  template:
+    metadata:
+      labels:
+        app: writefreely
+    spec:
+      containers:
+      - name: writefreely
+        image: writeas/writefreely:0.12.0
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config
+          mountPath: /go/config.ini
+          subPath: config.ini
+        - name: workdir
+          mountPath: /go/keys
+        ports:
+        - containerPort: 8080
+      initContainers:
+      - name: install
+        image: writeas/writefreely:0.12.0
+        imagePullPolicy: Always
+        command:
+        - "./cmd/writefreely/writefreely"
+        - "-gen-keys"
+        volumeMounts:
+        - name: config
+          mountPath: /go/config.ini
+          subPath: config.ini
+        - name: workdir
+          mountPath: /go/keys
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      - name: config
+        secret:
+          secretName: writefreely-config
