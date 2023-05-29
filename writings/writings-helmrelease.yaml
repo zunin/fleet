@@ -88,3 +88,5 @@ spec:
           subPath: config.ini
         - name: keys
           mountPath: /go/keys
+        - name: data
+          mountPath: /data
