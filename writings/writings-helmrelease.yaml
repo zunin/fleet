@@ -64,15 +64,15 @@ spec:
       limits:
         memory: 262M
     initContainers:
-    - name: install
-      image: writeas/writefreely:0.12.0
-      imagePullPolicy: Always
-      command:
-      - "./cmd/writefreely/writefreely"
-      - "-gen-keys"
-      volumeMounts:
-      - name: config
-        mountPath: /go/config.ini
-        subPath: config.ini
-      - name: workdir
-        mountPath: /go/keys
+      install:
+        image: writeas/writefreely:0.12.0
+        imagePullPolicy: Always
+        command:
+        - "./cmd/writefreely/writefreely"
+        - "-gen-keys"
+        volumeMounts:
+        - name: config
+          mountPath: /go/config.ini
+          subPath: config.ini
+        - name: workdir
+          mountPath: /go/keys
