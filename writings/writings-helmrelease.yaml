@@ -61,7 +61,7 @@ spec:
       copy-config:
         image: alpine:3.17
         imagePullPolicy: Always
-        command: ["ls", "&&", cp", "/home/config.ini", "/data/config.ini"]
+        command: ["cp", "/home/config.ini", "/data/config.ini"]
         volumeMounts:
         - name: config
           mountPath: /home/config.ini
