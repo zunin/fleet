@@ -46,6 +46,11 @@ spec:
         subPath: config.ini
         mountPath: /go/config.ini
         readOnly: false
+      data:
+        enabled: true
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 1Gi
     resources:
       requests:
         cpu: 22m

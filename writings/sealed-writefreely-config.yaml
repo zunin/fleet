@@ -21,7 +21,7 @@ spec:
         username = user
         password = writefreely
         database = writefreely2
-        filename
+        filename = /data/writefreely.sqlite3
         ; host = db
         ; port     = 3306
         [app]
