@@ -18,7 +18,8 @@ spec:
       type: statefulset
     image:
       repository: algernon/writefreely
-      tag: 0.13.2-2
+      # renovate: datasource=docker depName=docker.io/algernon/writefreely
+      tag: "0.13.2-2"
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
