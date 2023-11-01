@@ -34,10 +34,10 @@ spec:
 
   valuesFrom:
     - kind: Secret
-      name: synapse-postgres-password
+      name: matrix-synapse-postgresql
       valuesKey: password
       targetPath: externalPostgresql.username
     - kind: Secret
-      name: synapse-postgres-password
+      name: matrix-synapse-postgresql
       valuesKey: postgres-password
       targetPath: externalPostgresql.password
