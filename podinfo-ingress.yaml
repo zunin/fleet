@@ -15,3 +15,13 @@ spec:
             name: podinfo
             port:
               number: 9898
+  - host: demo.nikolaiathome.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: podinfo
+            port:
+              number: 9898
