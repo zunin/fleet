@@ -28,7 +28,6 @@ spec:
       enabled: false
     externalPostgresql:
       host: matrix-synapse-postgresql.chat.svc.cluster.local
-      port: 5432
       database: sliding_sync
       username: synapse
 
