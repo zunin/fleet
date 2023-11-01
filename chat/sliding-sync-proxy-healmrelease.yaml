@@ -30,7 +30,7 @@ spec:
       host: matrix-synapse-postgresql.chat.svc.cluster.local
       database: sliding_sync
       username: synapse
-
+      sslmode: allow
 
   valuesFrom:
     - kind: Secret
