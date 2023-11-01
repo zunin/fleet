@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: matrix-sliding-sync-proxy 
+  namespace: chat
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: sliding-sync-proxy 
+      version: 0.2.5
+      sourceRef:
+        kind: HelmRepository
+        name: ananace-charts
+        namespace: chat
+      interval: 1m
+  values:
+    image:
+      repository: ghcr.io/matrix-org/sliding-sync
+      tag: v0.99.11
+    replicaCount: 1
+    matrixServer: 'https://nikolaiathome.com'
+    ingress:
+      enabled: true
+      hosts:
+        - syncv3.nikolaiathome.com
+    postgresql:
+      enabled: false
+    externalPostgresql:
+      host: matrix-synapse-postgresql.chat.svc.cluster.local
+      port: 5432
+      database: sliding_sync
+      username: synapse
+
+
+  valuesFrom:
+    - kind: Secret
+      name: synapse-postgres-password
+      valuesKey: password
+      targetPath: externalPostgresql.password
