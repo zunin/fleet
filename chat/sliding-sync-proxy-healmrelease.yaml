@@ -36,4 +36,8 @@ spec:
     - kind: Secret
       name: synapse-postgres-password
       valuesKey: password
+      targetPath: externalPostgresql.username
+    - kind: Secret
+      name: synapse-postgres-password
+      valuesKey: postgres-password
       targetPath: externalPostgresql.password
