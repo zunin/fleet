@@ -25,15 +25,10 @@ spec:
       hosts:
         - syncv3.nikolaiathome.com
     postgresql:
-      enabled: false
-    externalPostgresql:
-      host: matrix-synapse-postgresql.chat.svc.cluster.local
-      database: sliding_sync
-      username: synapse
-      sslmode: allow
-
+      enabled: true
+      
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
       valuesKey: password
-      targetPath: externalPostgresql.password
+      targetPath: postgresql.auth.password
