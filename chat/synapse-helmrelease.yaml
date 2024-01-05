@@ -24,6 +24,10 @@ spec:
     serverName: nikolaiathome.com
     ingress:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    extraConfig:
+      max_upload_size: 100M
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
