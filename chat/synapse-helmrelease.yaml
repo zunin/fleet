@@ -28,6 +28,14 @@ spec:
         nginx.ingress.kubernetes.io/proxy-body-size: 100m
     extraConfig:
       max_upload_size: 100M
+    synapse:
+       resources:
+        limits:
+          cpu: 15m
+          memory: 250Mi
+        requests:
+          cpu: 200m
+          memory: 350Mi
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
