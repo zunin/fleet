@@ -27,10 +27,3 @@ ingress:
         - pathType: Prefix
           path: /
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 120Mi
-  requests:
-    cpu: 10m
-    memory: 100Mi

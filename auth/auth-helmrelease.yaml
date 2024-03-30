@@ -14,6 +14,15 @@ spec:
         namespace: auth
       interval: 30m
       version: 4.3.0
+  values:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 120Mi
+      requests:
+        cpu: 10m
+        memory: 100Mi
+
   valuesFrom:
   - kind: ConfigMap
     name: zitadel-config-14-05-2023
