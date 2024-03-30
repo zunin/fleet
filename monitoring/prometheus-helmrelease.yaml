@@ -27,3 +27,10 @@ spec:
       image:
         repository: quay.io/prometheus/prometheus
         tag: v2.44.0 
+      resources:
+        limits:
+          cpu: 250m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 512Mi
