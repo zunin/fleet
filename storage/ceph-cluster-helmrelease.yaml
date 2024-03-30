@@ -17,8 +17,7 @@ spec:
   values:
     cephClusterSpec:
       cephVersion:
-        image:
-          repository: quay.io/ceph/ceph:v18.2.2
+        image: quay.io/ceph/ceph:v18.2.2
       mon:
         count: 1 # Generally recommended to be 3, but it's one node people!
         allowMultiplePerNode: false
