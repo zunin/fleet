@@ -24,7 +24,5 @@ spec:
         hosts:
           - host: music.nikolaiathome.com
             paths:
-            - path: /
-              pathType: Prefix
-              service:
-                port: http
+              - path: /
+                pathType: Prefix
