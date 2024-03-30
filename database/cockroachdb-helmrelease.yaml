@@ -24,6 +24,8 @@ spec:
       single-node: true
     statefulset:
       replicas: 1
+      resources:
+        memory: 512Mi
     persistentVolume:
       persistentVolume:
         storageClass: local-path
