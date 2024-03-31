@@ -48,6 +48,7 @@ spec:
       data:
         enabled: true
         accessMode: ReadWriteOnce
+        size: 2Gi
         type: pvc
     resources:
       requests:
