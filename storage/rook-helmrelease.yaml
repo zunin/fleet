@@ -15,6 +15,13 @@ spec:
         namespace: rook-ceph
       interval: 30m
   values:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     image:
       repository: rook/ceph
       tag: v1.13.7

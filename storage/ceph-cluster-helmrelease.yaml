@@ -15,7 +15,38 @@ spec:
         namespace: rook-ceph
       interval: 30m
   values:
+    toolbox:
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
     cephClusterSpec:
+      resources:
+        mgr:
+          limits:
+            pu: "200m"
+            memory: "1Gi"
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+        mon:
+          limits:
+            cpu: "400m"
+            memory: "1Gi"
+          requests:
+            cpu: "400m"
+            memory: "500Mi"
+        osd:
+          limits:
+            cpu: "400m"
+            memory: "1Gi"
+          requests:
+            cpu: "400m"
+            memory: "1Gi"
+
       cephVersion:
         image: quay.io/ceph/ceph:v18.2.2
       mon:
