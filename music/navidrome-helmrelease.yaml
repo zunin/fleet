@@ -27,6 +27,7 @@ spec:
       ND_PORT: 80
       ND_BASEURL: "https://music.nikolaiathome.com"
       ND_ENABLESHARING: true
+      ND_ENABLEGRAVATAR: true
 
     service:
       main:
