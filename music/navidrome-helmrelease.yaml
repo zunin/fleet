@@ -24,12 +24,13 @@ spec:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
       PGID: "5000"
+      ND_PORT: 80
 
     service:
       main:
         ports:
           http:
-            port: 4533
+            port: 80
 
     ingress:
       main:
