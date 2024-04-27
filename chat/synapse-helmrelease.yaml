@@ -16,8 +16,8 @@ spec:
       interval: 1m
   values:
     image:
-      repository: matrixdotorg/synapse
-      tag: v1.83.0
+      repository: ghcr.io/element-hq/synapse
+      tag: v1.105.1 
     wellknown:
       enabled: true
     publicServerName: matrix.nikolaiathome.com
