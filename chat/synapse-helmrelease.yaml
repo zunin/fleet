@@ -31,11 +31,11 @@ spec:
     synapse:
        resources:
         limits:
-          cpu: 15m
-          memory: 250Mi
-        requests:
           cpu: 200m
           memory: 350Mi
+        requests:
+          cpu: 150m
+          memory: 250Mi
   valuesFrom:
     - kind: Secret
       name: synapse-postgres-password
