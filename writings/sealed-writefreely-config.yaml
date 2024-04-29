@@ -55,7 +55,7 @@ spec:
         open_registration     = true
         open_deletion         = false
         min_username_len      = 3
-        max_blogs             = 1
+        max_blogs             = 5
         federation            = true
         public_stats          = true
         monetization          = false
