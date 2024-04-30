@@ -28,7 +28,7 @@ spec:
           restartPolicy: Never
           volumes:
             - name: config-volume
-              configMap:
+              secret:
                 name: renovate-config
             - name: work-volume
               emptyDir: {}
