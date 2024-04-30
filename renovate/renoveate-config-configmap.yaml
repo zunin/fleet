@@ -1,0 +1,23 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: renovate-config
+  namespace: renovate
+spec:
+  encryptedData:
+    TokenSecret: AgAPqSqD2Wqi3pgcfs9+FLmsWLTIdIaTTardvmm4PqeEmchzh2Hqfu1wyjyqGjpe1k06d8GnN38w4yZETDdCjtXIPQutrx6VOj4H1dARUx5M0CzgFE99+8QhnXkj5SQegeJIzCvCt26DOlodQO+TKh/MBKe+PLVGJddWJPBa457ign15rCrl3yI9zdAO4puXwq33SJkKQ//OtxAHqs2NdX5LoBpqRRXYJbi4Em5QMM37a7RZb3qPJ7KUTOd57U2PlegDejCG8rdCE37SkIHDRJ++s8Ju5uVccZCAJkLvwrPOGT/RMCY1dQNYRrYV2b5k1QGLLRuyjQoWDKcUNDr0l1OQeUQiefLv2iaFtMXuNREZ3R38vpAtkEKqeoSIgrFXjE64eUil8tHQ8wi447QRZ6HLbea/vslv+ZpALod6stuu7VTy31Kv315sK0xCOSj8E7OAyMpAb9yKjK45n09v5nBlvVzDVRNyb25YIO1U5uLC3yWQCUKaVqqrnaBYS6BOwYcT4iIdhR1Tv7pHaUrESV0bxnxtO5943LZirkvhnY+vND7vMyLL/vR5X34+Pft96A4Jwi+xLUfwIVP6tN1FZLAa2akYfX2QAPQ+bgiw3EqGEqR9HoCkvr4NXm8a1Ro/amu/8r0X43bsHoGudQcbQKP1EOBZE0L749emH5mMJEE6gNxhXvmmXQ5Q17m2GoW8oIe4p4r4c1Z4M1mGKrZsHIMbIZmhvTtxrhkjjJPtIROBQWor7Av5wKM6
+  template:
+    metadata:
+      creationTimestamp: null
+      name: renovate-config
+      namespace: renovate
+    data:
+      config.js: |
+        [module.exports = {
+            platform: 'github',
+            //dryRun: 'full',
+            token: '{{ index . "TokenSecret" }}',
+            repositories: ["zunin/fleet"]
+        }
+
+
