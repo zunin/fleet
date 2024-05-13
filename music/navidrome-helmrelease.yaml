@@ -13,13 +13,14 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: music
-  values:
+  values: 
+    appVersion: 0.52.5
     controller:
       type: statefulset
     image:
       repository: deluan/navidrome
       # renovate: datasource=docker depName=docker.io/deluan/navidrome
-      tag: 0.52.5
+      tag: "0.52.5"
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
