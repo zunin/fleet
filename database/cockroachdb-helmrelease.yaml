@@ -13,7 +13,7 @@ spec:
         name: cockroachdb
         namespace: auth
       interval: 30m
-      version: 10.0.10
+      version: 12.0.5
   values: 
     fullnameOverride: crdb
     image:
