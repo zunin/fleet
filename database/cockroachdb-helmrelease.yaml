@@ -32,11 +32,11 @@ spec:
     persistentVolume:
       persistentVolume:
         storageClass: local-path
-  tls:
-    certs:
-      selfSigner:
-        enabled: true
-      certManager: true
-      certManagerIssuer:
-        kind: Issuer
-        name: cockroachdb
+    tls:
+      certs:
+        selfSigner:
+          enabled: true
+        certManager: true
+        certManagerIssuer:
+          kind: Issuer
+          name: cockroachdb
