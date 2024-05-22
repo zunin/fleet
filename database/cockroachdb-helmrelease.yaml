@@ -23,6 +23,8 @@ spec:
     conf:
       single-node: true
     statefulset:
+      securityContext:
+        enabled: false
       replicas: 1
       resources:
         limits:
