@@ -29,6 +29,8 @@ spec:
       ND_BASEURL: "https://music.nikolaiathome.com"
       ND_ENABLESHARING: true
       ND_ENABLEGRAVATAR: true
+      ND_DEFAULTTHEME: "CatppuccinMacchiato"
+      ND_LASTFM_ENABLED: true
 
     service:
       main:
@@ -61,4 +63,12 @@ spec:
         memory: 164Mi
       limits:
         memory: 262Mi
-
+  valuesFrom:
+    - kind: Secret
+      name: lastfm-api
+      valuesKey: apikey
+      targetPath: env.ND_LASTFM_APIKEY
+    - kind: Secret
+      name: lastfm-api
+      valuesKey: apisharedsecret
+      targetPath: env.ND_LASTFM_SECRET
