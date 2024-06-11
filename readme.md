@@ -9,5 +9,10 @@ kubectl create secret generic <kubernetes-secret-name> --dry-run=client --from-f
 ### From literal
 
 ```bash
-kubectl create secret generic github-token --dry-run=client --output=yaml --from-literal=key=secretvalue | kubeseal --format=yaml > <sealed-secret-filename>.yaml
+kubectl --namespace <<namespace>> create secret generic <<k8s-secret-name>> --dry-run=client --output=yaml --from-literal=<<key>>=<<value>> | kubeseal --namespace <<namespace>> --scope namespace-wide --format=yaml > <<filename>>.sealedsecret.yaml
+```
+
+## Validate 
+```bash
+cat <<filename>>.sealedsecret.yaml | kubeseal --validate
 ```
