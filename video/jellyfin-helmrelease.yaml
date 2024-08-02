@@ -32,16 +32,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-  volumeClaimTemplates:
-        - name: config
-          mountPath: /jellyfin/config
-          accessMode: ReadWriteOnce
-          size: 2Gi
-        - name: movies
-          mountPath: /media/movies
-          accessMode: ReadWriteOnce
-          size: 25Gi
-        - name: shows
-          mountPath: /media/shows
-          accessMode: ReadWriteOnce
-          size: 25Gi
+    persistence:
+      media:
+        enabled: true
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 100Gi
+      config:
+        enabled: true
+        mountPath: /jellyfin/config
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 100Gi
