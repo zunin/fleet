@@ -32,7 +32,7 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-      volumeClaimTemplates:
+  volumeClaimTemplates:
         - name: config
           mountPath: /jellyfin/config
           accessMode: ReadWriteOnce
