@@ -12,21 +12,18 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bjw-s
-        namespace: video
+        namespace: grocy
   values:
-    controllers:
+    controller:
+      type: statefulset
+    image:
+      repository: docker.io/jellyfin/jellyfin
+      tag: 10.8.13
+    service:
       main:
-        containers:
-          main:
-            image:
-              repository: docker.io/jellyfin/jellyfin
-              tag: 10.8.13
-      service:
-        main:
-          ports:
-            http:
-              port: 8096
-              protocol: HTTP
+        ports:
+          http:
+            port: 8096
     ingress:
       main:
         enabled: true
@@ -35,16 +32,16 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    persistence:
-      data:
-        accessMode: ReadWriteOnce
-        size: 50Gi
-        advancedMounts:
-          main:
-            main:
-              - path: /config
-                subPath: jellyfin/config
-              - path: /media/movies
-                subPath: movies
-              - path: /media/shows
-                subPath: shows
+      volumeClaimTemplates:
+        - name: config
+          mountPath: /jellyfin/config
+          accessMode: ReadWriteOnce
+          size: 2Gi
+        - name: movies
+          mountPath: /media/movies
+          accessMode: ReadWriteOnce
+          size: 25Gi
+        - name: shows
+          mountPath: /media/shows
+          accessMode: ReadWriteOnce
+          size: 25Gi
