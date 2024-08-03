@@ -43,7 +43,7 @@ spec:
         mountPath: /config
         type: pvc
         accessMode: ReadWriteOnce
-        size: 100Gi
+        size: 101Gi
       cache:
         enabled: true
         mountPath: /cache
