@@ -54,3 +54,6 @@ spec:
         enabled: true
         hostPath: /dev/dri
         type: hostPath
+    securityContext:
+      supplementalGroups:
+          - 122 # Change this to match your "render" host group id (taken from `getent group render | cut -d: -f3`)
