@@ -55,5 +55,7 @@ spec:
         hostPath: /dev/dri
         type: hostPath
     securityContext:
+      runAsUser: 1000 # Similar to "user: 1000:1000" on Docker
+      runAsGroup: 1000
       supplementalGroups:
           - 122 # Change this to match your "render" host group id (taken from `getent group render | cut -d: -f3`)
