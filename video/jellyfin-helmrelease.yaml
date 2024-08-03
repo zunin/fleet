@@ -40,7 +40,13 @@ spec:
         size: 100Gi
       config:
         enabled: true
-        mountPath: /jellyfin/config
+        mountPath: /config
         type: pvc
         accessMode: ReadWriteOnce
-        size: 100Gi
+        size: 10Gi
+      cache:
+        enabled: true
+        mountPath: /cache
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 50Gi
