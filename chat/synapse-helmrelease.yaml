@@ -20,11 +20,6 @@ spec:
       tag: v1.114.0
     wellknown:
       enabled: true
-      client:
-        m.homeserver:
-          base_url: https://matrix.nikolaiathome.com/
-        org.matrix.msc3575.proxy:
-          url: https://syncv3.example.com
     publicServerName: matrix.nikolaiathome.com
     serverName: nikolaiathome.com
     ingress:
