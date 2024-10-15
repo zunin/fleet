@@ -27,13 +27,13 @@ spec:
           http:
             port: 8083
     ingress:
-      main: 
+      main:
         enabled: true
         hosts:
-          - host: books.nikolaiathome.com
+          - host: "books.nikolaiathome.com"
             paths:
               - path: /
-                pathType: Prefix 
+                pathType: Prefix
     env:
       TZ: "Europe/Copenhagen"
     persistence:
