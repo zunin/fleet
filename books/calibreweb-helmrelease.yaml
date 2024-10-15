@@ -34,7 +34,7 @@ spec:
             paths:
               - path: /
                 pathType: Prefix 
-     env:
+    env:
       TZ: "Europe/Copenhagen"
     persistence:
       config:
