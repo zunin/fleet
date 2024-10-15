@@ -31,6 +31,9 @@ spec:
       config:
         enabled: true
         mountPath: /config
+        accessMode: ReadWriteOnce
       books:
         enabled: true
         mountPath: /books
+        accessMode: ReadWriteOnce
+
