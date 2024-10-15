@@ -32,8 +32,10 @@ spec:
         enabled: true
         mountPath: /config
         accessMode: ReadWriteOnce
+        size: 2Gi
       books:
         enabled: true
         mountPath: /books
         accessMode: ReadWriteOnce
+        size: 10Gi
 
