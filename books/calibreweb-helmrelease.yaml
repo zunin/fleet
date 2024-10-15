@@ -15,12 +15,17 @@ spec:
         namespace: books
   values: 
     appVersion: 0.6.23
+    controller:
+      type: statefulset
     image:
       repository: ghcr.io/linuxserver/calibre-web
       # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
       tag: "0.6.23-ls294"
-    env:
-      TZ: "Europe/Copenhagen"
+    service:
+      main:
+        ports:
+          http:
+            port: 8083
     ingress:
       main: 
         enabled: true
@@ -29,13 +34,8 @@ spec:
             paths:
               - path: /
                 pathType: Prefix 
-    
-    service:
-      main:
-        ports:
-          http:
-            port: 8083
-    
+     env:
+      TZ: "Europe/Copenhagen"
     persistence:
       config:
         enabled: true
