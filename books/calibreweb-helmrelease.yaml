@@ -27,7 +27,7 @@ spec:
         hosts:
           -  # -- Host address. Helm template can be passed.
             host: books.nikolaiathome.com
-            - path: /
+              - path: /
                 pathType: Prefix 
     persistence:
       config:
