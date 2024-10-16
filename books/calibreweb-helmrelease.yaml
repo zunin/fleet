@@ -34,7 +34,6 @@ spec:
             paths:
               - path: /
                 service:
-                identifier: main
                 port: http
     env:
       TZ: "Europe/Copenhagen"
