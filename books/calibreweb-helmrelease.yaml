@@ -33,7 +33,9 @@ spec:
           - host: "books.nikolaiathome.com"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                identifier: main
+                port: http
     env:
       TZ: "Europe/Copenhagen"
     persistence:
