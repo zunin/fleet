@@ -18,13 +18,11 @@ spec:
       type: statefulset
     image:
       repository: quay.io/linuxserver.io/grocy
-      tag: 3.3.2
+      tag: "4.2.0-ls270"
     env:
       TZ: "Europe/Copenhagen"
       GROCY_CULTURE: "da"
       GROCY_CURRENCY: "DKK"
-      GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
-      GROCY_REVERSE_PROXY_AUTH_HEADER: x-auth-request-preferred-username
       PUID: "1000"
       PGID: "1000"
 
@@ -42,10 +40,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix  
-        annotations:
-          nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
-          nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
-          nginx.ingress.kubernetes.io/auth-response-headers: "x-auth-request-preferred-username"
     volumeClaimTemplates:
       - name: config
         mountPath: /config
