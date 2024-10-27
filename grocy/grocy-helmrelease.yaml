@@ -58,7 +58,7 @@ spec:
         mountPath: /config/data/viewcache
     resources:
       requests:
-        cpu: 62m
+        cpu: 1
         memory: 264M
       limits:
         memory: 662M
