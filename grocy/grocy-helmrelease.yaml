@@ -18,8 +18,8 @@ spec:
     controller:
       type: statefulset
     image:
-      repository: lscr.io/linuxserver/grocy
-      tag: "4.2.0-ls270"
+      repository: quay.io/linuxserver.io/grocy
+      tag: " 4.2.0"
     env:
       TZ: "Europe/Copenhagen"
       GROCY_CULTURE: "da"
