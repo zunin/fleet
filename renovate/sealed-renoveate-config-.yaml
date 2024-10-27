@@ -1,0 +1,23 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: renovate-config
+  namespace: renovate
+spec:
+  encryptedData:
+    TokenSecret: AgBE+Zyuv4TfyP6Oq+6Q8MiRcpUzyZ4MQRKFw3CeINAz+BebFf+r0qk7l+tiCBd6cKE+J9XuwLyMkB8QXcbjhgPsFFVCm+hpwD8GTX/ZyTRSp5ECfTndkCs1aNaQk0vfwu9waWm6oQKb8nJ0ly/PbYRPY8RES9ZX2sRry/GZK9A8gAf/oal4t6lIPrhrXvDAGQpDF2lWoIcbS/Zfj9Zw5XDq5MvM+1bV/NlQPjY4ECIMi0oWmyrJTkB1r5tfnzG6RevlBR4jkBIKbS7FOVi6tJI2/VW8UrxQdpnsgz+v61XCJVsXU0bcY1Rjimgi3yWqGfxQXbQnZ+4NiIru0wzggQfKN/kcAFUw0n8VWhJxA7pG06zgqEp2VtFMgkXll1Dei6VwzyAGXZg9EWWUFLw7Gwl5UHKZldVlPQdeQBX9iz0HUgBT2zuKkuATBmA0MWNJyh36xal5x/PFtt6fFDq+aXz+290fYffip/xL5opqu6BPcdrH6bcTChEXYG+cYUOHRG1VHRXwkm0b6ifUVivZMY4GC2GX0JgZPecdlMMNE7YxYcAoc8MA37mLCdJmUW0SVFzPK8UvwJ+3yJp4sMZuSlcd7XlrZWYBBqr2qqA6YjcgrzTJVzRgRcpn1zV2hNDUOwYJ3O2D7iDJcRJ6qPD7LDFcFADWvMcNB63C5SmQP+tRGN3e+3rGT2rpbfH/xOdR9q2qFhgq7F3MvFeuW7aunDxhIuAq/s4aSc6OyAzWOHNEGUp2sA8=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: renovate-config
+      namespace: renovate
+    data:
+      config.js: |
+        [module.exports = {
+            platform: 'github',
+            //dryRun: 'full',
+            token: '{{ index . "TokenSecret" }}',
+            repositories: ["zunin/fleet"]
+        }
+
+
