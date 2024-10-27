@@ -17,7 +17,7 @@ spec:
       namespace: renovate
     data:
       config.js: |
-        {module.exports = {
+        {
             platform: 'github',
             token: '{{ index . "TokenSecret" }}',
             repositories: ["zunin/fleet"]

@@ -12,8 +12,6 @@ spec:
         spec:
           containers:
             - image: renovate/renovate:38.128.6
-              command: ["/bin/sh","-c"]
-              args: ["cd /opt/renovate && cat /opt/renovate/config.json && renovate"]
               name: renovate-bot
               env:
                 - name: RENOVATE_BASE_DIR
