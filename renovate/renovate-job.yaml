@@ -11,7 +11,7 @@ spec:
       template:
         spec:
           containers:
-            - image: renovate/renovate:35.14.4
+            - image: renovate/renovate:38.128.6
               name: renovate-bot
               env:
                 - name: RENOVATE_BASE_DIR
@@ -29,6 +29,6 @@ spec:
           volumes:
             - name: config-volume
               secret:
-                name: renovate-config
+                secretName: renovate-config
             - name: work-volume
               emptyDir: {}
