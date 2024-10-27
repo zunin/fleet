@@ -17,7 +17,7 @@ spec:
     controller:
       type: statefulset
     image:
-      repository: quay.io/linuxserver.io/grocy
+      repository: lscr.io/linuxserver/grocy
       tag: "4.2.0-ls270"
     env:
       TZ: "Europe/Copenhagen"
