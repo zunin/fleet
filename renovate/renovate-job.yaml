@@ -22,7 +22,9 @@ spec:
                   value: debug
               volumeMounts:
                 - name: config-volume
-                  mountPath: /opt/renovate/
+                  mountPath: "/opt/renovate/config.json"
+                  subPath: config.js
+                  readonly: true
                 - name: work-volume
                   mountPath: /tmp/renovate/
           restartPolicy: Never
@@ -30,5 +32,8 @@ spec:
             - name: config-volume
               secret:
                 secretName: renovate-config
+                items:
+                  - key: config.js
+                    path: config.js
             - name: work-volume
               emptyDir: {}
