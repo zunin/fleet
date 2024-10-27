@@ -20,7 +20,7 @@ spec:
     image:
       repository: ghcr.io/linuxserver/calibre-web
       # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
-      tag: "0.6.23-ls294"
+      tag: "0.6.23-ls296"
     service:
       main:
         ports:
