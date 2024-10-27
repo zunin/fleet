@@ -20,7 +20,7 @@ spec:
     image:
       repository: deluan/navidrome
       # renovate: datasource=docker depName=docker.io/deluan/navidrome
-      tag: "0.52.5"
+      tag: "0.53.3"
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
