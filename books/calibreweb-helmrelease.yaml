@@ -30,7 +30,7 @@ spec:
       main:
         enabled: true
         annotations:
-          nginx.ingress.kubernetes.io/proxy-body-size: 100m
+          nginx.ingress.kubernetes.io/proxy-body-size: 200m
         hosts:
           - host: "books.nikolaiathome.com"
             paths:
