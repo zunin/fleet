@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn
+spec:
+  chart:
+    spec:
+      chart: longhorn
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+      version: "1.7.2"
+  interval: 5m0s
+  releaseName: longhorn
+  targetNamespace: longhorn
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    persistence:
+      defaultClassReplicaCount: 2
+      reclaimPolicy: Retain
+      migratable: true
+    preUpgradeChecker:
+      jobEnabled: false
+    defaultSettings:
+      defaultReplicaCount: 2
+      createDefaultDiskLabeledNodes: true
+      defaultDataPath: /mnt/data
+      storageMinimalAvailablePercentage: 0
+      storageReservedPercentageForDefaultDisk: 0
+      deletingConfirmationFlag: true
+      allowCollectingLonghornUsageMetrics: false
+      autoDeletePodWhenVolumeDetachedUnexpectedly: true
+    ingress:
+      enabled: true
+      host: longhorn.nikolaiathome.com
