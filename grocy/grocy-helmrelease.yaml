@@ -16,10 +16,12 @@ spec:
   values:
     appVersion: 4.2.0
     controller:
-      type: statefulset
-    image:
-      repository: quay.io/linuxserver.io/grocy
-      tag: "4.2.0"
+      main:
+        type: statefulset
+        containers:
+          image:
+            repository: quay.io/linuxserver.io/grocy
+            tag: "4.2.0"
     env:
       TZ: "Europe/Copenhagen"
       GROCY_CULTURE: "da"
@@ -29,6 +31,7 @@ spec:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 80
@@ -40,22 +43,26 @@ spec:
           - host: "grocy.nikolaiathome.com"
             paths:
               - path: /
-                pathType: Prefix  
+                pathType: Prefix 
+                service:
+                  identifier: main 
+                  port: http
     persistence:
       php-conf:
         enabled: true
         type: configMap
         name: php-conf
-        mountPath: /config/php
+        globalMounts:
+          - path: /config/php
       viewcache:
         enabled: true
         type: emptyDir
-        mountPath: /config/data/viewcache
+        globalMounts:
+          - path: /config/data/viewcache
       config:
-        enabled: true
-        mountPath: /config
-        type: persistentVolumeClaim
         existingClaim: grocy-config-pvc
+        globalMounts:
+          - path: /config
     resources:
       requests:
         cpu: 0.5
