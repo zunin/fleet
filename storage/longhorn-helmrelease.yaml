@@ -21,7 +21,7 @@ spec:
     crds: CreateReplace
   values:
     persistence:
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 1
       reclaimPolicy: Retain
       migratable: true
     preUpgradeChecker:
