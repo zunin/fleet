@@ -41,11 +41,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix  
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        type: persistentVolumeClaim
-        existingClaim: grocy-config-pvc
     persistence:
       php-conf:
         enabled: true
@@ -56,6 +51,11 @@ spec:
         enabled: true
         type: emptyDir
         mountPath: /config/data/viewcache
+      config:
+        enabled: true
+        mountPath: /config
+        type: persistentVolumeClaim
+        existingClaim: grocy-config-pvc
     resources:
       requests:
         cpu: 0.5
