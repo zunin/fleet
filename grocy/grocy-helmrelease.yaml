@@ -44,8 +44,8 @@ spec:
     volumeClaimTemplates:
       - name: config
         mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 2Gi
+        type: persistentVolumeClaim
+        existingClaim: grocy-config-pvc
     persistence:
       php-conf:
         enabled: true
