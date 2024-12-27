@@ -19,9 +19,10 @@ spec:
       main:
         type: statefulset
         containers:
-          image:
-            repository: quay.io/linuxserver.io/grocy
-            tag: "4.2.0"
+          main:
+            image:
+              repository: quay.io/linuxserver.io/grocy
+              tag: "4.2.0"
     env:
       TZ: "Europe/Copenhagen"
       GROCY_CULTURE: "da"
