@@ -15,7 +15,7 @@ spec:
         namespace: grocy
   values:
     appVersion: 4.2.0
-    controller:
+    controllers:
       main:
         type: statefulset
         containers:
