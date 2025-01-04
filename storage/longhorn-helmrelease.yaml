@@ -36,5 +36,4 @@ spec:
       allowCollectingLonghornUsageMetrics: false
       autoDeletePodWhenVolumeDetachedUnexpectedly: true
     ingress:
-      enabled: true
-      host: longhorn.nikolaiathome.com
+      enabled: false
