@@ -8,18 +8,21 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.0
+      version: 3.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: writings
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: algernon/writefreely
-      # renovate: datasource=docker depName=docker.io/algernon/writefreely
-      tag: "0.13.2-2"
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: algernon/writefreely
+              # renovate: datasource=docker depName=docker.io/algernon/writefreely
+              tag: "0.13.2-2"
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
@@ -27,6 +30,7 @@ spec:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 80
@@ -38,19 +42,22 @@ spec:
           - host: "writings.nikolaiathome.com"
             paths:
               - path: /
-                pathType: Prefix  
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http 
     persistence:
       data:
-        enabled: true
-        type: pvc
-        accessMode: ReadWriteOnce
-        size: 1Gi
+        existingClaim: writefreely-data-volume
+        globalMounts:
+          - path: /data
       config:
         enabled: true
         type: secret
         name: writefreely-config
         subPath: config.ini
-        mountPath: /home/config.ini
+        globalMounts:
+          - path: /home/config.ini
         readOnly: true
     resources:
       requests:
