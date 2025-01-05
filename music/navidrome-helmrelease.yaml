@@ -23,13 +23,14 @@ spec:
             fsGroup: 5000
             fsGroupChangePolicy: OnRootMismatch
         containers:
-          image:
-            repository: deluan/navidrome
-            # renovate: datasource=docker depName=docker.io/deluan/navidrome
-            tag: "0.53.3"
-          securityContext:
-            runAsUser: 5000
-            runAsGroup: 5000
+          main:
+            image:
+              repository: deluan/navidrome
+              # renovate: datasource=docker depName=docker.io/deluan/navidrome
+              tag: "0.53.3"
+            securityContext:
+              runAsUser: 5000
+              runAsGroup: 5000
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
