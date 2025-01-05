@@ -55,10 +55,8 @@ spec:
         enabled: true
         type: secret
         name: writefreely-config
-        subPath: config.ini
         globalMounts:
           - path: /home/config.ini
-        readOnly: true
     resources:
       requests:
         cpu: 22m
