@@ -57,6 +57,7 @@ spec:
         name: writefreely-config
         globalMounts:
           - path: /home/config.ini
+            subPath: config.ini
     resources:
       requests:
         cpu: 22m
