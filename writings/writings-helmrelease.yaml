@@ -17,6 +17,10 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod: 
+          securityContext:
+            fsGroup: 5000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             image:
@@ -24,8 +28,8 @@ spec:
               # renovate: datasource=docker depName=docker.io/algernon/writefreely
               tag: "0.13.2-2"
             securityContext:
-              fsGroup: 5000
-              fsGroupChangePolicy: OnRootMismatch
+              runAsUser: 5000
+              runAsGroup: 5000
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
