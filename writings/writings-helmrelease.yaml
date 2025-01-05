@@ -30,10 +30,10 @@ spec:
             securityContext:
               runAsUser: 5000
               runAsGroup: 5000
-        env:
-          TZ: "Europe/Copenhagen"
-          PUID: "5000"
-          PGID: "5000"
+            env:
+              TZ: "Europe/Copenhagen"
+              PUID: "5000"
+              PGID: "5000"
 
     service:
       main:

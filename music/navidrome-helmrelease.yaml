@@ -31,16 +31,16 @@ spec:
             securityContext:
               runAsUser: 5000
               runAsGroup: 5000
-        env:
-          TZ: "Europe/Copenhagen"
-          PUID: "5000"
-          PGID: "5000"
-          ND_PORT: 80
-          ND_BASEURL: "https://music.nikolaiathome.com"
-          ND_ENABLESHARING: true
-          ND_ENABLEGRAVATAR: true
-          ND_DEFAULTTHEME: "CatppuccinMacchiato"
-          ND_LASTFM_ENABLED: true
+            env:
+              TZ: "Europe/Copenhagen"
+              PUID: "5000"
+              PGID: "5000"
+              ND_PORT: 80
+              ND_BASEURL: "https://music.nikolaiathome.com"
+              ND_ENABLESHARING: true
+              ND_ENABLEGRAVATAR: true
+              ND_DEFAULTTHEME: "CatppuccinMacchiato"
+              ND_LASTFM_ENABLED: true
 
     service:
       main:
