@@ -23,6 +23,9 @@ spec:
               repository: algernon/writefreely
               # renovate: datasource=docker depName=docker.io/algernon/writefreely
               tag: "0.13.2-2"
+            securityContext:
+              fsGroup: 5000
+              fsGroupChangePolicy: OnRootMismatch
     env:
       TZ: "Europe/Copenhagen"
       PUID: "5000"
@@ -64,7 +67,7 @@ spec:
         memory: 164M
       limits:
         memory: 262M
-    initContainers:
+    initContainers: 
       copy-config:
         image: alpine:3.17
         imagePullPolicy: Always
