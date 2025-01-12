@@ -79,16 +79,16 @@ spec:
     - kind: Secret
       name: lastfm-api
       valuesKey: apikey
-      targetPath: env.ND_LASTFM_APIKEY
+      targetPath: controllers.main.containers.main.env.ND_LASTFM_APIKEY
     - kind: Secret
       name: lastfm-api
       valuesKey: apisharedsecret
-      targetPath: env.ND_LASTFM_SECRET
+      targetPath: controllers.main.containers.main.env.ND_LASTFM_SECRET
     - kind: Secret
       name: spotify-client
       valuesKey: clientid
-      targetPath: env.ND_SPOTIFY_ID
+      targetPath: controllers.main.containers.main.env.ND_SPOTIFY_ID
     - kind: Secret
       name: spotify-client
       valuesKey: clientsecret
-      targetPath: env.ND_SPOTIFY_SECRET
+      targetPath: controllers.main.containers.main.env.ND_SPOTIFY_SECRET
