@@ -23,12 +23,12 @@ spec:
             image:
               repository: quay.io/linuxserver.io/grocy
               tag: "4.2.0"
-    env:
-      TZ: "Europe/Copenhagen"
-      GROCY_CULTURE: "da"
-      GROCY_CURRENCY: "DKK"
-      PUID: "1000"
-      PGID: "1000"
+            env:
+              TZ: "Europe/Copenhagen"
+              GROCY_CULTURE: "da"
+              GROCY_CURRENCY: "DKK"
+              PUID: "1000"
+              PGID: "1000"
 
     service:
       main:
