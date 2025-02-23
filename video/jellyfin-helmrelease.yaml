@@ -60,7 +60,7 @@ spec:
             main: 
               - path: /video-volume
             filebrowser:
-              - path: /srv/video-volume
+              - path: /media/video-volume
       media:
         enabled: true
         type: persistentVolumeClaim
@@ -70,7 +70,7 @@ spec:
             main: 
               - path: /media
             filebrowser:
-              - path: /srv/media
+              - path: /media/media
         size: 100Gi
       config:
         enabled: true
