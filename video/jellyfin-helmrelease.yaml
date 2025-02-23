@@ -55,14 +55,22 @@ spec:
     persistence:
       video-volume:
         existingClaim: video-volume
-        globalMounts:
-          - path: /video-volume
+        advancedMounts:
+          main: 
+            main: 
+              - path: /video-volume
+            filebrowser:
+              - path: /srv/video-volume
       media:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          main: 
+            main: 
+              - path: /media
+            filebrowser:
+              - path: /srv/media
         size: 100Gi
       config:
         enabled: true
