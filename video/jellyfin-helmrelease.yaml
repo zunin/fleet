@@ -54,18 +54,21 @@ spec:
                   port: http
     persistence:
       video-volume:
+        enabled: true
         existingClaim: video-volume
         advancedMounts:
           main:
             filebrowser:
               - path: /data/video-volume
       jellyfin-db-volume:
+        enabled: true
         existingClaim: jellyfin-db-volume
         advancedMounts:
           main:
             filebrowser:
               - path: /data/jellyfin-volume
       jellyfin-server-cache:
+        enabled: true
         existingClaim: jellyfin-server-cache
         advancedMounts:
           main: 
