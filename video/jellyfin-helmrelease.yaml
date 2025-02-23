@@ -80,33 +80,6 @@ spec:
               - path: /data/jellyfin-cache
             main: 
               - path: /cache
-      media:
-        enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        advancedMounts:
-          main: 
-            filebrowser:
-              - path: /data/media
-        size: 100Gi
-      config:
-        enabled: true
-        advancedMounts:
-          main: 
-            filebrowser:
-              - path: /data/config
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 100Gi
-      cache:
-        enabled: true
-        advancedMounts:
-          main: 
-            filebrowser:
-              - path: /data/cache
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 50Gi
       dri:
         enabled: true
         hostPath: /dev/dri
