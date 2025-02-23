@@ -49,6 +49,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: main 
+                  port: http
     persistence:
       video-volume:
         existingClaim: video-volume
