@@ -59,7 +59,7 @@ spec:
           - path: /video-volume
       media:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /media
@@ -68,14 +68,14 @@ spec:
         enabled: true
         globalMounts:
           - path: /config
-        type: pvc
+        type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 100Gi
       cache:
         enabled: true
         globalMounts:
           - path: /cache
-        type: pvc
+        type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 50Gi
       dri:
