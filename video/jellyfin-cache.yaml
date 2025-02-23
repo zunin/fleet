@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-cache
+  name: jellyfin-server-cache
   namespace: video
 spec:
   accessModes:
