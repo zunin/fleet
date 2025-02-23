@@ -14,16 +14,33 @@ spec:
         name: bjw-s
         namespace: video
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: docker.io/jellyfin/jellyfin
-      tag: 10.9.8
+    # renovate: datasource=github-releases depName=jellyfin/jellyfin
+    appversion: 10.9.8
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: docker.io/jellyfin/jellyfin
+              # renovate: datasource=github-releases depName=jellyfin/jellyfin
+              tag: 10.9.8
+          filebrowser:
+            image:
+              repository: docker.io/hurlenko/filebrowser-docker
+              # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
+              tag: v2.32.0
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8096
+      filebrowser: 
+        controller: main
+        ports:
+          http:
+            port: 8080
     ingress:
       main:
         enabled: true
@@ -33,20 +50,28 @@ spec:
               - path: /
                 pathType: Prefix
     persistence:
+      video-volume:
+        existingClaim: video-volume
+        globalMounts:
+          - path: /video-volume
       media:
         enabled: true
         type: pvc
         accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /media
         size: 100Gi
       config:
         enabled: true
-        mountPath: /config
+        globalMounts:
+          - path: /config
         type: pvc
         accessMode: ReadWriteOnce
         size: 100Gi
       cache:
         enabled: true
-        mountPath: /cache
+        globalMounts:
+          - path: /cache
         type: pvc
         accessMode: ReadWriteOnce
         size: 50Gi
