@@ -56,11 +56,19 @@ spec:
       video-volume:
         existingClaim: video-volume
         advancedMounts:
-          main: 
-            main: 
-              - path: /video-volume
             filebrowser:
               - path: /data/video-volume
+      jellyfin-volume:
+        existingClaim: jellyfin-volume
+        advancedMounts:
+            filebrowser:
+              - path: /data/jellyfin-volume
+      jellyfin-cache:
+        existingClaim: jellyfin-cache
+        advancedMounts:
+          main: 
+            filebrowser:
+              - path: /data/jellyfin-cache
       media:
         enabled: true
         type: persistentVolumeClaim
@@ -74,15 +82,23 @@ spec:
         size: 100Gi
       config:
         enabled: true
-        globalMounts:
-          - path: /config
+        advancedMounts:
+          main: 
+            main: 
+              - path: /config
+            filebrowser:
+              - path: /data/config
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 100Gi
       cache:
         enabled: true
-        globalMounts:
-          - path: /cache
+        advancedMounts:
+          main: 
+            main: 
+              - path: /cache
+            filebrowser:
+              - path: /data/cache
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 50Gi
