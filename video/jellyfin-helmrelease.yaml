@@ -56,11 +56,13 @@ spec:
       video-volume:
         existingClaim: video-volume
         advancedMounts:
+          main:
             filebrowser:
               - path: /data/video-volume
       jellyfin-db-volume:
         existingClaim: jellyfin-db-volume
         advancedMounts:
+          main:
             filebrowser:
               - path: /data/jellyfin-volume
       jellyfin-server-cache:
