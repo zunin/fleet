@@ -19,23 +19,12 @@ spec:
     controllers:
       main:
         type: statefulset
-        pod: 
-          securityContext:
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             image:
               repository: ghcr.io/manyfold3d/manyfold-solo
               # renovate: datasource=github-releases depName=manyfold3d/manyfold
               tag: 0.102.0
-            env:
-              PUID: "1000"
-              PGID: "1000"
-            securityContext:
-              runAsNonRoot: true
-              runAsUser: 1000
-              runAsGroup: 1000
           filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
