@@ -19,6 +19,10 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod: 
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             image:
@@ -80,4 +84,3 @@ spec:
       name: manyfold-secret-key
       valuesKey: manyfold-secret-key
       targetPath: controllers.main.containers.main.env.SECRET_KEY_BASE
-  
