@@ -25,6 +25,8 @@ spec:
               repository: ghcr.io/manyfold3d/manyfold-solo
               # renovate: datasource=github-releases depName=manyfold3d/manyfold
               tag: 0.102.0
+            env:
+              MULTIUSER: true
           filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
