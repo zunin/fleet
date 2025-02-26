@@ -15,16 +15,16 @@ spec:
         namespace: 3dfiles
   values:
     # renovate: datasource=github-releases depName=manyfold3d/manyfold
-    appversion: v0.102.0
+    appversion: 0.102.0
     controllers:
       main:
         type: statefulset
         containers:
           main:
             image:
-              repository: ghcr.io/manyfold3d/manyfold
+              repository: ghcr.io/manyfold3d/manyfold-solo
               # renovate: datasource=github-releases depName=manyfold3d/manyfold
-              tag: v0.102.0
+              tag: 0.102.0
           filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
