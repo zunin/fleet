@@ -22,7 +22,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/manyfold3d/manyfold-solo
+              repository: ghcr.io/manyfold3d/manyfold
               # renovate: datasource=github-releases depName=manyfold3d/manyfold
               tag: 0.102.0
             env:
