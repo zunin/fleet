@@ -23,20 +23,20 @@ spec:
           securityContext:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-        initContainers:
-          chown-tmpdirs:
-            image:
-              repository: docker.io/library/alpine
-              # renovate: datasource=docker depName=docker.io/library/alpine
-              tag: "3.21.3"
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - |
-                chmod o-rwx /app/tmp /app/log /tmp
-            securityContext:
-              runAsUser: 0
+        #initContainers:
+        #  chown-tmpdirs:
+        #    image:
+        #      repository: docker.io/library/alpine
+        #      # renovate: datasource=docker depName=docker.io/library/alpine
+        #      tag: "3.21.3"
+        #    command:
+        #      - /bin/sh
+        #      - -c
+        #    args:
+        #      - |
+        #        chmod o-rwx /app/tmp /app/log /tmp
+        #    securityContext:
+        #      runAsUser: 0
         containers:
           main:
             image:
