@@ -19,24 +19,6 @@ spec:
     controllers:
       main:
         type: statefulset
-        pod: 
-          securityContext:
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
-        initContainers:
-          chown:
-            image:
-              repository: docker.io/library/alpine
-              # renovate: datasource=docker depName=docker.io/library/alpine
-              tag: "3.21.3"
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - |
-                chmod -R 777 /usr /tmp
-            securityContext:
-              runAsUser: 0
         containers:
           main:
             image:
@@ -47,10 +29,6 @@ spec:
               MULTIUSER: enabled
               PUID: "1000"
               PGID: "1000"
-            securityContext:
-              runAsNonRoot: true
-              runAsUser: 1000
-              runAsGroup: 1000
           filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
