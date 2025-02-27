@@ -70,3 +70,4 @@ spec:
         memory: 264M
       limits:
         memory: 662M
+
