@@ -102,3 +102,4 @@ spec:
       name: manyfold-secret-key
       valuesKey: manyfold-secret-key
       targetPath: controllers.main.containers.main.env.SECRET_KEY_BASE
+
