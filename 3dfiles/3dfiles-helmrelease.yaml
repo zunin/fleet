@@ -34,6 +34,7 @@ spec:
               PUID: "1000"
               PGID: "1000"
             securityContext:
+              readOnlyRootFilesystem: true
               runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
