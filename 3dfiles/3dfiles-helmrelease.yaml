@@ -19,6 +19,10 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod: 
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             image:
@@ -27,6 +31,12 @@ spec:
               tag: 0.102.0
             env:
               MULTIUSER: enabled
+              PUID: "1000"
+              PGID: "1000"
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
           filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
