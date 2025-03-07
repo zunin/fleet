@@ -41,7 +41,7 @@ spec:
               ND_ENABLEGRAVATAR: true
               ND_DEFAULTTHEME: "CatppuccinMacchiato"
               ND_LASTFM_ENABLED: true
-        filebrowser:
+          filebrowser:
             image:
               repository: docker.io/hurlenko/filebrowser
               # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
