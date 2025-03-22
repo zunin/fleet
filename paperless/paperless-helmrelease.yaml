@@ -21,6 +21,8 @@ spec:
     env:
       - name: TZ
         value: "Europe/Copenhagen"
+      - name: PAPERLESS_URL
+        value: "paperless.nikolaiathome.com"
     persistentVolumeClaim:
       storageClassName: longhorn
       size: 5Gi
