@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: minimal-ingress
   namespace: paperless
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   rules:
   - host: "paperless.nikolaiathome.com"

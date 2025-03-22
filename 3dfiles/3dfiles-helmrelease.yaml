@@ -47,6 +47,8 @@ spec:
             port: 8080
     ingress:
       main:
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: 100m
         enabled: true
         hosts:
           - host: "3dfiles.nikolaiathome.com"
