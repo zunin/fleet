@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: manyfold
+  name: wallabag
   namespace: readlater
 spec:
   interval: 15m
