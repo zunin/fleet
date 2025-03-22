@@ -26,7 +26,7 @@ spec:
               # renovate: datasource=github-releases depName=wallabag/wallabag
               tag: 2.6.10
             env:
-              SYMFONY__ENV__DOMAIN_NAME: "https://readitlater.nikolaiathome.com"
+              SYMFONY__ENV__DOMAIN_NAME: "https://readlater.nikolaiathome.com"
     service:
       main:
         controller: main
