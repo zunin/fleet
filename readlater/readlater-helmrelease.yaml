@@ -1,0 +1,62 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: manyfold
+  namespace: readlater
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: readlater
+  values:
+    # renovate: datasource=github-releases depName=wallabag/wallabag
+    appversion: 0.104.0
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: docker.io/wallabag/wallabag
+              # renovate: datasource=github-releases depName=wallabag/wallabag
+              tag: 2.6.10
+            env:
+              SYMFONY__ENV__DOMAIN_NAME: "https://readitlater.nikolaiathome.com"
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "readlater.nikolaiathome.com"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main 
+                  port: http
+    persistence:
+      data:
+        enabled: true
+        existingClaim: data
+        advancedMounts:
+          main:
+            main: 
+              - path: /var/www/wallabag/data
+      images:
+        enabled: true
+        existingClaim: images
+        advancedMounts:
+          main:
+            main: 
+              - path: /var/www/wallabag/web/assets/images
+
