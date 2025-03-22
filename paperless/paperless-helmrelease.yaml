@@ -18,11 +18,11 @@ spec:
     appversion: 2.9.0
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
-      # renovate: datasource=github-releases depName=paperless-ngx/paperless-ngx
-      tag: 2.9.0
     env:
       - name: TZ
         value: "Europe/Copenhagen"
     persistentVolumeClaim:
       storageClassName: longhorn
-      size: 1Gi
+      size: 5Gi
+    redis:
+      enabled: true
