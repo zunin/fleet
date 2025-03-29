@@ -58,6 +58,7 @@ spec:
         tls:
           - hosts:
             - video.nikolaiathome.com
+            secretName: video-nikolaiathome-com-http-tls
     persistence:
       video-volume:
         enabled: true
