@@ -60,6 +60,9 @@ spec:
     ingress:
       main:
         enabled: true
+        annotations:
+          # add an annotation indicating the issuer to use.
+          cert-manager.io/cluster-issuer: cloudflare-issuer
         hosts:
           - host: "music.nikolaiathome.com"
             paths:
