@@ -68,6 +68,10 @@ spec:
                 service:
                   identifier: main
                   port: http 
+        tls:
+          - hosts:
+            - music.nikolaiathome.com
+            secretName: music-nikolaiathome-com-http-tls
     persistence:
       music:
         existingClaim: music-volume
