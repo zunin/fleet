@@ -44,6 +44,9 @@ spec:
     ingress:
       main:
         enabled: true
+        annotations:
+          # add an annotation indicating the issuer to use.
+          cert-manager.io/cluster-issuer: cloudflare-issuer
         hosts:
           - host: "video.nikolaiathome.com"
             paths:
@@ -52,6 +55,9 @@ spec:
                 service:
                   identifier: main 
                   port: http
+        tls:
+          - hosts:
+            - video.nikolaiathome.com
     persistence:
       video-volume:
         enabled: true
