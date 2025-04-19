@@ -39,7 +39,7 @@ spec:
           http:
             port: 13378
       filebrowser: 
-        controllers: main
+        controller: main
         ports:
           http:
             port: 8080
