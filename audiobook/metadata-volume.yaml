@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: podcast
+  name: metadata
   namespace: audiobook
 spec:
   accessModes:
