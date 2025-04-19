@@ -24,7 +24,7 @@ spec:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               # renovate: datasource=github-releases depName=advplyr/audiobookshelf
-              tag: v2.20.0
+              tag: 2.20.0
             env:
               TZ: Europe/Copenhagen
           filebrowser:
