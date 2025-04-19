@@ -1,0 +1,98 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: manyfold
+  namespace: audiobook
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: audiobook
+  values:
+    # renovate: datasource=github-releases depName=advplyr/audiobookshelf
+    appversion: 2.20.0
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: ghcr.io/advply/audiobookshelf
+              # renovate: datasource=github-releases depName=advplyr/audiobookshelf
+              tag: 2.20.0
+            env:
+              TZ: Europe/Copenhagen
+          filebrowser:
+            image:
+              repository: docker.io/hurlenko/filebrowser
+              # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
+              tag: v2.32.0
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 13378
+      filebrowser: 
+        controllers: main
+        ports:
+          http:
+            port: 8080
+    ingress:
+      main:
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: 100m
+        enabled: true
+        hosts:
+          - host: "audiobook.nikolaiathome.com"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main 
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: config
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /data/config
+            main: 
+              - path: /config
+      metadata:
+        enabled: true
+        existingClaim: metadata
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /data/metadata
+            main: 
+              - path: /metadata
+      audiobook:
+        enabled: true
+        existingClaim: audiobook
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /data/audiobook
+            main: 
+              - path: /audiobook
+      podcast:
+        enabled: true
+        existingClaim: podcast
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /data/podcast
+            main: 
+              - path: /podcast
+
+
+
