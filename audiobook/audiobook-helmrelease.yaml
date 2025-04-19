@@ -22,7 +22,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/advply/audiobookshelf
+              repository: ghcr.io/advplyr/audiobookshelf
               # renovate: datasource=github-releases depName=advplyr/audiobookshelf
               tag: v2.20.0
             env:
