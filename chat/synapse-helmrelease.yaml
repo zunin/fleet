@@ -54,6 +54,6 @@ spec:
       valuesKey: password
       targetPath: redis.auth.password
     - kind: Secret
-      name: synapse-oauth-app
+      name: extraconfig
       targetPath: extraConfig
       valuesKey: extraConfig
