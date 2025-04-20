@@ -56,6 +56,7 @@ spec:
       targetPath: extraConfig
       valuesKey: extraConfig
     - kind: Secret
+      name: registrationsharedsecret
       valuesKey: registrationsharedsecret
       targetPath: config.registrationSharedSecret
 
