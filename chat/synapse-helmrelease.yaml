@@ -55,4 +55,5 @@ spec:
       targetPath: redis.auth.password
     - kind: Secret
       name: synapse-oauth-app
-      valuesKey: oicd_providers
+      targetPath: extraConfig
+      valuesKey: extraConfig
