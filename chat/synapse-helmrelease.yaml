@@ -30,8 +30,6 @@ spec:
       enabled: true
       annotations:
         nginx.ingress.kubernetes.io/proxy-body-size: 100m
-    extraConfig:
-      max_upload_size: 100M
     synapse:
        resources:
         limits:
@@ -57,3 +55,6 @@ spec:
       name: extraconfig
       targetPath: extraConfig
       valuesKey: extraConfig
+    - kind: Secret
+      valuesKey: registrationsharedsecret
+      targetPath: config.registrationSharedSecret
