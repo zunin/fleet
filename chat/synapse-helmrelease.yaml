@@ -16,7 +16,7 @@ spec:
         namespace: chat
       interval: 1m
   values:
-    renovate: datasource=github-releases depName=element-hq/synapse
+    # renovate: datasource=github-releases depName=element-hq/synapse
     appVersion: 1.128.0
     image:
       repository: ghcr.io/element-hq/synapse
