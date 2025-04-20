@@ -58,3 +58,4 @@ spec:
     - kind: Secret
       valuesKey: registrationsharedsecret
       targetPath: config.registrationSharedSecret
+
