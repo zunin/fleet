@@ -8,6 +8,7 @@ spec:
   chart:
     spec:
       chart: matrix-synapse
+      # renovate: datasource=helm depName=ananace-charts/matrix-synapse
       version: 3.9.11
       sourceRef:
         kind: HelmRepository
@@ -17,6 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/element-hq/synapse
+      # renovate: datasource=github-releases depName=element-hq/synapse
       tag: v1.114.0
     wellknown:
       enabled: true
