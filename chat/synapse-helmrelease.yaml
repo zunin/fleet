@@ -59,4 +59,3 @@ spec:
       name: registrationsharedsecret
       valuesKey: registrationsharedsecret
       targetPath: config.registrationSharedSecret
-
