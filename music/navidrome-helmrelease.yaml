@@ -14,7 +14,7 @@ spec:
         name: bjw-s
         namespace: music
   values: 
-    appVersion: 0.52.5
+    appVersion: 0.56.1
     controllers:
       main:
         type: statefulset
