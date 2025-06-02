@@ -27,7 +27,7 @@ spec:
             image:
               repository: deluan/navidrome
               # renovate: datasource=docker depName=docker.io/deluan/navidrome
-              tag: "0.55.2"
+              tag: "0.56.1"
             securityContext:
               runAsUser: 5000
               runAsGroup: 5000
