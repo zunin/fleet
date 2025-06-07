@@ -5,4 +5,4 @@ metadata:
   namespace: audiobook
 spec:
   interval: 30m
-  url: https://bjw-s.github.io/helm-charts
+  url: https://bjw-s-labs.github.io/helm-charts
