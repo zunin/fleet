@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: ananace-charts
         namespace: chat
-      interval: 1m
+      interval: 15m
   values:
     # renovate: datasource=github-releases depName=element-hq/synapse
     appVersion: 1.128.0
