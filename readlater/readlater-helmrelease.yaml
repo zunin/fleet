@@ -15,7 +15,7 @@ spec:
         namespace: readlater
   values:
     # renovate: datasource=github-releases depName=wallabag/wallabag
-    appversion: 2.6.12
+    appversion: 2.6.13
     controllers:
       main:
         type: statefulset
@@ -24,7 +24,7 @@ spec:
             image:
               repository: docker.io/wallabag/wallabag
               # renovate: datasource=github-releases depName=wallabag/wallabag
-              tag: 2.6.12
+              tag: 2.6.13
             env:
               SYMFONY__ENV__DOMAIN_NAME: "https://readlater.nikolaiathome.com"
     service:
