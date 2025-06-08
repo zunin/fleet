@@ -42,9 +42,12 @@ spec:
         - name: extraconfig
           secret:
             secretName: extraconfig
+            items:
+              - key: extraConfig
+                path: extraconfig.yaml
       extraVolumeMounts:
         - name: extraconfig
-          mountPath: /synapse/config/conf.d/extraconfig.yaml
+          mountPath: /synapse/config/conf.d
           readOnly: true
     postgresql:
       primary:
