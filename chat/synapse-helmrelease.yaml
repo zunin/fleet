@@ -44,10 +44,10 @@ spec:
             secretName: extraconfig
             items:
               - key: extraConfig
-                path: config/conf.d/extraconfig.yaml
+                path: extraconfig.yaml
       extraVolumeMounts:
         - name: extraconfig
-          mountPath: /synapse
+          mountPath: /synapse/config/conf.d/extraconfig.yaml
 
     postgresql:
       primary:
