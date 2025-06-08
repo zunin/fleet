@@ -31,13 +31,21 @@ spec:
       annotations:
         nginx.ingress.kubernetes.io/proxy-body-size: 100m
     synapse:
-       resources:
+      resources:
         limits:
           cpu: "1.5"
           memory: 600Mi
         requests:
           cpu: 150m
           memory: 250Mi
+      extraVolumes:
+        - name: extraConfig
+          secret:
+            secretName: extraconfig
+      extraVolumeMounts:
+        - name: extraConfig
+          mountPath: /synapse/config/conf.d/extraConfig.yaml
+          readOnly: true
     postgresql:
       primary:
         persistence:
@@ -51,10 +59,6 @@ spec:
       name: synapse-redis-password
       valuesKey: password
       targetPath: redis.auth.password
-    - kind: Secret
-      name: extraconfig
-      targetPath: extraConfig
-      valuesKey: extraConfig
     - kind: Secret
       name: registrationsharedsecret
       valuesKey: registrationsharedsecret
