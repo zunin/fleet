@@ -48,6 +48,8 @@ spec:
       extraVolumeMounts:
         - name: extraconfig
           mountPath: /synapse/config/conf.d/extraconfig.d
+      extraCommands: 
+        - 'cp /synapse/config/conf.d/extraconfig.d/extraconfig.yaml /synapse/config/conf.d/extraconfig.yaml'
 
     postgresql:
       primary:
