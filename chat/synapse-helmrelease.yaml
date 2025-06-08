@@ -47,7 +47,7 @@ spec:
                 path: extraconfig.yaml
       extraVolumeMounts:
         - name: extraconfig
-          mountPath: /synapse/config/conf.d/extra
+          mountPath: /synapse/config/conf.d/
           readOnly: true
     postgresql:
       primary:
