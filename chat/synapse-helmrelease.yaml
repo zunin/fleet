@@ -39,12 +39,12 @@ spec:
           cpu: 150m
           memory: 250Mi
       extraVolumes:
-        - name: extraConfig
+        - name: extraconfig
           secret:
             secretName: extraconfig
       extraVolumeMounts:
-        - name: extraConfig
-          mountPath: /synapse/config/conf.d/extraConfig.yaml
+        - name: extraconfig
+          mountPath: /synapse/config/conf.d/extraconfig.yaml
           readOnly: true
     postgresql:
       primary:
