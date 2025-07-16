@@ -31,7 +31,7 @@ spec:
             image:
               repository: docker.io/hurlenko/filebrowser
               # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
-              tag: v2.32.0
+              tag: v2.40.1
     service:
       main:
         controller: main
