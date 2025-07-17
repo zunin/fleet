@@ -14,6 +14,7 @@ spec:
         name: bjw-s
         namespace: music
   values: 
+     # renovate: datasource=github-releases depName=navidrome/navidrome
     appVersion: 0.56.1
     controllers:
       main:
@@ -26,7 +27,7 @@ spec:
           main:
             image:
               repository: deluan/navidrome
-              # renovate: datasource=docker depName=docker.io/deluan/navidrome
+              # renovate: datasource=github-releases depName=navidrome/navidrome
               tag: "0.56.1"
             securityContext:
               runAsUser: 5000
