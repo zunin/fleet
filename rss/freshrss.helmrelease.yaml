@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: freshrss
+  namespace: rss
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: freshrss
+      version: 1.1.20
+      sourceRef:
+        kind: HelmRepository
+        name: christianhuth
+        namespace: rss
+  values:
+    # renovate: datasource=docker depName=docker.io/freshrss/freshrss
+    appversion: 1.26.3
+    image:
+      # renovate: datasource=docker depName=docker.io/freshrss/freshrss
+      tag: 1.26.3
+      type: alpine
+      registry: docker.io
+      repository: freshrss/freshrss
+    ingress:
+      enabled: true
+      hosts:
+        - host: "rss.nikolaiathome.com"
+          paths:
+            - path: "/"
+    freshrss:
+      database:
+        type: postgresql
+      timezone: Europe/Copenhagen
+      persistence:
+        data:
+          existingClaim: data
+        extensions:
+          existingClaim: extensions
+  valuesFrom:
+    - kind: Secret
+      name: freshrss-app
+      valuesKey: dbname
+      targetPath: externalPostgresql.auth.database
+    - kind: Secret
+      name: freshrss-app
+      valuesKey: password
+      targetPath: externalPostgresql.auth.password
+    - kind: Secret
+      name: freshrss-app
+      valuesKey: username
+      targetPath: externalPostgresql.auth.username
+    - kind: Secret
+      name: freshrss-app
+      valuesKey: port
+      targetPath: externalPostgresql.port
+    - kind: Secret
+      valuesKey: host
+      targetPath: externalPostgresql.hostname
+
+
