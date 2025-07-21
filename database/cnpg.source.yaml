@@ -5,4 +5,4 @@ metadata:
   namespace: database
 spec:
   interval: 30m
-  url: https://charts.cockroachdb.com
+  url: https://cloudnative-pg.github.io/charts
