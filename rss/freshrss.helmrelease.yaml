@@ -28,6 +28,7 @@ spec:
         - host: "rss.nikolaiathome.com"
           paths:
             - path: "/"
+              pathType: Prefix
     freshrss:
       database:
         type: postgresql
