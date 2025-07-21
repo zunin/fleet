@@ -55,6 +55,7 @@ spec:
       valuesKey: port
       targetPath: externalPostgresql.port
     - kind: Secret
+      name: freshrss-app
       valuesKey: host
       targetPath: externalPostgresql.hostname
 
