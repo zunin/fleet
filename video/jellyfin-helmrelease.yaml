@@ -69,7 +69,7 @@ spec:
         advancedMounts:
           main:
             filebrowser:
-              - path: /data/video-volume
+              - path: /w
             main: 
               - path: /media
       jellyfin-db-volume:
