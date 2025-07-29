@@ -90,3 +90,12 @@ spec:
         enabled: true
         hostPath: /dev/dri
         type: hostPath
+      copyparty-config:
+        enabled: true
+        type: configMap
+        name: copyparty-config
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /cfg
+
