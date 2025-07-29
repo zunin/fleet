@@ -30,9 +30,9 @@ spec:
               tag: 10.10.7
           filebrowser:
             image:
-              repository: docker.io/hurlenko/filebrowser
-              # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
-              tag: v2.40.1
+              repository: docker.io/copyparty/ac
+              # renovate: datasource=github-releases depName=9001/copyparty
+              tag: 1.18.6
     service:
       main:
         controller: main
