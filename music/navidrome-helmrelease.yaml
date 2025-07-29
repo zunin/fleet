@@ -23,8 +23,8 @@ spec:
           securityContext:
             fsGroup: 5000
             fsGroupChangePolicy: OnRootMismatch
-            hostNetwork: true
-            dnsPolicy: ClusterFirstWithHostNet
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
 
         containers:
           main:
