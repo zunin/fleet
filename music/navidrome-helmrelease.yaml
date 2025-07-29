@@ -87,15 +87,13 @@ spec:
             main:              
               - path: /music
             filebrowser:              
-              - path: /w/music
+              - path: /w
       data:
         existingClaim: navidrome-data-volume
         advancedMounts:
           main:
             main:              
               - path: /data
-            filebrowser:              
-              - path: /w/data
       copyparty-config:
         enabled: true
         type: configMap

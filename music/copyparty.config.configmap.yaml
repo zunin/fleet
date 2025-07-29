@@ -6,6 +6,7 @@ metadata:
 data:
   copyparty.conf: |
     [global]
+      name: music
       z
       e2dsa  # enable file indexing and filesystem scanning
       e2ts   # enable multimedia indexing
