@@ -43,7 +43,7 @@ spec:
         controller: main
         ports:
           http:
-            port: 3923
+            port: 3924
     ingress:
       main:
         enabled: true
