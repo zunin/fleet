@@ -4,12 +4,12 @@ metadata:
   name: copyparty-config
   namespace: music
 data:
-copyparty.conf: |
-  [global]
-    e2dsa  # enable file indexing and filesystem scanning
-    e2ts   # enable multimedia indexing
-    ansi   # enable colors in log messages
-  [/]            # create a volume at "/" (the webroot), which will
-    /w           # share /w (the docker data volume)
-      accs:
-        rwmd: *      # everyone gets read-write-move-delete access
+  copyparty.conf: |
+    [global]
+      e2dsa  # enable file indexing and filesystem scanning
+      e2ts   # enable multimedia indexing
+      ansi   # enable colors in log messages
+    [/]            # create a volume at "/" (the webroot), which will
+      /w           # share /w (the docker data volume)
+        accs:
+          rwmd: *      # everyone gets read-write-move-delete access
