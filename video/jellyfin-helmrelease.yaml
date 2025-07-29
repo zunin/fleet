@@ -19,6 +19,9 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod: 
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
         containers:
           main:
             image:
@@ -40,7 +43,7 @@ spec:
         controller: main
         ports:
           http:
-            port: 8080
+            port: 3923
     ingress:
       main:
         enabled: true
@@ -74,8 +77,6 @@ spec:
         existingClaim: jellyfin-db-volume
         advancedMounts:
           main:
-            filebrowser:
-              - path: /data/jellyfin-volume
             main: 
               - path: /config
       jellyfin-server-cache:
@@ -83,8 +84,6 @@ spec:
         existingClaim: jellyfin-server-cache
         advancedMounts:
           main: 
-            filebrowser:
-              - path: /data/jellyfin-cache
             main: 
               - path: /cache
       dri:
