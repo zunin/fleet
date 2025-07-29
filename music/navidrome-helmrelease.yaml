@@ -93,12 +93,14 @@ spec:
               - path: /data
             filebrowser:              
               - path: /w/data
-        php-conf:
-          enabled: true
-          type: configMap
-          name: copyparty-config
-          filebrowser:
-            - path: /cfg
+      copyparty-config:
+        enabled: true
+        type: configMap
+        name: copyparty-config
+        advancedMounts:
+          main:
+            filebrowser:
+              - path: /cfg
     resources:
       requests:
         cpu: 22m
