@@ -44,9 +44,9 @@ spec:
               ND_LASTFM_ENABLED: true
           filebrowser:
             image:
-              repository: docker.io/hurlenko/filebrowser
-              # renovate: datasource=github-releases depName=hurlenko/filebrowser-docker
-              tag: v2.40.1
+              repository: docker.io/copyparty/ac
+              # renovate: datasource=github-releases depName=9001/copyparty
+              tag: 1.18.6
     service:
       main:
         controller: main
@@ -84,7 +84,7 @@ spec:
             main:              
               - path: /music
             filebrowser:              
-              - path: /data/music
+              - path: /w/music
       data:
         existingClaim: navidrome-data-volume
         advancedMounts:
@@ -92,7 +92,7 @@ spec:
             main:              
               - path: /data
             filebrowser:              
-              - path: /data/data
+              - path: /w/data
     resources:
       requests:
         cpu: 22m
