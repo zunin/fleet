@@ -39,7 +39,7 @@ spec:
               TZ: "Europe/Copenhagen"
               PUID: "5000"
               PGID: "5000"
-              ND_PORT: 80
+              ND_PORT: 4533
               ND_BASEURL: "https://music.nikolaiathome.com"
               ND_ENABLESHARING: true
               ND_ENABLEGRAVATAR: true
@@ -55,7 +55,7 @@ spec:
         controller: main
         ports:
           http:
-            port: 80
+            port: 4533
       filebrowser: 
         controller: main
         ports:
