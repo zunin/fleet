@@ -15,7 +15,7 @@ spec:
         namespace: music
   values: 
      # renovate: datasource=github-releases depName=navidrome/navidrome
-    appVersion: 0.57.0
+    appVersion: 0.58.0
     controllers:
       main:
         type: statefulset
@@ -31,7 +31,7 @@ spec:
             image:
               repository: deluan/navidrome
               # renovate: datasource=github-releases depName=navidrome/navidrome
-              tag: 0.57.0
+              tag: 0.58.0
             securityContext:
               runAsUser: 5000
               runAsGroup: 5000
