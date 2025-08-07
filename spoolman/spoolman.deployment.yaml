@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spoolman
+  namespace: spoolman
+  labels:
+    app: spoolman
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spoolman
+  template:
+    metadata:
+      labels:
+        app: spoolman
+    spec:
+      containers:
+      - name: nginx
+        image: ghcr.io/donkie/spoolman:0.22.1
+        ports:
+        - containerPort: 7912
+        env:
+        - name: TZ
+          value: Europe/Copenhagen
+          name: SPOOLMAN_DB_TYPE
+          value: postgres
+        - name: SPOOLMAN_DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: spoolman-app
+              key: host
+        - name: SPOOLMAN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: spoolman-app
+              key: port
+        - name: SPOOLMAN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: spoolman-app
+              key:  dbname
+        - name: SPOOLMAN_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: spoolman-app
+              key: username
+        - name: SPOOLMAN_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: spoolman-app
+              key: password
+        - name: SPOOLMAN_PORT
+          value: 7912
+        - name: EXTERNAL_DB_URL
+          value: https://donkie.github.io/SpoolmanDB/
+        - name: SPOOLMAN_CORS_ORIGIN
+          value: spoolman.nikolaiathome.com

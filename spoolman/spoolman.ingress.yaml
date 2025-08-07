@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spoolman
+  namespace: spoolman
+spec:
+  rules:
+  - host: spoolman.nikolaiathome.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: spoolman
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - spoolman.nikolaiathome.com
+    secretName: spoolman-tls-cert
