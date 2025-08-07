@@ -1,9 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: ideaplexus
-  namespace: spoolman
-spec:
-  interval: 30m
-  url: https://ideaplexus.gitlab.io/charts
-
