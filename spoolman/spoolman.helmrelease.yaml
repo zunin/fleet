@@ -22,6 +22,7 @@ spec:
     ingress:
       enabled: true
       hostname: "spoolman.nikolaiathome.com"
+      tls: true
     persistance:
       storageClass: longhorn
     
