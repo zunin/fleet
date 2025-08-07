@@ -51,7 +51,7 @@ spec:
               name: spoolman-app
               key: password
         - name: SPOOLMAN_PORT
-          value: 7912
+          value: "7912"
         - name: EXTERNAL_DB_URL
           value: https://donkie.github.io/SpoolmanDB/
         - name: SPOOLMAN_CORS_ORIGIN
