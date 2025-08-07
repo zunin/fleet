@@ -15,10 +15,10 @@ spec:
         namespace: spoolman
   values:
     # renovate: datasource=github depName=donkie/spoolman
-    appversion: v0.22.1
+    appversion: 0.22.1
     image:
       # renovate: datasource=github depName=donkie/spoolman
-      tag: v0.22.1
+      tag: 0.22.1
     ingress:
       enabled: true
       hostname: "spoolman.nikolaiathome.com"
