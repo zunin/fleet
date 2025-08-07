@@ -23,7 +23,7 @@ spec:
         env:
         - name: TZ
           value: Europe/Copenhagen
-          name: SPOOLMAN_DB_TYPE
+        - name: SPOOLMAN_DB_TYPE
           value: postgres
         - name: SPOOLMAN_DB_HOST
           valueFrom:
