@@ -23,7 +23,7 @@ spec:
       enabled: true
       hostname: "spoolman.nikolaiathome.com"
       tls: true
-    persistance:
+    persistence:
       enabled: true
       storageClass: longhorn
     
