@@ -7,8 +7,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: freshrss
-      version: 1.1.20
+      chart: spoolman
+      version: 2.4.1
       sourceRef:
         kind: HelmRepository
         name: ideaplexus
