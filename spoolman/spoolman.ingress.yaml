@@ -14,7 +14,7 @@ spec:
           service:
             name: spoolman
             port:
-              number: 80
+              number: 7912
   tls:
   - hosts:
     - spoolman.nikolaiathome.com
