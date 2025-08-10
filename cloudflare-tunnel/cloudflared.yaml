@@ -49,7 +49,7 @@ spec:
       containers:
       - name: cloudflared
         # renovate: datasource=github-releases depName=cloudflare/cloudflared
-        image: 2025.8.0
+        image: cloudflare/cloudflared:2025.8.0
         args:
         - tunnel
         # Points cloudflared to the config file, which configures what
