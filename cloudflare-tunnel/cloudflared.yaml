@@ -48,6 +48,7 @@ spec:
     spec:
       containers:
       - name: cloudflared
+        # renovate: datasource=github-releases depName=cloudflare/cloudflared
         image: cloudflare/cloudflared:2022.3.0
         args:
         - tunnel
