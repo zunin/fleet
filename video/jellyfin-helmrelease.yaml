@@ -62,6 +62,12 @@ spec:
           - hosts:
             - video.nikolaiathome.com
             secretName: video-nikolaiathome-com-http-tls
+    resources:
+      requests:
+        cpu: 2
+        memory: 450M
+      limits:
+        memory: 1000M
     persistence:
       video-volume:
         enabled: true
