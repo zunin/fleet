@@ -15,7 +15,7 @@ spec:
         namespace: audiobook
   values:
     # renovate: datasource=github-releases depName=advplyr/audiobookshelf
-    appversion: 2.29.0
+    appversion: 2.28.0
     controllers:
       main:
         type: statefulset
@@ -24,7 +24,7 @@ spec:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               # renovate: datasource=github-releases depName=advplyr/audiobookshelf
-              tag: 2.29.0
+              tag: 2.28.0
             env:
               TZ: Europe/Copenhagen
           filebrowser:
