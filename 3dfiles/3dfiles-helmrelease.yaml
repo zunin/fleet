@@ -15,7 +15,7 @@ spec:
         namespace: 3dfiles
   values:
     # renovate: datasource=github-releases depName=manyfold3d/manyfold
-    appversion: 0.124.0
+    appversion: 0.126.0
     controllers:
       main:
         type: statefulset
@@ -24,7 +24,7 @@ spec:
             image:
               repository: ghcr.io/manyfold3d/manyfold-solo
               # renovate: datasource=github-releases depName=manyfold3d/manyfold
-              tag: 0.124.0
+              tag: 0.126.0
             env:
               MULTIUSER: enabled
               PUID: "1000"
