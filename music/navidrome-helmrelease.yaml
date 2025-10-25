@@ -49,7 +49,7 @@ spec:
             image:
               repository: docker.io/copyparty/ac
               # renovate: datasource=github-releases depName=9001/copyparty
-              tag: 1.19.9
+              tag: 1.19.19
     service:
       main:
         controller: main
