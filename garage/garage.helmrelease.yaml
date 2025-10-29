@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage
+  namespace: garage
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: script/garage
+      version: 0.7.2
+      sourceRef:
+        kind: GitRepository
+        name: garage
+        namespace: garage
+ 
