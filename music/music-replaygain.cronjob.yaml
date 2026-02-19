@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: encode-replaygain
+  namespace: music
+spec:
+  jobTemplate:
+    metadata:
+      name: encode-replaygain
+    spec:
+      template:
+        metadata: {}
+        spec:
+          containers:
+          - args: ["easy", "--skip-existing", "/music"]
+            command:
+            - rsgain
+            image: nixery.dev/shell/rsgain:master
+            name: encode-replaygain
+            resources: {}
+            volumeMounts:
+            - mountPath: /music
+              name: music-volume
+          restartPolicy: OnFailure
+          volumes:
+          - name: music-volume
+            persistentVolumeClaim:
+              claimName: music-volume
+  schedule: 0 0 * * *
+status: {}
