@@ -4,13 +4,8 @@ metadata:
   name: kro
   namespace: kro-system
 spec:
-  interval: 1m
-  chart:
-    spec:
-      chart: kro
-      version: ""
-      sourceRef:
-        kind: OCIRepository
-        name: kro
-        namespace: kro-system
-      interval: 1m
+  interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: kro
+
