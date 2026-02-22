@@ -10,7 +10,7 @@ spec:
       chart: kro
       version: ""
       sourceRef:
-        kind: HelmRepository
+        kind: OCIRepository
         name: kro
         namespace: kro-system
       interval: 1m
