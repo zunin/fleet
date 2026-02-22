@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kro
+  namespace: kro-system
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: kro
+      version: ""
+      sourceRef:
+        kind: HelmRepository
+        name: kro
+        namespace: kro-system
+      interval: 1m
+  values:
+    controller:
+      ingressClassResource:
+        default: true
+      watchIngressWithoutClass: true
+      service:
+        enabled: true
+        type: LoadBalancer
+      replicaCount: 1
+      config:
+        use-forwarded-headers: true
