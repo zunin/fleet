@@ -14,14 +14,3 @@ spec:
         name: kro
         namespace: kro-system
       interval: 1m
-  values:
-    controller:
-      ingressClassResource:
-        default: true
-      watchIngressWithoutClass: true
-      service:
-        enabled: true
-        type: LoadBalancer
-      replicaCount: 1
-      config:
-        use-forwarded-headers: true
