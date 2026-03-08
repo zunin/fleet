@@ -1,11 +1,11 @@
 apiVersion: kro.run/v1alpha1
 kind: Application
 metadata:
-  name: music3
-  namespace: music3
+  name: music
+  namespace: music
 spec:
-  name: music3
-  namespace: music3
+  name: music
+  namespace: music
   container:
     image: deluan/navidrome
     # renovate: datasource=github-releases depName=navidrome/navidrome
@@ -24,14 +24,14 @@ spec:
       containerMountPath: /music
   env:
     TZ: "Europe/Copenhagen"
-    #PUID: "5000"
-    #PGID: "5000"
+    PUID: "5000"
+    PGID: "5000"
     ND_PORT: "4533"
-    ND_BASEURL: "https://music2.nikolaiathome.com"
+    ND_BASEURL: "https://music.nikolaiathome.com"
     ND_ENABLESHARING: "true"
     ND_ENABLEGRAVATAR: "true"
     ND_DEFAULTTHEME: "CatppuccinMacchiato"
-    #ND_LASTFM_ENABLED: "true"
+    ND_LASTFM_ENABLED: "true"
   envFromSecrets:
     ND_SPOTIFY_SECRET:
       secretName: spotify-client
@@ -39,6 +39,12 @@ spec:
     ND_SPOTIFY_ID:
       secretName: spotify-client
       valuesKey: clientid
+    ND_LASTFM_SECRET:
+      secretName: lastfm-api
+      valuesKey: apisharedsecret
+    ND_LASTFM_APIKEY:
+      secretName: lastfm-api
+      valuesKey: apikey
   filebrowser:
     enabled: true
-    port: 3925
+    port: 3923
