@@ -134,6 +134,15 @@ spec:
                     'privileged': false,                # prevent acting like host root
                     'runAsUser': schema.spec.runAsUser,
                     'runAsGroup': schema.spec.runAsUser
+                  },
+                  'resources': {
+                    'limits': {
+                      'memory': '300Mi'
+                    },
+                    'requests': {
+                      'memory': '300Mi',
+                      'cpu': '25m'
+                    }
                   }
                   }, "${{true: {
                         'name': 'filebrowser',
