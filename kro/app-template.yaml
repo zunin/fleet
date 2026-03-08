@@ -37,6 +37,8 @@ spec:
       env: "map[string]string | default={}"
       envFromSecrets: "map[string]SecretBinding | default={}"
       filebrowser: FileBrowserConfig
+      runAsUser: integer | default=5000
+      runAsNonRoot: boolean | default=true
     status:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
@@ -66,6 +68,14 @@ spec:
                 app.kubernetes.io/name: ${schema.spec.name}
                 app.kubernetes.io/instance: ${schema.spec.name}
             spec:
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
+                runAsUser: ${schema.spec.runAsUser}       # hardcode user to non-root if not set in Dockerfile
+                runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
+                runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
+                fsGroup: ${schema.spec.runAsUser}
+                fsGroupChangePolicy: OnRootMismatch
               volumes: "${schema.spec.volumes.map(x,
                 {
                 'name': x.name,
@@ -116,7 +126,13 @@ spec:
                       {
                         'containerPort': "${schema.spec.container.port}"
                       }
-                    ]
+                    ],
+                  # per-container security context
+                  # lock down privileges inside the container
+                  'securityContext': {
+                    'allowPrivilegeEscalation': false, # prevent sudo, etc.
+                    'privileged': false                # prevent acting like host root
+                  }
                   }, "${{true: {
                         'name': 'filebrowser',
                         'image': 'docker.io/copyparty/ac:1.19.19',
