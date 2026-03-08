@@ -1,0 +1,205 @@
+apiVersion: kro.run/v1alpha1
+kind: ResourceGraphDefinition
+metadata:
+  name: app-template
+  annotations:
+    kro.run/allow-breaking-changes: "true"
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: Application
+    types:
+      Container:
+        image: string
+        tag: string
+        port: integer | default=80
+      Volume:
+        name: string
+        persistentVolumeClaim: string
+        containerMountPath: string
+        readOnly: boolean | default=false
+      SecretBinding:
+        secretName: string
+        valuesKey: string
+      FileBrowserConfig:
+        enabled: boolean | default=true
+        port: integer
+
+    spec:
+      name: string
+      namespace: string
+      container: Container
+      url: string
+      replicas: integer | default=1
+      ingress:
+        enabled: boolean | default=true
+      volumes: "[]Volume | default=[]"
+      env: "map[string]string | default={}"
+      envFromSecrets: "map[string]SecretBinding | default={}"
+      filebrowser: FileBrowserConfig
+    status:
+      # Fields the controller will inject into instances status.
+      deploymentConditions: ${deployment.status.conditions}
+      availableReplicas: ${deployment.status.availableReplicas}
+
+  # Define the resources this API will manage.
+  resources:
+    - id: deployment
+      template:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ${schema.spec.name} # Use the name provided by user
+          namespace: ${schema.spec.namespace}
+        spec:
+          replicas: ${schema.spec.replicas} # Use the replicas provided by user
+          strategy:
+            type: Recreate
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: ${schema.spec.name}
+              app.kubernetes.io/instance: ${schema.spec.name}
+          template:
+            metadata:
+              namespace: ${schema.spec.namespace}
+              labels:
+                app.kubernetes.io/name: ${schema.spec.name}
+                app.kubernetes.io/instance: ${schema.spec.name}
+            spec:
+              volumes: "${schema.spec.volumes.map(x,
+                {
+                'name': x.name,
+                'persistentVolumeClaim':
+                  {
+                    'claimName': x.persistentVolumeClaim
+                  }
+                }
+                ) + (schema.spec.filebrowser.enabled ? [{
+                  'name': schema.spec.name + '-filebrowser-config',
+                  'configMap': {
+                    'name': schema.spec.name + '-filebrowser-config',
+                    'defaultMode': 420
+                  }
+                }] : [])}"
+              hostNetwork: ${schema.spec.filebrowser.enabled}
+              dnsPolicy: ClusterFirstWithHostNet
+              containers: [
+                {
+                  'name': '${schema.spec.name}',
+                  'image': '${schema.spec.container.image}:${schema.spec.container.tag}',
+                  'volumeMounts': "${schema.spec.volumes.map(x,
+                      {
+                        'name': x.name,
+                        'mountPath': x.containerMountPath,
+                        'readOnly': x.readOnly
+                      }
+                      )}",
+                  'env': "${schema.spec.env.map(k,
+                      {
+                        'name': k,
+                        'value': string(schema.spec.env[k])
+                      }
+                      ) + schema.spec.envFromSecrets.map(k,
+                      {
+                        'name': k,
+                        'valueFrom':
+                      {
+                        'secretKeyRef':
+                        {
+                          'name': schema.spec.envFromSecrets[k].secretName,
+                          'key': schema.spec.envFromSecrets[k].valuesKey
+                        }
+                      }
+                      }
+                      )}",
+                  'ports': [
+                      {
+                        'containerPort': "${schema.spec.container.port}"
+                      }
+                    ]
+                  }, "${{true: {
+                        'name': 'filebrowser',
+                        'image': 'docker.io/copyparty/ac:1.19.19',
+                        'ports': [{'containerPort': schema.spec.filebrowser.port}],
+                        'volumeMounts': schema.spec.volumes.map(x,
+                          {
+                            'name': x.name,
+                            'mountPath': '/w' + x.containerMountPath,
+                            'readOnly': false
+                          }
+                        ) + [{
+                            'mountPath': '/cfg',
+                            'name': schema.spec.name + '-filebrowser-config'
+                          }]
+                      }, false: null}[schema.spec.filebrowser.enabled]}"
+                ]
+                              
+    - id: service
+      template:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: ${schema.spec.name}-svc
+          namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}
+        spec:
+          selector: ${deployment.spec.selector.matchLabels} # Use the deployment selector
+          ports:
+            - name: http
+              protocol: TCP
+              port: 80
+              targetPort: ${schema.spec.container.port}
+
+    - id: ingress
+      includeWhen:
+        - ${schema.spec.ingress.enabled} # Only include if the user wants to create an Ingress
+      template:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: ${schema.spec.name}-ingress
+          namespace: ${schema.spec.namespace}
+          annotations:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        spec:
+          tls:
+          - hosts:
+            - host: ${schema.spec.url}
+            secretName: ${service.metadata.name}-http-tls
+          rules:
+            - host: ${schema.spec.url}
+              http:
+                paths:
+                  - path: "/"
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: ${service.metadata.name} # Use the service name
+                        port:
+                          number: 80
+    - id: copypartyconfig
+      includeWhen:
+        - ${schema.spec.filebrowser.enabled}
+      template:
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: ${schema.spec.name}-filebrowser-config
+          namespace: ${schema.spec.namespace}
+        data:
+          copyparty.conf: |
+            [global]
+              name: ${schema.spec.name}
+              p: ${string(schema.spec.filebrowser.port)}
+              z
+              e2dsa  # enable file indexing and filesystem scanning
+              e2ts   # enable multimedia indexing
+              ansi   # enable colors in log messages
+            [/]            # create a volume at "/" (the webroot), which will
+              /w           # share /w (the docker data volume)
+                accs:
+                  rwmd: *      # everyone gets read-write-move-delete access
