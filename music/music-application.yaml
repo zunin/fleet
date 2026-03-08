@@ -48,3 +48,6 @@ spec:
   filebrowser:
     enabled: true
     port: 3923
+  resources:
+    memory: 300Mi
+    cpu: 25m

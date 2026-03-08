@@ -24,6 +24,9 @@ spec:
       FileBrowserConfig:
         enabled: boolean | default=true
         port: integer
+      ResourceLimit:
+        memory: string | default="300Mi"
+        cpu: string | default="25m"
 
     spec:
       name: string
@@ -39,6 +42,7 @@ spec:
       filebrowser: FileBrowserConfig
       runAsUser: integer | default=5000
       runAsNonRoot: boolean | default=true
+      resources: ResourceLimit
     status:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
@@ -137,11 +141,11 @@ spec:
                   },
                   'resources': {
                     'limits': {
-                      'memory': '300Mi'
+                      'memory': schema.spec.resources.memory
                     },
                     'requests': {
-                      'memory': '300Mi',
-                      'cpu': '25m'
+                      'memory': schema.spec.resources.memory,
+                      'cpu': schema.spec.resources.cpu
                     }
                   }
                   }, "${{true: {
