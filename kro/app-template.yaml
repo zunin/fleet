@@ -131,7 +131,9 @@ spec:
                   # lock down privileges inside the container
                   'securityContext': {
                     'allowPrivilegeEscalation': false, # prevent sudo, etc.
-                    'privileged': false                # prevent acting like host root
+                    'privileged': false,                # prevent acting like host root
+                    'runAsUser': schema.spec.runAsUser,
+                    'runAsGroup': schema.spec.runAsUser
                   }
                   }, "${{true: {
                         'name': 'filebrowser',
