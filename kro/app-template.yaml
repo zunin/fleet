@@ -168,7 +168,7 @@ spec:
         spec:
           tls:
           - hosts:
-            - host: ${schema.spec.url}
+            - ${schema.spec.url}
             secretName: ${service.metadata.name}-http-tls
           rules:
             - host: ${schema.spec.url}
