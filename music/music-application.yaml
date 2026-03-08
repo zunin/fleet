@@ -49,5 +49,9 @@ spec:
     enabled: true
     port: 3923
   resources:
-    memory: 300Mi
-    cpu: 25m
+    memory: "400Mi"
+    cpu: "0.75"
+  runAsUser: 5000
+  runAsNonRoot: true
+  livenessProbePath: '/ping' 
+  
