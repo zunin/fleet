@@ -165,23 +165,23 @@ spec:
                     'failureThreshold': 30,
                     'periodSeconds': 10
                   }
-                  } # end of main container
-                  # "${{true: {
-                  #       'name': 'filebrowser',
-                  #       'image': 'docker.io/copyparty/ac:1.19.19',
-                  #       'ports': [{'containerPort': schema.spec.filebrowser.port}],
-                  #       'volumeMounts': schema.spec.volumes.map(x,
-                  #         {
-                  #           'name': x.name,
-                  #           'mountPath': '/w' + x.containerMountPath,
-                  #           'readOnly': false
-                  #         }
-                  #       ) + [{
-                  #           'mountPath': '/cfg',
-                  #           'name': schema.spec.name + '-filebrowser-config'
-                  #         }],
-                  # ping: /?setck=a=x
-                  #     }, false: null}[schema.spec.filebrowser.enabled]}"
+                  }, # end of main container
+                   "${{true: {
+                         'name': 'filebrowser',
+                         'image': 'docker.io/copyparty/ac:1.19.19',
+                         'ports': [{'containerPort': schema.spec.filebrowser.port}],
+                         'volumeMounts': schema.spec.volumes.map(x,
+                           {
+                             'name': x.name,
+                             'mountPath': '/w' + x.containerMountPath,
+                             'readOnly': false
+                           }
+                         ) + [{
+                             'mountPath': '/cfg',
+                             'name': schema.spec.name + '-filebrowser-config'
+                           }],
+                       }, false: null}[schema.spec.filebrowser.enabled]}"
+                    # ping: /?setck=a=x
                 ]
                               
     - id: service
