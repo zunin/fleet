@@ -44,6 +44,7 @@ spec:
       runAsNonRoot: boolean | default=true
       resources: ResourceLimit
       livenessProbePath: string
+      node: string | default="unset"
     status:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
@@ -83,6 +84,21 @@ spec:
                 app.kubernetes.io/instance: ${schema.spec.name}-pod
                 app.kubernetes.io/component: app
             spec:
+              affinity: "${schema.spec.node == 'unset' ? {} : {
+                  'nodeAffinity': {
+                    'preferredDuringSchedulingIgnoredDuringExecution': [{
+                      'weight': 1,
+                      'preference': {
+                        'matchExpressions': [{
+                          'key': 'kubernetes.io/hostname',
+                          'operator': 'In',
+                          'values': [schema.spec.node]
+                        }]
+                      }
+                    }]
+                  }
+                }}"
+              terminationGracePeriodSeconds: 10      
               securityContext:
                 #seccompProfile:
                 #  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
@@ -107,8 +123,8 @@ spec:
                   }
                 }] : [])
                 }"
-              # hostNetwork: ${schema.spec.filebrowser.enabled}
-              # dnsPolicy: ClusterFirstWithHostNet
+              hostNetwork: ${schema.spec.filebrowser.enabled}
+              dnsPolicy: ClusterFirstWithHostNet
               containers: [
                 {
                   'name': '${schema.spec.name}',
@@ -174,25 +190,59 @@ spec:
                     'failureThreshold': 30,
                     'periodSeconds': 10
                   }
-                  }, # end of main container
-                   "${{true: {
-                         'name': 'filebrowser',
-                         'image': 'docker.io/copyparty/ac:1.19.19',
-                         'ports': [{'containerPort': schema.spec.filebrowser.port}],
-                         'volumeMounts': schema.spec.volumes.map(x,
-                           {
-                             'name': x.name,
-                             'mountPath': '/w' + x.containerMountPath,
-                             'readOnly': false
-                           }
-                         ) + [{
-                             'mountPath': '/cfg',
-                             'name': schema.spec.name + '-filebrowser-config'
-                           }],
-                       }, false: null}[schema.spec.filebrowser.enabled]}"
-                    # ping: /?setck=a=x
+                  }, # end of main container'
+                  #  "${{true: {
+                  #        'name': 'filebrowser',
+                  #        'image': 'docker.io/copyparty/ac:1.20.12',
+                  #        'ports': [{'containerPort': schema.spec.filebrowser.port}],
+                  #        'resources': {
+                  #           'limits': {
+                  #             'memory': '100Mi'
+                  #           },
+                  #           'requests': {
+                  #             'memory': '100Mi',
+                  #             'cpu': '0.5'
+                  #           }
+                  #         },
+                  #         'readinessProbe': {
+                  #           'httpGet': { 
+                  #             'path': '/?setck=a=x',
+                  #             'port': schema.spec.filebrowser.port
+                  #           },
+                  #        },
+                  #        'volumeMounts': schema.spec.volumes.map(x,
+                  #          {
+                  #            'name': x.name,
+                  #            'mountPath': '/w' + x.containerMountPath,
+                  #            'readOnly': false
+                  #          }
+                  #        ) + [{
+                  #            'mountPath': '/cfg',
+                  #            'name': schema.spec.name + '-filebrowser-config'
+                  #          }],
+                  #      }, false: null}[schema.spec.filebrowser.enabled]}"
                 ]
                               
+    - id: filebrowserservice
+      #includeWhen:
+      #  - ${schema.spec.filebrowser.enabled}
+      template:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: ${schema.spec.name}-filebrowser-svc
+          namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-filebrowser-service
+            app.kubernetes.io/component: service
+        spec:
+          selector: ${deployment.spec.selector.matchLabels} # Use the deployment selector
+          ports:
+            - name: http
+              protocol: TCP
+              port: 80
+              targetPort: ${schema.spec.filebrowser.port}
     - id: service
       template:
         apiVersion: v1
@@ -257,8 +307,6 @@ spec:
               name: ${schema.spec.name}
               p: ${string(schema.spec.filebrowser.port)}
               z
-              e2dsa  # enable file indexing and filesystem scanning
-              e2ts   # enable multimedia indexing
               ansi   # enable colors in log messages
             [/]            # create a volume at "/" (the webroot), which will
               /w           # share /w (the docker data volume)
