@@ -58,6 +58,10 @@ spec:
         metadata:
           name: ${schema.spec.name} # Use the name provided by user
           namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-deployment
+            app.kubernetes.io/component: deployment
         spec:
           replicas: ${schema.spec.replicas} # Use the replicas provided by user
           strategy:
@@ -69,13 +73,15 @@ spec:
           selector:
             matchLabels:
               app.kubernetes.io/name: ${schema.spec.name}
-              app.kubernetes.io/instance: ${schema.spec.name}
+              app.kubernetes.io/instance: ${schema.spec.name}-pod
+              app.kubernetes.io/component: app
           template:
             metadata:
               namespace: ${schema.spec.namespace}
               labels:
                 app.kubernetes.io/name: ${schema.spec.name}
-                app.kubernetes.io/instance: ${schema.spec.name}
+                app.kubernetes.io/instance: ${schema.spec.name}-pod
+                app.kubernetes.io/component: app
             spec:
               securityContext:
                 #seccompProfile:
@@ -195,8 +201,9 @@ spec:
           name: ${schema.spec.name}-svc
           namespace: ${schema.spec.namespace}
           labels:
-            app.kubernetes.io/name: ${schema.spec.name}-svc
-            app.kubernetes.io/instance: ${schema.spec.name}-svc
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-service
+            app.kubernetes.io/component: service
         spec:
           selector: ${deployment.spec.selector.matchLabels} # Use the deployment selector
           ports:
@@ -215,8 +222,9 @@ spec:
           name: ${schema.spec.name}-ingress
           namespace: ${schema.spec.namespace}
           annotations:
-            app.kubernetes.io/name: ${schema.spec.name}-ingress
+            app.kubernetes.io/name: ${schema.spec.name}
             app.kubernetes.io/instance: ${schema.spec.name}-ingress
+            app.kubernetes.io/component: ingress
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         spec:
           tls:
