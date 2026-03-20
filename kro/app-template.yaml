@@ -195,8 +195,8 @@ spec:
           name: ${schema.spec.name}-svc
           namespace: ${schema.spec.namespace}
           labels:
-            app.kubernetes.io/name: ${schema.spec.name}
-            app.kubernetes.io/instance: ${schema.spec.name}
+            app.kubernetes.io/name: ${schema.spec.name}-svc
+            app.kubernetes.io/instance: ${schema.spec.name}-svc
         spec:
           selector: ${deployment.spec.selector.matchLabels} # Use the deployment selector
           ports:
@@ -215,8 +215,8 @@ spec:
           name: ${schema.spec.name}-ingress
           namespace: ${schema.spec.namespace}
           annotations:
-            app.kubernetes.io/name: ${schema.spec.name}
-            app.kubernetes.io/instance: ${schema.spec.name}
+            app.kubernetes.io/name: ${schema.spec.name}-ingress
+            app.kubernetes.io/instance: ${schema.spec.name}-ingress
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         spec:
           tls:
