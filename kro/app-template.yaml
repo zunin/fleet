@@ -93,7 +93,7 @@ spec:
     - id: deployment
       template:
         apiVersion: apps/v1
-        kind: Deployment
+        kind: StatefulSet
         metadata:
           name: ${schema.spec.name} # Use the name provided by user
           namespace: ${schema.spec.namespace}
@@ -103,8 +103,8 @@ spec:
             app.kubernetes.io/component: deployment
         spec:
           replicas: ${schema.spec.replicas} # Use the replicas provided by user
-          strategy:
-            type: Recreate
+          #strategy:
+          #  type: Recreate
             #type: RollingUpdate
             #rollingUpdate:
             #  maxSurge: 0
