@@ -227,14 +227,14 @@ spec:
                       'port': "${schema.spec.container.port}"
                     },
                   },
-                  'startupProbe': {        
-                    'httpGet': {       
-                      'path': "${schema.spec.livenessProbePath}",
-                      'port': "${schema.spec.container.port}"
-                    },
-                    'failureThreshold': 30,
-                    'periodSeconds': 10
-                  }
+                  #'startupProbe': {        
+                  #  'httpGet': {       
+                  #    'path': "${schema.spec.livenessProbePath}",
+                  #    'port': "${schema.spec.container.port}"
+                  #  },
+                  #  'failureThreshold': 30,
+                  #  'periodSeconds': 10
+                  #}
                   }, # end of main container'
                   #  "${{true: {
                   #        'name': 'filebrowser',
