@@ -221,12 +221,12 @@ spec:
                       'cpu': "${schema.spec.resources.cpu}"
                     }
                   },
-                  'livenessProbe': {        # only needed if your app tends to go unresponsive or you don't have a readinessProbe, but this is up for debate
-                    'httpGet': {            # Lots of timeout values with defaults, be sure they are ideal for your workload
-                      'path': "${schema.spec.livenessProbePath}",
-                      'port': "${schema.spec.container.port}"
-                    },
-                  },
+                  #'livenessProbe': {        # only needed if your app tends to go unresponsive or you don't have a readinessProbe, but this is up for debate
+                  #  'httpGet': {            # Lots of timeout values with defaults, be sure they are ideal for your workload
+                  #    'path': "${schema.spec.livenessProbePath}",
+                  #    'port': "${schema.spec.container.port}"
+                  #  },
+                  #},
                   #'startupProbe': {        
                   #  'httpGet': {       
                   #    'path': "${schema.spec.livenessProbePath}",
