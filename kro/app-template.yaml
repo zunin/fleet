@@ -135,7 +135,7 @@ spec:
                     }
                   }
                 }}"
-              terminationGracePeriodSeconds: 10      
+              terminationGracePeriodSeconds: 60      
               securityContext:
                 #seccompProfile:
                 #  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
