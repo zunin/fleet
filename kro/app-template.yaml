@@ -37,6 +37,9 @@ spec:
       ingress:
         enabled: boolean | default=true
       volumes: "[]Volume | default=[]"
+      externalVolumes:
+        config: Volume
+        data: Volume
       env: "map[string]string | default={}"
       envFromSecrets: "map[string]SecretBinding | default={}"
       filebrowser: FileBrowserConfig
@@ -49,9 +52,44 @@ spec:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
       availableReplicas: ${deployment.status.availableReplicas}
+      dataVolumeClaim: ${dataVolumeClaim.status.phase}
+      dataVolume: ${dataVolume.status.phase}
+      configVolumeClaim: ${configVolumeClaim.status.phase}
 
   # Define the resources this API will manage.
   resources:
+    - id: dataVolumeClaim
+      includeWhen:
+        - ${schema.spec.externalVolumes.?data.?persistentVolumeClaim.orValue("") != ""}
+      externalRef:
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ${schema.spec.externalVolumes.?data.?persistentVolumeClaim}
+          namespace: ${schema.spec.namespace}
+      readyWhen:
+        - ${dataVolumeClaim.status.phase == "Bound"}
+    - id: dataVolume
+      includeWhen: 
+        - ${schema.spec.externalVolumes.?data.?persistentVolumeClaim.orValue("") != ""}
+      externalRef:
+        apiVersion: v1
+        kind: PersistentVolume
+        metadata:
+          name: ${dataVolumeClaim.spec.volumeName}
+      readyWhen:
+        - ${dataVolume.status.phase == "Bound"}
+    - id: configVolumeClaim
+      includeWhen:
+        - ${schema.spec.externalVolumes.?config.?persistentVolumeClaim.orValue("") != ""}
+      externalRef:
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ${schema.spec.externalVolumes.?config.?persistentVolumeClaim}
+          namespace: ${schema.spec.namespace}
+      readyWhen:
+        - ${configVolumeClaim.status.phase == "Bound"}
     - id: deployment
       template:
         apiVersion: apps/v1
@@ -66,11 +104,11 @@ spec:
         spec:
           replicas: ${schema.spec.replicas} # Use the replicas provided by user
           strategy:
-            #type: Recreate
-            type: RollingUpdate
-            rollingUpdate:
-              maxSurge: 0
-              maxUnavailable: 1
+            type: Recreate
+            #type: RollingUpdate
+            #rollingUpdate:
+            #  maxSurge: 0
+            #  maxUnavailable: 1
           selector:
             matchLabels:
               app.kubernetes.io/name: ${schema.spec.name}
@@ -86,16 +124,15 @@ spec:
             spec:
               affinity: "${schema.spec.node == 'unset' ? {} : {
                   'nodeAffinity': {
-                    'preferredDuringSchedulingIgnoredDuringExecution': [{
-                      'weight': 1,
-                      'preference': {
-                        'matchExpressions': [{
+                    'requiredDuringSchedulingIgnoredDuringExecution': {
+                      'nodeSelectorTerms': [
+                        {'matchExpressions': [{
                           'key': 'kubernetes.io/hostname',
                           'operator': 'In',
                           'values': [schema.spec.node]
-                        }]
-                      }
-                    }]
+                        }]}
+                      ]
+                    }
                   }
                 }}"
               terminationGracePeriodSeconds: 10      
@@ -107,15 +144,23 @@ spec:
                 #runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
                 fsGroup: ${schema.spec.runAsUser}
                 fsGroupChangePolicy: OnRootMismatch
-              volumes: "${schema.spec.volumes.map(x,
-                {
-                'name': x.name,
-                'persistentVolumeClaim':
-                  {
-                    'claimName': x.persistentVolumeClaim
-                  }
-                }
-                ) + (schema.spec.filebrowser.enabled ? [{
+              volumes: "${
+                [] 
+                + (configVolumeClaim != null ? [{
+                  'name': schema.spec.externalVolumes.config.name,
+                  'persistentVolumeClaim':
+                    {
+                      'claimName': configVolumeClaim.metadata.name
+                    }
+                }] : [])
+                + (dataVolumeClaim != null ? [{
+                  'name': schema.spec.externalVolumes.data.name,
+                  'persistentVolumeClaim':
+                    {
+                      'claimName': dataVolumeClaim.metadata.name
+                    }
+                }] : [])
+                + (schema.spec.filebrowser.enabled ? [{
                   'name': schema.spec.name + '-filebrowser-config',
                   'configMap': {
                     'name': schema.spec.name + '-filebrowser-config',
@@ -123,13 +168,13 @@ spec:
                   }
                 }] : [])
                 }"
-              hostNetwork: ${schema.spec.filebrowser.enabled}
-              dnsPolicy: ClusterFirstWithHostNet
+              #hostNetwork: ${schema.spec.filebrowser.enabled}
+              #dnsPolicy: ClusterFirstWithHostNet
               containers: [
                 {
                   'name': '${schema.spec.name}',
                   'image': '${schema.spec.container.image}:${schema.spec.container.tag}',
-                  'volumeMounts': "${schema.spec.volumes.map(x,
+                  'volumeMounts': "${[schema.spec.externalVolumes.config, schema.spec.externalVolumes.data].filter(y, y != null).map(x,
                       {
                         'name': x.name,
                         'mountPath': x.containerMountPath,
@@ -221,8 +266,7 @@ spec:
                   #            'name': schema.spec.name + '-filebrowser-config'
                   #          }],
                   #      }, false: null}[schema.spec.filebrowser.enabled]}"
-                ]
-                              
+                ]                       
     - id: filebrowserservice
       #includeWhen:
       #  - ${schema.spec.filebrowser.enabled}

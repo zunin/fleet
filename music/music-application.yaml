@@ -22,6 +22,15 @@ spec:
     - name: music
       persistentVolumeClaim: music-volume
       containerMountPath: /music
+  externalVolumes:
+    config:
+      name: data
+      persistentVolumeClaim: navidrome-data-volume
+      containerMountPath: /data
+    data:
+      name: music
+      persistentVolumeClaim: music-volume
+      containerMountPath: /music
   env:
     TZ: "Europe/Copenhagen"
     PUID: "5000"
