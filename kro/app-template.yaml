@@ -51,9 +51,6 @@ spec:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
       availableReplicas: ${deployment.status.availableReplicas}
-      #dataVolumeClaim: ${dataVolumeClaim.status.phase}
-      #dataVolume: ${dataVolume.status.phase}
-      #configVolumeClaim: ${configVolumeClaim.status.phase}
 
   # Define the resources this API will manage.
   resources:
@@ -92,7 +89,7 @@ spec:
     - id: deployment
       template:
         apiVersion: apps/v1
-        kind: StatefulSet
+        kind: Deployment
         metadata:
           name: ${schema.spec.name} # Use the name provided by user
           namespace: ${schema.spec.namespace}
@@ -102,9 +99,9 @@ spec:
             app.kubernetes.io/component: deployment
         spec:
           replicas: ${schema.spec.replicas} # Use the replicas provided by user
-          #strategy:
+          strategy:
           #  type: Recreate
-            #type: RollingUpdate
+            type: RollingUpdate
             #rollingUpdate:
             #  maxSurge: 0
             #  maxUnavailable: 1
@@ -134,15 +131,15 @@ spec:
                     }
                   }
                 }}"
-              # terminationGracePeriodSeconds: 60      
-              # securityContext:
-              #   #seccompProfile:
-              #   #  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
-              #   runAsUser: ${schema.spec.runAsUser}       # hardcode user to non-root if not set in Dockerfile
-              #   runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
-              #   #runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
-              #   fsGroup: ${schema.spec.runAsUser}
-              #   fsGroupChangePolicy: OnRootMismatch
+              terminationGracePeriodSeconds: 60      
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
+                runAsUser: ${schema.spec.runAsUser}       # hardcode user to non-root if not set in Dockerfile
+                runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
+                runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
+                fsGroup: ${schema.spec.runAsUser}
+                fsGroupChangePolicy: OnRootMismatch
               volumes: "${
                 [] 
                 + (configVolumeClaim != null ? [{
@@ -167,8 +164,8 @@ spec:
                   }
                 }] : [])
                 }"
-              #hostNetwork: ${schema.spec.filebrowser.enabled}
-              #dnsPolicy: ClusterFirstWithHostNet
+              hostNetwork: ${schema.spec.filebrowser.enabled}
+              dnsPolicy: "${schema.spec.filebrowser.enabled ? 'ClusterFirstWithHostNet' : 'Default'}"
               containers: [
                 {
                   'name': '${schema.spec.name}',
@@ -220,20 +217,20 @@ spec:
                       'cpu': "${schema.spec.resources.cpu}"
                     }
                   },
-                  #'livenessProbe': {        # only needed if your app tends to go unresponsive or you don't have a readinessProbe, but this is up for debate
-                  #  'httpGet': {            # Lots of timeout values with defaults, be sure they are ideal for your workload
-                  #    'path': "${schema.spec.livenessProbePath}",
-                  #    'port': "${schema.spec.container.port}"
-                  #  },
-                  #},
-                  #'startupProbe': {        
-                  #  'httpGet': {       
-                  #    'path': "${schema.spec.livenessProbePath}",
-                  #    'port': "${schema.spec.container.port}"
-                  #  },
-                  #  'failureThreshold': 30,
-                  #  'periodSeconds': 10
-                  #}
+                  'livenessProbe': {        # only needed if your app tends to go unresponsive or you don't have a readinessProbe, but this is up for debate
+                   'httpGet': {            # Lots of timeout values with defaults, be sure they are ideal for your workload
+                     'path': "${schema.spec.livenessProbePath}",
+                     'port': "${schema.spec.container.port}"
+                   },
+                  },
+                  'startupProbe': {        
+                   'httpGet': {       
+                     'path': "${schema.spec.livenessProbePath}",
+                     'port': "${schema.spec.container.port}"
+                   },
+                   'failureThreshold': 30,
+                   'periodSeconds': 10
+                  }
                   }, # end of main container'
                   #  "${{true: {
                   #        'name': 'filebrowser',
@@ -267,8 +264,8 @@ spec:
                   #      }, false: null}[schema.spec.filebrowser.enabled]}"
                 ]                       
     - id: filebrowserservice
-      #includeWhen:
-      #  - ${schema.spec.filebrowser.enabled}
+      includeWhen:
+        - ${schema.spec.filebrowser.enabled}
       template:
         apiVersion: v1
         kind: Service
