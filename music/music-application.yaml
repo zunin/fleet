@@ -15,13 +15,6 @@ spec:
   replicas: 1
   ingress:
     enabled: true
-  volumes:
-    - name: data
-      persistentVolumeClaim: navidrome-data-volume
-      containerMountPath: /data
-    - name: music
-      persistentVolumeClaim: music-volume
-      containerMountPath: /music
   externalVolumes:
     config:
       name: data

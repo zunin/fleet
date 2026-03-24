@@ -36,7 +36,6 @@ spec:
       replicas: integer | default=1
       ingress:
         enabled: boolean | default=true
-      volumes: "[]Volume | default=[]"
       externalVolumes:
         config: Volume
         data: Volume
@@ -52,9 +51,9 @@ spec:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
       availableReplicas: ${deployment.status.availableReplicas}
-      dataVolumeClaim: ${dataVolumeClaim.status.phase}
-      dataVolume: ${dataVolume.status.phase}
-      configVolumeClaim: ${configVolumeClaim.status.phase}
+      #dataVolumeClaim: ${dataVolumeClaim.status.phase}
+      #dataVolume: ${dataVolume.status.phase}
+      #configVolumeClaim: ${configVolumeClaim.status.phase}
 
   # Define the resources this API will manage.
   resources:
@@ -135,15 +134,15 @@ spec:
                     }
                   }
                 }}"
-              terminationGracePeriodSeconds: 60      
-              securityContext:
-                #seccompProfile:
-                #  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
-                runAsUser: ${schema.spec.runAsUser}       # hardcode user to non-root if not set in Dockerfile
-                runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
-                #runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
-                fsGroup: ${schema.spec.runAsUser}
-                fsGroupChangePolicy: OnRootMismatch
+              # terminationGracePeriodSeconds: 60      
+              # securityContext:
+              #   #seccompProfile:
+              #   #  type: RuntimeDefault                    # enable seccomp and the runtimes default profile
+              #   runAsUser: ${schema.spec.runAsUser}       # hardcode user to non-root if not set in Dockerfile
+              #   runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
+              #   #runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
+              #   fsGroup: ${schema.spec.runAsUser}
+              #   fsGroupChangePolicy: OnRootMismatch
               volumes: "${
                 [] 
                 + (configVolumeClaim != null ? [{
@@ -181,24 +180,24 @@ spec:
                         'readOnly': x.readOnly
                       }
                       )}",
-                  'env': "${schema.spec.env.map(k,
-                      {
-                        'name': k,
-                        'value': string(schema.spec.env[k])
-                      }
-                      ) + schema.spec.envFromSecrets.map(k,
-                      {
-                        'name': k,
-                        'valueFrom':
-                      {
-                        'secretKeyRef':
-                        {
-                          'name': schema.spec.envFromSecrets[k].secretName,
-                          'key': schema.spec.envFromSecrets[k].valuesKey
-                        }
-                      }
-                      }
-                      )}",
+                  # 'env': "${schema.spec.env.map(k,
+                  #     {
+                  #       'name': k,
+                  #       'value': string(schema.spec.env[k])
+                  #     }
+                  #     ) + schema.spec.envFromSecrets.map(k,
+                  #     {
+                  #       'name': k,
+                  #       'valueFrom':
+                  #     {
+                  #       'secretKeyRef':
+                  #       {
+                  #         'name': schema.spec.envFromSecrets[k].secretName,
+                  #         'key': schema.spec.envFromSecrets[k].valuesKey
+                  #       }
+                  #     }
+                  #     }
+                  #     )}",
                   'ports': [
                       {
                         'containerPort': "${schema.spec.container.port}"
