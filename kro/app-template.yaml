@@ -157,10 +157,10 @@ spec:
                       'claimName': dataVolumeClaim.metadata.name
                     }
                 }] : [])
-                + (schema.spec.filebrowser.enabled ? [{
-                  'name': schema.spec.name + '-filebrowser-config',
+                + (copypartyconfig != null ? [{
+                  'name': copypartyconfig.metadata.name,
                   'configMap': {
-                    'name': schema.spec.name + '-filebrowser-config',
+                    'name': copypartyconfig.metadata.name,
                     'defaultMode': 420
                   }
                 }] : [])
@@ -231,36 +231,42 @@ spec:
                    'periodSeconds': 10
                   }
                   }, # end of main container'
-                  #  "${{true: {
-                  #        'name': 'filebrowser',
-                  #        'image': 'docker.io/copyparty/ac:1.20.12',
-                  #        'ports': [{'containerPort': schema.spec.filebrowser.port}],
-                  #        'resources': {
-                  #           'limits': {
-                  #             'memory': '100Mi'
-                  #           },
-                  #           'requests': {
-                  #             'memory': '100Mi',
-                  #             'cpu': '0.5'
-                  #           }
-                  #         },
-                  #         'readinessProbe': {
-                  #           'httpGet': { 
-                  #             'path': '/?setck=a=x',
-                  #             'port': schema.spec.filebrowser.port
-                  #           },
-                  #        },
-                  #        'volumeMounts': schema.spec.volumes.map(x,
-                  #          {
-                  #            'name': x.name,
-                  #            'mountPath': '/w' + x.containerMountPath,
-                  #            'readOnly': false
-                  #          }
-                  #        ) + [{
-                  #            'mountPath': '/cfg',
-                  #            'name': schema.spec.name + '-filebrowser-config'
-                  #          }],
-                  #      }, false: null}[schema.spec.filebrowser.enabled]}"
+                  {
+                    'name': 'filebrowser',
+                    'image': 'docker.io/copyparty/ac:1.20.12',
+                    'ports': [{'containerPort': "${schema.spec.filebrowser.port}"}],
+                    'resources': {
+                      'limits': {
+                        'memory': '100Mi'
+                      },
+                      'requests': {
+                        'memory': '100Mi',
+                        'cpu': '0.5'
+                      }
+                    },
+                    'readinessProbe': {
+                      'httpGet': { 
+                        'path': '/?setck=a=x',
+                        'port': "${schema.spec.filebrowser.port}"
+                      },
+                    },
+                    'volumeMounts': "${[] + [
+                      {
+                        'mountPath': '/cfg', 
+                        'name': copypartyconfig.metadata.name,
+                        'readOnly': true
+                      }
+                    ] + [
+                      schema.spec.externalVolumes.config, 
+                      schema.spec.externalVolumes.data
+                    ].filter(y, y != null).map(x,
+                      {
+                        'name': x.name,
+                        'mountPath': '/w' + x.containerMountPath,
+                        'readOnly': x.readOnly
+                      }
+                    )}"
+                  }
                 ]                       
     - id: filebrowserservice
       includeWhen:
