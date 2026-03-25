@@ -118,6 +118,7 @@ spec:
                 app.kubernetes.io/instance: ${schema.spec.name}-pod
                 app.kubernetes.io/component: app
             spec:
+              automountServiceAccountToken: false
               affinity: "${schema.spec.node == 'unset' ? {} : {
                   'nodeAffinity': {
                     'requiredDuringSchedulingIgnoredDuringExecution': {
@@ -203,8 +204,9 @@ spec:
                   # per-container security context
                   # lock down privileges inside the container
                   'securityContext': {
-                    # 'allowPrivilegeEscalation': false, # prevent sudo, etc.
-                    # 'privileged': false                # prevent acting like host root
+                    'readOnlyRootFilesystem': true,
+                    'allowPrivilegeEscalation': false, # prevent sudo, etc.
+                    'privileged': false,                # prevent acting like host root
                     'runAsUser': "${schema.spec.runAsUser}",
                     'runAsGroup': "${schema.spec.runAsUser}"
                   },
