@@ -177,25 +177,22 @@ spec:
                         'mountPath': x.containerMountPath,
                         'readOnly': x.readOnly
                       }
-                      )}",
-                  # 'env': "${schema.spec.env.map(k,
-                  #     {
-                  #       'name': k,
-                  #       'value': string(schema.spec.env[k])
-                  #     }
-                  #     ) + schema.spec.envFromSecrets.map(k,
-                  #     {
-                  #       'name': k,
-                  #       'valueFrom':
-                  #     {
-                  #       'secretKeyRef':
-                  #       {
-                  #         'name': schema.spec.envFromSecrets[k].secretName,
-                  #         'key': schema.spec.envFromSecrets[k].valuesKey
-                  #       }
-                  #     }
-                  #     }
-                  #     )}",
+                    )}",
+                  'env': "${[] + schema.spec.env.map(k, k).sort().map(envKey, 
+                        {'name': envKey, 'value': schema.spec.env[envKey]}
+                      ) + schema.spec.envFromSecrets.map(s, s).sort().map(secretEnvKey, 
+                        {
+                          'name': secretEnvKey, 
+                          'valueFrom': {
+                            'secretKeyRef': 
+                            {
+                              'name': schema.spec.envFromSecrets[secretEnvKey].secretName, 
+                              'key': schema.spec.envFromSecrets[secretEnvKey].valuesKey
+                            }
+                          }
+                        }
+                      )
+                    }",
                   'ports': [
                       {
                         'containerPort': "${schema.spec.container.port}"
