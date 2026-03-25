@@ -335,8 +335,8 @@ spec:
                         port:
                           number: 80
     - id: copypartyconfig
-      #includeWhen:
-      #  - ${schema.spec.filebrowser.enabled}
+      includeWhen:
+        - ${schema.spec.filebrowser.enabled}
       template:
         apiVersion: v1
         kind: ConfigMap
