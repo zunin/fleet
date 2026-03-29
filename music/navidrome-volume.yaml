@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: navidrome-data-volume
   namespace: music
+  labels:
+    name: navidrome-data-volume
 spec:
   accessModes:
     - ReadWriteOnce

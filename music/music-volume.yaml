@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: music-volume
   namespace: music
+  labels:
+    name: music-volume
 spec:
   accessModes:
     - ReadWriteOnce
