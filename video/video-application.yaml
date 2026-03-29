@@ -22,7 +22,7 @@ spec:
       containerMountPath: /config
     data:
       name: video-volume
-      persistentVolumeClaim: music-volume
+      persistentVolumeClaim: video-volume
       containerMountPath: /media
     cache:
       name: jellyfin-server-cache
