@@ -39,6 +39,7 @@ spec:
       externalVolumes:
         config: Volume
         data: Volume
+        cache: Volume
       env: "map[string]string | default={}"
       envFromSecrets: "map[string]SecretBinding | default={}"
       filebrowser: FileBrowserConfig
@@ -86,6 +87,17 @@ spec:
           namespace: ${schema.spec.namespace}
       readyWhen:
         - ${configVolumeClaim.status.phase == "Bound"}
+    - id: cacheVolumeClaim
+      includeWhen:
+        - ${schema.spec.externalVolumes.?cache.?persistentVolumeClaim.orValue("") != ""}
+      externalRef:
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ${schema.spec.externalVolumes.?cache.?persistentVolumeClaim}
+          namespace: ${schema.spec.namespace}
+      readyWhen:
+        - ${cacheVolumeClaim.status.phase == "Bound"}
     - id: deployment
       template:
         apiVersion: apps/v1
@@ -143,18 +155,25 @@ spec:
                 fsGroupChangePolicy: OnRootMismatch
               volumes: "${
                 [] 
-                + (configVolumeClaim != null ? [{
-                  'name': schema.spec.externalVolumes.config.name,
+                + (schema.spec.externalVolumes.config.?name.orValue('') != '' ? [{
+                  'name': schema.spec.externalVolumes.config.?name.orValue(''),
                   'persistentVolumeClaim':
                     {
-                      'claimName': configVolumeClaim.metadata.name
+                      'claimName': schema.spec.externalVolumes.config.?persistentVolumeClaim.orValue('')
                     }
                 }] : [])
-                + (dataVolumeClaim != null ? [{
-                  'name': schema.spec.externalVolumes.data.name,
+                + (schema.spec.externalVolumes.data.?name.orValue('') != '' ? [{
+                  'name': schema.spec.externalVolumes.data.?name.orValue(''),
                   'persistentVolumeClaim':
                     {
-                      'claimName': dataVolumeClaim.metadata.name
+                      'claimName': schema.spec.externalVolumes.data.?persistentVolumeClaim.orValue('')
+                    }
+                }] : [])
+                + (schema.spec.externalVolumes.cache.?name.orValue('') != '' ? [{
+                  'name': schema.spec.externalVolumes.cache.?name.orValue(''),
+                  'persistentVolumeClaim':
+                    {
+                      'claimName': schema.spec.externalVolumes.cache.?persistentVolumeClaim.orValue('')
                     }
                 }] : [])
                 + (copypartyconfig != null ? [{
@@ -171,7 +190,11 @@ spec:
                 {
                   'name': '${schema.spec.name}',
                   'image': '${schema.spec.container.image}:${schema.spec.container.tag}',
-                  'volumeMounts': "${[schema.spec.externalVolumes.config, schema.spec.externalVolumes.data].filter(y, y != null).map(x,
+                  'volumeMounts': "${[
+                      schema.spec.externalVolumes.config, 
+                      schema.spec.externalVolumes.data,
+                      schema.spec.externalVolumes.cache
+                    ].filter(y, y.?name.orValue('') != '' && y.?containerMountPath.orValue('') != '' && y.?readOnly.orValue('') != '').map(x,
                       {
                         'name': x.name,
                         'mountPath': x.containerMountPath,
@@ -258,8 +281,9 @@ spec:
                       }
                     ] + [
                       schema.spec.externalVolumes.config, 
-                      schema.spec.externalVolumes.data
-                    ].filter(y, y != null).map(x,
+                      schema.spec.externalVolumes.data,
+                      schema.spec.externalVolumes.cache
+                    ].filter(y, y.?name.orValue('') != '' && y.?containerMountPath.orValue('') != '' && y.?readOnly.orValue('') != '').map(x,
                       {
                         'name': x.name,
                         'mountPath': '/w' + x.containerMountPath,
