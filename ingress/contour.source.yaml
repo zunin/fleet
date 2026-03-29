@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: contour
+  namespace: projectcontour
+spec:
+  interval: 15m
+  url: https://projectcontour.github.io/helm-charts/
+
