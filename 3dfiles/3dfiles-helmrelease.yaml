@@ -49,6 +49,10 @@ spec:
       main:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: 100m
+          gatus.home-operations.com/endpoint: |
+            conditions:
+              - "[STATUS] == 200"
+              - "[RESPONSE_TIME] < 500"
         enabled: true
         hosts:
           - host: "3dfiles.nikolaiathome.com"
