@@ -344,7 +344,11 @@ spec:
             app.kubernetes.io/name: ${schema.spec.name}
             app.kubernetes.io/instance: ${schema.spec.name}-ingress
             app.kubernetes.io/component: ingress
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            gatus.home-operations.com/endpoint: |
+              name: ${schema.spec.name}
+              conditions:
+                - "[STATUS] == 200"
+                - "[RESPONSE_TIME] < 500"
         spec:
           tls:
           - hosts:
