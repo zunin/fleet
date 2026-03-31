@@ -1,0 +1,48 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+  namespace: health
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: gatus
+      # renovate: datasource=helm depName=twin/gatus
+      version: 1.5.0
+      sourceRef:  
+        kind: HelmRepository
+        name: twin
+        namespace: health
+      interval: 15m
+  values:
+    # renovate: datasource=github-releases depName=TwiN/gatus
+    appVersion: 5.35.0
+    image:
+      repository: twinproduction/gatus
+      # renovate: datasource=github-releases depName=TwiN/gatus
+      tag: v5.35.0
+    ingress:
+      enabled: true
+      hosts: ["gatus.nikolaiathome.com"]
+    persistance:
+      existingClaim: "gatus-data"
+    serviceAccount:
+      name: "gatus-sidecar"
+      autoMount: true
+    env:
+      GATUS_CONFIG_PATH: /sidecar-config
+    sidecarContainers:
+      gatus-sidecar:
+        image: ghcr.io/home-operations/gatus-sidecar:latest
+        args:
+        - --enable-ingress=true
+        - --auto-ingress=false
+        - --output=/config/gatus-sidecar.yaml
+        volumeMounts:
+        - name: gatus-sidecar-config
+          mountPath: /config
+    extraVolumeMounts:
+      - name: gatus-sidecar-config
+        mountPath: /sidecar-config
+        readOnly: true
