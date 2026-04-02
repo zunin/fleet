@@ -261,7 +261,7 @@ spec:
                     'ports': [{'containerPort': schema.spec.filebrowser.?port.orValue(0)}],
                     'resources': {
                       'limits': {
-                        'memory': '100Mi'
+                        'memory': '200Mi'
                       },
                       'requests': {
                         'memory': '100Mi',
