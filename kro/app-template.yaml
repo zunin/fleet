@@ -351,6 +351,8 @@ spec:
               conditions:
                 - "[STATUS] == 200"
                 - "[RESPONSE_TIME] < 500"
+              client:
+                timeout: 5s
         spec:
           tls:
           - hosts:
