@@ -48,6 +48,7 @@ spec:
       resources: ResourceLimit
       livenessProbePath: string
       node: string | default="unset"
+      readOnlyRootFilesystem: boolean | default=true
     status:
       # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
@@ -176,21 +177,22 @@ spec:
                       'claimName': schema.spec.externalVolumes.cache.?persistentVolumeClaim.orValue('')
                     }
                 }] : [])
-                + (copypartyconfig != null ? [{
-                  'name': copypartyconfig.metadata.name,
+                + (schema.spec.filebrowser.?enabled.orValue(false) ? [{
+                  'name': schema.spec.name+'-filebrowser-config',
                   'configMap': {
-                    'name': copypartyconfig.metadata.name,
+                    'name': schema.spec.name+'-filebrowser-config',
                     'defaultMode': 420
                   }
                 }] : [])
                 }"
-              hostNetwork: ${schema.spec.filebrowser.enabled}
-              dnsPolicy: "${schema.spec.filebrowser.enabled ? 'ClusterFirstWithHostNet' : 'Default'}"
-              containers: [
-                {
-                  'name': '${schema.spec.name}',
-                  'image': '${schema.spec.container.image}:${schema.spec.container.tag}',
-                  'volumeMounts': "${[
+              hostNetwork: ${schema.spec.filebrowser.?enabled.orValue(false)}
+              dnsPolicy: "${schema.spec.filebrowser.?enabled.orValue(false) ? 'ClusterFirstWithHostNet' : 'Default'}"
+              containers: "${
+                [] +
+                [{
+                  'name': schema.spec.name,
+                  'image': schema.spec.container.image + ':' + schema.spec.container.tag,
+                  'volumeMounts': [
                       schema.spec.externalVolumes.config, 
                       schema.spec.externalVolumes.data,
                       schema.spec.externalVolumes.cache
@@ -200,8 +202,8 @@ spec:
                         'mountPath': x.containerMountPath,
                         'readOnly': x.readOnly
                       }
-                    )}",
-                  'env': "${[] + schema.spec.env.map(k, k).sort().map(envKey, 
+                    ),
+                  'env': [] + schema.spec.env.map(k, k).sort().map(envKey, 
                         {'name': envKey, 'value': schema.spec.env[envKey]}
                       ) + schema.spec.envFromSecrets.map(s, s).sort().map(secretEnvKey, 
                         {
@@ -215,49 +217,48 @@ spec:
                           }
                         }
                       )
-                    }",
+                    ,
                   'ports': [
                       {
-                        'containerPort': "${schema.spec.container.port}"
+                        'containerPort': schema.spec.container.port
                       }
                     ],
-                  # per-container security context
-                  # lock down privileges inside the container
                   'securityContext': {
-                    'readOnlyRootFilesystem': true,
-                    'allowPrivilegeEscalation': false, # prevent sudo, etc.
-                    'privileged': false,                # prevent acting like host root
-                    'runAsUser': "${schema.spec.runAsUser}",
-                    'runAsGroup': "${schema.spec.runAsUser}"
+                    'readOnlyRootFilesystem': schema.spec.readOnlyRootFilesystem,
+                    'allowPrivilegeEscalation': false,
+                    'privileged': false, 
+                    'runAsUser':schema.spec.runAsUser,
+                    'runAsGroup': schema.spec.runAsUser
                   },
                   'resources': {
                     'limits': {
-                      'memory': "${schema.spec.resources.memory}"
+                      'memory': schema.spec.resources.memory
                     },
                     'requests': {
-                      'memory': "${schema.spec.resources.memory}",
-                      'cpu': "${schema.spec.resources.cpu}"
+                      'memory': schema.spec.resources.memory,
+                      'cpu': schema.spec.resources.cpu
                     }
                   },
-                  'livenessProbe': {        # only needed if your app tends to go unresponsive or you don't have a readinessProbe, but this is up for debate
-                   'httpGet': {            # Lots of timeout values with defaults, be sure they are ideal for your workload
-                     'path': "${schema.spec.livenessProbePath}",
-                     'port': "${schema.spec.container.port}"
+                  'livenessProbe': {      
+                   'httpGet': {
+                     'path': schema.spec.livenessProbePath,
+                     'port': schema.spec.container.port
                    },
                   },
                   'startupProbe': {        
                    'httpGet': {       
-                     'path': "${schema.spec.livenessProbePath}",
-                     'port': "${schema.spec.container.port}"
+                     'path': schema.spec.livenessProbePath,
+                     'port': schema.spec.container.port
                    },
                    'failureThreshold': 30,
                    'periodSeconds': 10
                   }
-                  }, # end of main container'
-                  {
+                  }] +
+                  (schema.spec.filebrowser.?enabled.orValue(false) == false ? [] : (
+                  [{
                     'name': 'filebrowser',
                     'image': 'docker.io/copyparty/ac:1.20.12',
-                    'ports': [{'containerPort': "${schema.spec.filebrowser.port}"}],
+                    'ports': [{'containerPort': schema.spec.filebrowser.?port.orValue(0)}],
                     'resources': {
                       'limits': {
                         'memory': '100Mi'
@@ -270,13 +271,13 @@ spec:
                     'readinessProbe': {
                       'httpGet': { 
                         'path': '/?setck=a=x',
-                        'port': "${schema.spec.filebrowser.port}"
-                      },
+                        'port': schema.spec.filebrowser.?port.orValue(0)
+                      }
                     },
-                    'volumeMounts': "${[] + [
+                    'volumeMounts': [] + [
                       {
                         'mountPath': '/cfg', 
-                        'name': copypartyconfig.metadata.name,
+                        'name': schema.spec.name+'-filebrowser-config',
                         'readOnly': true
                       }
                     ] + [
@@ -289,12 +290,13 @@ spec:
                         'mountPath': '/w' + x.containerMountPath,
                         'readOnly': x.readOnly
                       }
-                    )}"
-                  }
-                ]                       
+                    )
+                  }]
+                  ))
+                }"                       
     - id: filebrowserservice
       includeWhen:
-        - ${schema.spec.filebrowser.enabled}
+        - ${schema.spec.filebrowser.?enabled.orValue(false)}
       template:
         apiVersion: v1
         kind: Service
@@ -311,7 +313,7 @@ spec:
             - name: http
               protocol: TCP
               port: 80
-              targetPort: ${schema.spec.filebrowser.port}
+              targetPort: ${schema.spec.filebrowser.?port.orValue(0)}
     - id: service
       template:
         apiVersion: v1
@@ -367,7 +369,7 @@ spec:
                           number: 80
     - id: copypartyconfig
       includeWhen:
-        - ${schema.spec.filebrowser.enabled}
+        - ${schema.spec.filebrowser.?enabled.orValue(false)}
       template:
         apiVersion: v1
         kind: ConfigMap
@@ -378,7 +380,7 @@ spec:
           copyparty.conf: |
             [global]
               name: ${schema.spec.name}
-              p: ${string(schema.spec.filebrowser.port)}
+              p: ${string(schema.spec.filebrowser.?port.orValue(0))}
               z
               ansi   # enable colors in log messages
             [/]            # create a volume at "/" (the webroot), which will

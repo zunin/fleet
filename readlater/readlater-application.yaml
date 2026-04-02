@@ -23,18 +23,20 @@ spec:
     data:
       name: images
       persistentVolumeClaim: images
-      containerMountPath: //var/www/wallabag/web/assets/images
+      containerMountPath: /var/www/wallabag/web/assets/images
   env:
     TZ: "Europe/Copenhagen"
-    PUID: "5000"
-    PGID: "5000"
+    PUID: "0"
+    PGID: "0"
     SYMFONY__ENV__DOMAIN_NAME: "https://readlater.nikolaiathome.com"
   filebrowser:
-    enabled: true
-    port: 3923
+    enabled: false
+    port: 3925
   resources:
-    memory: "100Mi"
+    memory: "200Mi"
     cpu: "0.1"
-  runAsUser: 5000
-  runAsNonRoot: true
+  runAsUser: 0
+  runAsNonRoot: false
   livenessProbePath: '/api/info' 
+  readOnlyRootFilesystem: false
+
