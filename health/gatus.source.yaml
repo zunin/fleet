@@ -1,8 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: twin
-  namespace: health
-spec:
-  interval: 30m
-  url: https://twin.github.io/helm-charts

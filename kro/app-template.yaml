@@ -271,7 +271,7 @@ spec:
                     'readinessProbe': {
                       'httpGet': { 
                         'path': '/?setck=a=x',
-                        'port': schema.spec.filebrowser.?port.orValue(0)
+                        'port': schema.spec.filebrowser.?port.orValue(1)
                       }
                     },
                     'volumeMounts': [] + [
@@ -389,3 +389,20 @@ spec:
               /w           # share /w (the docker data volume)
                 accs:
                   rwmd: *      # everyone gets read-write-move-delete access
+    - id: gatusconfig
+      template:
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: ${schema.spec.name}-gatus-config
+          namespace: health
+          labels:
+            app.kubernetes.io/component: healthchecks
+        data:
+          schema.spec.name: |
+            endpoints:
+            - conditions:
+              - '[STATUS] == 200'
+              interval: 60s
+              name: ${schema.spec.name}
+              url: ${schema.spec.url}${schema.spec.livenessProbePath}
