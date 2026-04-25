@@ -1,0 +1,42 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: readlater
+  namespace: readlater
+spec:
+  name: readlater
+  namespace: readlater
+  container:
+    image: docker.io/wallabag/wallabag
+    # renovate: datasource=github-releases depName=wallabag/wallabag
+    tag: 2.6.14
+    port: 80
+  url: "readlater.nikolaiathome.com"
+  replicas: 1
+  ingress:
+    enabled: true
+  externalVolumes:
+    config:
+      name: data
+      persistentVolumeClaim: data
+      containerMountPath: /var/www/wallabag/data
+    data:
+      name: images
+      persistentVolumeClaim: images
+      containerMountPath: /var/www/wallabag/web/assets/images
+  env:
+    TZ: "Europe/Copenhagen"
+    PUID: "0"
+    PGID: "0"
+    SYMFONY__ENV__DOMAIN_NAME: "https://readlater.nikolaiathome.com"
+  filebrowser:
+    enabled: false
+    port: 3925
+  resources:
+    memory: "200Mi"
+    cpu: "0.1"
+  runAsUser: 0
+  runAsNonRoot: false
+  livenessProbePath: '/api/info' 
+  readOnlyRootFilesystem: false
+
