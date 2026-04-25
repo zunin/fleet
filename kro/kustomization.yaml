@@ -1,0 +1,5 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Use a specific version instead 'latest' if you want to install a specific version
+  - https://github.com/kubernetes-sigs/kro/releases/download/v0.9.1/kro-core-install-manifests.yaml
