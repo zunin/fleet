@@ -199,7 +199,7 @@ spec:
                   'secret': {
                     'secretName': sm.secretName,
                     'defaultMode': sm.?defaultMode.orValue(420),
-                    'items': sm.?items.orValue({}).map(key, {'key': key, 'path': sm.?items.orValue({}[key])})
+                    'items': sm.?items.orValue({}).map(key, {'key': key, 'path': sm.items[key]})
                   }
                 })
                 + schema.spec.configMapMounts.map(cm, {
@@ -207,7 +207,7 @@ spec:
                   'configMap': {
                     'name': cm.configMapName,
                     'defaultMode': cm.?defaultMode.orValue(420),
-                    'items': cm.?items.orValue({}).map(key, {'key': key, 'path': cm.?items.orValue({}[key])})
+                    'items': cm.?items.orValue({}).map(key, {'key': key, 'path': cm.items[key]})
                   }
                 })
                 }"
@@ -229,8 +229,16 @@ spec:
                         'readOnly': x.readOnly
                       }
                     )
-                    + schema.spec.secretMounts.map(sm, {'name': sm.secretName, 'mountPath': sm.mountPath, 'readOnly': true})
-                    + schema.spec.configMapMounts.map(cm, {'name': cm.configMapName, 'mountPath': cm.mountPath, 'readOnly': true}),
+                    + schema.spec.secretMounts.map(sm, {
+                      'name': sm.secretName,
+                      'mountPath': sm.mountPath,
+                      'readOnly': true
+                    })
+                    + schema.spec.configMapMounts.map(cm, {
+                      'name': cm.configMapName,
+                      'mountPath': cm.mountPath,
+                      'readOnly': true
+                    }),
                   'env': [] + schema.spec.env.map(k, k).sort().map(envKey, 
                         {'name': envKey, 'value': schema.spec.env[envKey]}
                       ) + schema.spec.envFromSecrets.map(s, s).sort().map(secretEnvKey, 
