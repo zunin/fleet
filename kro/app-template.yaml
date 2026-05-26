@@ -171,24 +171,21 @@ spec:
                 [] 
                 + (schema.spec.externalVolumes.config.?name.orValue('') != '' ? [{
                   'name': schema.spec.externalVolumes.config.?name.orValue(''),
-                  'persistentVolumeClaim':
-                    {
-                      'claimName': schema.spec.externalVolumes.config.?persistentVolumeClaim.orValue('')
-                    }
+                  'persistentVolumeClaim': {
+                    'claimName': schema.spec.externalVolumes.config.?persistentVolumeClaim.orValue('')
+                  }
                 }] : [])
                 + (schema.spec.externalVolumes.data.?name.orValue('') != '' ? [{
                   'name': schema.spec.externalVolumes.data.?name.orValue(''),
-                  'persistentVolumeClaim':
-                    {
-                      'claimName': schema.spec.externalVolumes.data.?persistentVolumeClaim.orValue('')
-                    }
+                  'persistentVolumeClaim': {
+                    'claimName': schema.spec.externalVolumes.data.?persistentVolumeClaim.orValue('')
+                  }
                 }] : [])
                 + (schema.spec.externalVolumes.cache.?name.orValue('') != '' ? [{
                   'name': schema.spec.externalVolumes.cache.?name.orValue(''),
-                  'persistentVolumeClaim':
-                    {
-                      'claimName': schema.spec.externalVolumes.cache.?persistentVolumeClaim.orValue('')
-                    }
+                  'persistentVolumeClaim': {
+                    'claimName': schema.spec.externalVolumes.cache.?persistentVolumeClaim.orValue('')
+                  }
                 }] : [])
                 + (schema.spec.filebrowser.?enabled.orValue(false) ? [{
                   'name': schema.spec.name+'-filebrowser-config',
@@ -198,21 +195,21 @@ spec:
                   }
                 }] : [])
                 + schema.spec.secretMounts.map(sm, {
-                    'name': sm.secretName,
-                    'secret': {
-                      'secretName': sm.secretName,
-                      'defaultMode': sm.?defaultMode.orValue(420),
-                      'items': sm.?items.orValue({}).map((k, v), {'key': k, 'path': v})
-                    }
-                  })
+                  'name': sm.secretName,
+                  'secret': {
+                    'secretName': sm.secretName,
+                    'defaultMode': sm.?defaultMode.orValue(420),
+                    'items': sm.?items.orValue({}).map(key, {'key': key, 'path': sm.?items.orValue({}[key])})
+                  }
+                })
                 + schema.spec.configMapMounts.map(cm, {
+                  'name': cm.configMapName,
+                  'configMap': {
                     'name': cm.configMapName,
-                    'configMap': {
-                      'name': cm.configMapName,
-                      'defaultMode': cm.?defaultMode.orValue(420),
-                      'items': cm.?items.orValue({}).map((k, v), {'key': k, 'path': v})
-                    }
-                  })
+                    'defaultMode': cm.?defaultMode.orValue(420),
+                    'items': cm.?items.orValue({}).map(key, {'key': key, 'path': cm.?items.orValue({}[key])})
+                  }
+                })
                 }"
               hostNetwork: ${schema.spec.filebrowser.?enabled.orValue(false)}
               dnsPolicy: "${schema.spec.filebrowser.?enabled.orValue(false) ? 'ClusterFirstWithHostNet' : 'Default'}"
@@ -232,16 +229,8 @@ spec:
                         'readOnly': x.readOnly
                       }
                     )
-                    + schema.spec.secretMounts.map(sm, {
-                      'name': sm.secretName,
-                      'mountPath': sm.mountPath,
-                      'readOnly': true
-                    })
-                    + schema.spec.configMapMounts.map(cm, {
-                      'name': cm.configMapName,
-                      'mountPath': cm.mountPath,
-                      'readOnly': true
-                    }),
+                    + schema.spec.secretMounts.map(sm, {'name': sm.secretName, 'mountPath': sm.mountPath, 'readOnly': true})
+                    + schema.spec.configMapMounts.map(cm, {'name': cm.configMapName, 'mountPath': cm.mountPath, 'readOnly': true}),
                   'env': [] + schema.spec.env.map(k, k).sort().map(envKey, 
                         {'name': envKey, 'value': schema.spec.env[envKey]}
                       ) + schema.spec.envFromSecrets.map(s, s).sort().map(secretEnvKey, 
