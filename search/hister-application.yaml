@@ -26,7 +26,7 @@ spec:
   envFromConfigMaps: []
   secretMounts:
     - secretName: hister-config
-      mountPath: /root/.config/hister
+      mountPath: /hister/data
       items:
         config.yml: config.yml
   configMapMounts: []
