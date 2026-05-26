@@ -1,0 +1,36 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: hister
+  namespace: search
+spec:
+  name: hister
+  namespace: search
+  container:
+    image: ghcr.io/asciimoo/hister
+    tag: v0.14.0
+    port: 4433
+  url: hister.nikolaiathome.com
+  replicas: 1
+  ingress:
+    enabled: true
+  externalVolumes:
+    data:
+      name: search-data
+      persistentVolumeClaim: search-data
+      containerMountPath: /hister/data
+      readOnly: false
+  env:
+    HISTER__SERVER__ADDRESS: "0.0.0.0:4433"
+    HISTER__SERVER__BASE_URL: "https://hister.nikolaiathome.com"
+  envFromConfigMaps: []
+  secretMounts:
+    - secretName: hister-config
+      mountPath: /root/.config/hister
+      items:
+        config.yml: config.yml
+  configMapMounts: []
+  filebrowser:
+    enabled: false
+  livenessProbePath: /api/config
+  readOnlyRootFilesystem: false

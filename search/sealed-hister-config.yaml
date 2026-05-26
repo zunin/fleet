@@ -1,0 +1,62 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: hister-config
+  namespace: search
+spec:
+  encryptedData:
+    ACCESS_TOKEN: AgC4ijQNcT2oZbl7cgdv9hlvefrveg0PDq95Ftnn3wdt0YVFIN2nlk51rO8JO5agxVfP1x2kJN8tneNU7vBstIHLitp0oMtd8zV9O+MJj2QtbOTOvXSyxQ0ZkfN6yj7oFthSYwENpi1w3yqqrqpLyVIcZIOE13IyAX4jMFQ1vDyV6760aXz08wKLB17OORlt11OWbojtL4Q0Vg4sczv+YG77TgdXpz3qElDTqod15+35RF/qdk3e52iBwM6+KWzmzUcAfp8KyzJHvJdR8T+6x69uQXsR3sdWPm7Yebi8OQf4hPalgqkxQEC1bOCYmv0PCC3PTUdPWpjxsIcCLj4vyjCPxBL5nRrr5sfuWec26hR5oHgmVqE6SffboqHgMUvUJRZ5ty8h0um94yLq2F1pnaSzUksjzsNEP/4YEOIahCpc5v5U4oeV+08a2yqWhaKJnB83xUwJggAzFbMfWr4NhFDWUhcHiUohExmoe0f31kUtgKCltfehCWsAd7IM7J30Zy/dp7WVCG5+JTbikgxCKp3Rt1UjbRjSZeA11dIAcZosOI+35rk5LtrDvKha9y3fBkfOrXvHUQDSCBF0atNQmboqnK2MKZ+hvvoh6HhGl7qiuksDXBXUFOEfoR1iKfCpLs7kfezuaS/VnMFADIRVn/P52TRijumBk4TNuujGnsCI/rTALwDD8D6EbtfkkOtuWT3dAcocTlQofbLMhyAFLZiPqDcZwCAKAb4raLXQHWbfc4c=
+  template:
+    metadata:
+      name: hister-config
+      namespace: search
+    data:
+      config.yml: |
+        app:
+          access_token: '{{ index . "ACCESS_TOKEN" }}'
+          directory: '~/.config/hister'
+          search_url: 'https://duckduckgo.com/?t=ffab&q={query}'
+          log_level: 'info'
+          open_results_on_new_tab: false
+        
+        indexer:
+          detect_languages: true
+          directories:
+            - path: '~/notes'
+              filetypes: ['txt', 'md']
+
+        crawler:
+          backend: 'http'
+          timeout: 5
+          delay: 1
+          user_agent: 'Hister'
+
+        server:
+          address: '0.0.0.0:4433'
+          base_url: 'https://hister.nikolaiathome.com'
+          database: 'db.sqlite3'
+          oauth:
+            oidc:
+              client_id: '216202172960931856@nikolaiathome'
+              client_secret: '{{ index . "OIDC_CLIENT_SECRET" }}'
+              configuration_url: 'https://auth.nikolaiathome.com/.well-known/openid-configuration'
+        
+        semantic_search:
+          enable: false
+
+        hotkeys:
+          web:
+            '/': 'focus_search_input'
+            'enter': 'open_result'
+            'alt+enter': 'open_result_in_new_tab'
+            'alt+j': 'select_next_result'
+            'alt+k': 'select_previous_result'
+            'alt+o': 'open_query_in_search_engine'
+            'alt+v': 'view_result_popup'
+            'tab': 'autocomplete'
+            '?': 'show_hotkeys'
+        
+        sensitive_content_patterns:
+          aws_access_key: '(^|[s"''])AKIA[0-9A-Z]{16}([s"'']|$)'
+          github_token: '(ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36}'

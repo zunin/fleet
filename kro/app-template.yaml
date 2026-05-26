@@ -21,6 +21,16 @@ spec:
       SecretBinding:
         secretName: string
         valuesKey: string
+      SecretMount:
+        secretName: string
+        mountPath: string
+        items: "map[string]string | default={}"
+        defaultMode: integer | default=420
+      ConfigMapMount:
+        configMapName: string
+        mountPath: string
+        items: "map[string]string | default={}"
+        defaultMode: integer | default=420
       FileBrowserConfig:
         enabled: boolean | default=true
         port: integer
@@ -42,6 +52,9 @@ spec:
         cache: Volume
       env: "map[string]string | default={}"
       envFromSecrets: "map[string]SecretBinding | default={}"
+      envFromConfigMaps: "[]string | default=[]"
+      secretMounts: "[]SecretMount | default=[]"
+      configMapMounts: "[]ConfigMapMount | default=[]"
       filebrowser: FileBrowserConfig
       runAsUser: integer | default=1000
       runAsNonRoot: boolean | default=true
@@ -184,6 +197,22 @@ spec:
                     'defaultMode': 420
                   }
                 }] : [])
+                + schema.spec.secretMounts.map(sm, {
+                    'name': sm.secretName,
+                    'secret': {
+                      'secretName': sm.secretName,
+                      'defaultMode': sm.?defaultMode.orValue(420),
+                      'items': sm.?items.orValue({}).map((k, v), {'key': k, 'path': v})
+                    }
+                  })
+                + schema.spec.configMapMounts.map(cm, {
+                    'name': cm.configMapName,
+                    'configMap': {
+                      'name': cm.configMapName,
+                      'defaultMode': cm.?defaultMode.orValue(420),
+                      'items': cm.?items.orValue({}).map((k, v), {'key': k, 'path': v})
+                    }
+                  })
                 }"
               hostNetwork: ${schema.spec.filebrowser.?enabled.orValue(false)}
               dnsPolicy: "${schema.spec.filebrowser.?enabled.orValue(false) ? 'ClusterFirstWithHostNet' : 'Default'}"
@@ -202,7 +231,17 @@ spec:
                         'mountPath': x.containerMountPath,
                         'readOnly': x.readOnly
                       }
-                    ),
+                    )
+                    + schema.spec.secretMounts.map(sm, {
+                      'name': sm.secretName,
+                      'mountPath': sm.mountPath,
+                      'readOnly': true
+                    })
+                    + schema.spec.configMapMounts.map(cm, {
+                      'name': cm.configMapName,
+                      'mountPath': cm.mountPath,
+                      'readOnly': true
+                    }),
                   'env': [] + schema.spec.env.map(k, k).sort().map(envKey, 
                         {'name': envKey, 'value': schema.spec.env[envKey]}
                       ) + schema.spec.envFromSecrets.map(s, s).sort().map(secretEnvKey, 
@@ -218,6 +257,9 @@ spec:
                         }
                       )
                     ,
+                  'envFrom': [] + schema.spec.envFromConfigMaps.map(cmName, {
+                      'configMapRef': {'name': cmName}
+                    }),
                   'ports': [
                       {
                         'containerPort': schema.spec.container.port
