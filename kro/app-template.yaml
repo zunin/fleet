@@ -46,6 +46,7 @@ spec:
       replicas: integer | default=1
       ingress:
         enabled: boolean | default=true
+        websocketRoutes: string | default=""
       externalVolumes:
         config: Volume
         data: Volume
@@ -392,6 +393,7 @@ spec:
                 - "[RESPONSE_TIME] < 500"
               client:
                 timeout: 5s
+            projectcontour.io/websocket-routes: ${schema.spec.ingress.websocketRoutes}
         spec:
           tls:
           - hosts:

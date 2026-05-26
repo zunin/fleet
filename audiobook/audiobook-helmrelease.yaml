@@ -47,6 +47,7 @@ spec:
       main:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: 100m
+          projectcontour.io/websocket-routes: "/"
         enabled: true
         hosts:
           - host: "audiobook.nikolaiathome.com"
