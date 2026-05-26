@@ -19,7 +19,7 @@ spec:
           search_url: 'https://duckduckgo.com/?t=ffab&q={query}'
           log_level: 'info'
           open_results_on_new_tab: false
-        
+
         indexer:
           detect_languages: true
           directories:
@@ -36,12 +36,8 @@ spec:
           address: '0.0.0.0:4433'
           base_url: 'https://hister.nikolaiathome.com'
           database: 'db.sqlite3'
-          oauth:
-            oidc:
-              client_id: '216202172960931856@nikolaiathome'
-              client_secret: '{{ index . "OIDC_CLIENT_SECRET" }}'
-              configuration_url: 'https://auth.nikolaiathome.com/.well-known/openid-configuration'
-        
+
+
         semantic_search:
           enable: false
 
@@ -56,7 +52,7 @@ spec:
             'alt+v': 'view_result_popup'
             'tab': 'autocomplete'
             '?': 'show_hotkeys'
-        
+
         sensitive_content_patterns:
           aws_access_key: '(^|[s"''])AKIA[0-9A-Z]{16}([s"'']|$)'
           github_token: '(ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36}'

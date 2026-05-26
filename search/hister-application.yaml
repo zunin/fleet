@@ -18,11 +18,12 @@ spec:
     data:
       name: search-data
       persistentVolumeClaim: search-data
-      containerMountPath: /hister/data
+      containerMountPath: /hister/search-data
       readOnly: false
   env:
     HISTER__SERVER__ADDRESS: "0.0.0.0:4433"
     HISTER__SERVER__BASE_URL: "https://hister.nikolaiathome.com"
+    HISTER_DATA_DIR: "/hister/search-data"
   envFromConfigMaps: []
   secretMounts:
     - secretName: hister-config
