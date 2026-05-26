@@ -1,0 +1,44 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: video
+  namespace: video
+spec:
+  name: video
+  namespace: video
+  container:
+    image: docker.io/jellyfin/jellyfin
+    # renovate: datasource=github-releases depName=jellyfin/jellyfin
+    tag: 10.11.6
+    port: 8096
+  url: "video.nikolaiathome.com"
+  replicas: 1
+  ingress:
+    enabled: true
+  externalVolumes:
+    config:
+      name: data
+      persistentVolumeClaim: jellyfin-db-volume
+      containerMountPath: /config
+    data:
+      name: video-volume
+      persistentVolumeClaim: video-volume
+      containerMountPath: /media
+    cache:
+      name: jellyfin-server-cache
+      persistentVolumeClaim: jellyfin-server-cache
+      containerMountPath: /cache
+  env:
+    TZ: "Europe/Copenhagen"
+    PUID: "5000"
+    PGID: "5000"
+  filebrowser:
+    enabled: true
+    port: 3924
+  resources:
+    memory: "1000Mi"
+    cpu: "2"
+  runAsUser: 5000
+  runAsNonRoot: true
+  livenessProbePath: '/health' 
+  node: tangesoe
