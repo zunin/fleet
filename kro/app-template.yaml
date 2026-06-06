@@ -440,10 +440,10 @@ spec:
           labels:
             app.kubernetes.io/component: healthchecks
         data:
-          schema.spec.name: |
+          endpoints.yaml: |
             endpoints:
-            - conditions:
-              - '[STATUS] == 200'
+            - name: ${schema.spec.name}
+              url: https://${schema.spec.url}${schema.spec.livenessProbePath}
               interval: 60s
-              name: ${schema.spec.name}
-              url: ${schema.spec.url}${schema.spec.livenessProbePath}
+              conditions:
+              - '[STATUS] == 200'

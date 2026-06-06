@@ -9,6 +9,7 @@ rules:
       - kro.run
     resources:
       - applications
+      - gatuses
     verbs:
       - create
       - delete
@@ -22,6 +23,8 @@ rules:
     resources:
       - applications/status
       - applications/finalizers
+      - gatuses/status
+      - gatuses/finalizers
     verbs:
       - get
       - patch

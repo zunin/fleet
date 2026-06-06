@@ -1,0 +1,223 @@
+apiVersion: kro.run/v1alpha1
+kind: ResourceGraphDefinition
+metadata:
+  name: gatus
+  annotations:
+    kro.run/allow-breaking-changes: "true"
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: Gatus
+    types:
+      Container:
+        image: string
+        tag: string
+        port: integer | default=8080
+      ResourceLimit:
+        memory: string | default=200Mi pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+        cpu: string | default=0.5 pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+
+    spec:
+      name: string
+      namespace: string
+      container: Container
+      url: string
+      resources: ResourceLimit
+      runAsUser: integer | default=1000
+      runAsNonRoot: boolean | default=true
+      livenessProbePath: string | default="/health"
+
+    status:
+      endpointCount: ${string(size(healthCheckConfigs))}
+      endpointNames: ${healthCheckConfigs.sortBy(c, c.metadata.name).map(c, c.metadata.name).join(",")}
+
+  resources:
+    - id: dataPVC
+      externalRef:
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: gatus-data
+          namespace: ${schema.spec.namespace}
+      readyWhen:
+        - ${dataPVC.status.phase == "Bound"}
+
+    - id: healthCheckConfigs
+      externalRef:
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          namespace: ${schema.spec.namespace}
+          selector:
+            matchLabels:
+              app.kubernetes.io/component: healthchecks
+
+    - id: gatusConfig
+      template:
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: ${schema.spec.name}-config
+          namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/component: gatus
+        data:
+          config.yaml: |
+            storage:
+              type: sqlite
+              path: /data/gatus.db
+            endpoints:
+              - name: gatus
+                url: http://localhost:8080/health
+                interval: 60s
+                conditions:
+                  - "[STATUS] == 200"
+
+    - id: deployment
+      template:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ${schema.spec.name}
+          namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-deployment
+            app.kubernetes.io/component: deployment
+        spec:
+          replicas: 1
+          strategy:
+            type: Recreate
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: ${schema.spec.name}
+              app.kubernetes.io/instance: ${schema.spec.name}-pod
+              app.kubernetes.io/component: app
+          template:
+            metadata:
+              namespace: ${schema.spec.namespace}
+              labels:
+                app.kubernetes.io/name: ${schema.spec.name}
+                app.kubernetes.io/instance: ${schema.spec.name}-pod
+                app.kubernetes.io/component: app
+            spec:
+              automountServiceAccountToken: false
+              terminationGracePeriodSeconds: 30
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
+                runAsUser: ${schema.spec.runAsUser}
+                runAsGroup: ${schema.spec.runAsUser}
+                runAsNonRoot: ${schema.spec.runAsNonRoot}
+                fsGroup: ${schema.spec.runAsUser}
+                fsGroupChangePolicy: OnRootMismatch
+              volumes: "${
+                [{
+                  'name': 'gatus-config',
+                  'configMap': {'name': gatusConfig.metadata.name}
+                }, {
+                  'name': 'gatus-data',
+                  'persistentVolumeClaim': {'claimName': 'gatus-data'}
+                }]
+                + healthCheckConfigs.map(c, {
+                  'name': c.metadata.name,
+                  'configMap': {
+                    'name': c.metadata.name,
+                    'items': [{'key': 'endpoints.yaml', 'path': c.metadata.name + '.yaml'}]
+                  }
+                })
+                }"
+              containers:
+                - name: ${schema.spec.name}
+                  image: ${schema.spec.container.image}:${schema.spec.container.tag}
+                  env:
+                    - name: GATUS_CONFIG_PATH
+                      value: /config
+                  ports:
+                    - containerPort: ${schema.spec.container.port}
+                  volumeMounts: "${
+                    [{
+                      'name': 'gatus-config',
+                      'mountPath': '/config/config.yaml',
+                      'subPath': 'config.yaml',
+                      'readOnly': true
+                    }, {
+                      'name': 'gatus-data',
+                      'mountPath': '/data'
+                    }]
+                    + healthCheckConfigs.map(c, {
+                      'name': c.metadata.name,
+                      'mountPath': '/config/' + c.metadata.name + '.yaml',
+                      'subPath': c.metadata.name + '.yaml',
+                      'readOnly': true
+                    })
+                    }"
+                  securityContext:
+                    readOnlyRootFilesystem: true
+                    allowPrivilegeEscalation: false
+                    privileged: false
+                    runAsUser: ${schema.spec.runAsUser}
+                    runAsGroup: ${schema.spec.runAsUser}
+                  resources:
+                    limits:
+                      memory: ${schema.spec.resources.memory}
+                    requests:
+                      memory: ${schema.spec.resources.memory}
+                      cpu: ${schema.spec.resources.cpu}
+                  livenessProbe:
+                    httpGet:
+                      path: ${schema.spec.livenessProbePath}
+                      port: ${schema.spec.container.port}
+                  startupProbe:
+                    httpGet:
+                      path: ${schema.spec.livenessProbePath}
+                      port: ${schema.spec.container.port}
+                    failureThreshold: 30
+                    periodSeconds: 10
+
+    - id: service
+      template:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: ${schema.spec.name}-svc
+          namespace: ${schema.spec.namespace}
+          labels:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-service
+            app.kubernetes.io/component: service
+        spec:
+          selector: ${deployment.spec.selector.matchLabels}
+          ports:
+            - name: http
+              protocol: TCP
+              port: 80
+              targetPort: ${schema.spec.container.port}
+
+    - id: ingress
+      template:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: ${schema.spec.name}-ingress
+          namespace: ${schema.spec.namespace}
+          annotations:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-ingress
+            app.kubernetes.io/component: ingress
+        spec:
+          tls:
+            - hosts:
+                - ${schema.spec.url}
+              secretName: ${service.metadata.name}-http-tls
+          rules:
+            - host: ${schema.spec.url}
+              http:
+                paths:
+                  - path: "/"
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: ${service.metadata.name}
+                        port:
+                          number: 80

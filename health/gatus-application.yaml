@@ -1,0 +1,19 @@
+apiVersion: kro.run/v1alpha1
+kind: Gatus
+metadata:
+  name: gatus
+  namespace: health
+spec:
+  name: gatus
+  namespace: health
+  container:
+    image: ghcr.io/twin/gatus
+    tag: v5.15.0
+    port: 8080
+  url: "gatus.nikolaiathome.com"
+  resources:
+    memory: "200Mi"
+    cpu: "0.5"
+  runAsUser: 1000
+  runAsNonRoot: true
+  livenessProbePath: "/health"
