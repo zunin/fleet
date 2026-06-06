@@ -8,7 +8,7 @@ spec:
   namespace: search
   container:
     image: ghcr.io/asciimoo/hister
-    tag: v0.14.0
+    tag: v0.15.0
     port: 4433
   url: hister.nikolaiathome.com
   replicas: 1

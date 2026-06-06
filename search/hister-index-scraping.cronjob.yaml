@@ -24,7 +24,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: crawler
-              image: ghcr.io/asciimoo/hister:v0.14.0
+              image: ghcr.io/asciimoo/hister:v0.15.0
               workingDir: /hister
               env:
                 - name: ACCESS_TOKEN
