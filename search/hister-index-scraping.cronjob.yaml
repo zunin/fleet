@@ -50,7 +50,7 @@ spec:
                     https://dr.dk/
 
                   echo "==> Crawling dr.dk/nyheder..."
-                  hister index --recursive \
+                  /hister/hister index --recursive \
                     --server-url "$SERVER" \
                     --token "$TOKEN" \
                     --max-depth 1 \
@@ -60,7 +60,7 @@ spec:
 
                   # Add more sites as needed:
                   # echo "==> Crawling Example News..."
-                  # hister index --recursive \
+                  # /hister/hister index --recursive \
                   #   --server-url "$SERVER" \
                   #   --token "$TOKEN" \
                   #   --max-depth 1 \
