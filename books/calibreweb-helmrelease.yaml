@@ -14,13 +14,13 @@ spec:
         name: bjw-s
         namespace: books
   values: 
-    appVersion: 0.6.23
+    appVersion: 0.6.26
     controller:
       type: statefulset
     image:
       repository: ghcr.io/linuxserver/calibre-web
       # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
-      tag: "0.6.23-ls298"
+      tag: "0.6.26-ls386"
     service:
       main:
         ports:
