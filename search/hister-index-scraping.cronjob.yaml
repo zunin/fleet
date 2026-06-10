@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: hister-crawler
     app.kubernetes.io/component: crawler
 spec:
-  schedule: "0 */4 * * *" # Every 4 hours — adjust to taste
+  schedule: "0 */1 * * *" # Every hour — adjust to taste
   concurrencyPolicy: Forbid # Never overlap crawl runs
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
