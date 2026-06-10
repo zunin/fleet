@@ -49,6 +49,15 @@ spec:
                     --token "$TOKEN" \
                     https://dr.dk/
 
+                  echo "==> Crawling dr.dk/nyheder..."
+                  hister index --recursive \
+                    --server-url "$SERVER" \
+                    --token "$TOKEN" \
+                    --max-depth 1 \
+                    --max-links 50 \
+                    --allowed-pattern "dr.dk/nyheder" \
+                    https://dr.dk/nyheder
+
                   # Add more sites as needed:
                   # echo "==> Crawling Example News..."
                   # hister index --recursive \
