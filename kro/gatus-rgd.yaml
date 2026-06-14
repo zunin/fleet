@@ -110,7 +110,7 @@ spec:
                 runAsGroup: ${schema.spec.runAsUser}
                 runAsNonRoot: ${schema.spec.runAsNonRoot}
                 fsGroup: ${schema.spec.runAsUser}
-                fsGroupChangePolicy: Always
+                fsGroupChangePolicy: OnRootMismatch
               volumes: "${
                 [{
                   'name': 'gatus-config',

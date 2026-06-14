@@ -163,9 +163,15 @@ spec:
                 runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
                 runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
                 fsGroup: ${schema.spec.runAsUser}
-                fsGroupChangePolicy: Always
+                fsGroupChangePolicy: OnRootMismatch
               volumes: "${
                 [] 
+                + (schema.spec.readOnlyRootFilesystem ? [{
+                  'name': 'tmpdir',
+                  'emptyDir': {
+                    'medium': 'Memory'
+                  }
+                }] : [])
                 + (schema.spec.externalVolumes.config.?name.orValue('') != '' ? [{
                   'name': schema.spec.externalVolumes.config.?name.orValue(''),
                   'persistentVolumeClaim': {
@@ -226,6 +232,10 @@ spec:
                         'readOnly': x.readOnly
                       }
                     )
+                    + (schema.spec.readOnlyRootFilesystem ? [{
+                      'name': 'tmpdir',
+                      'mountPath': '/tmp'
+                    }] : [])
                     + schema.spec.secretMounts.map(sm, {
                       'name': sm.secretName,
                       'mountPath': sm.mountPath,
@@ -327,6 +337,10 @@ spec:
                         'readOnly': x.readOnly
                       }
                     )
+                    + (schema.spec.readOnlyRootFilesystem ? [{
+                      'name': 'tmpdir',
+                      'mountPath': '/tmp'
+                    }] : [])
                   }]
                   ))
                 }"                       
