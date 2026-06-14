@@ -163,7 +163,7 @@ spec:
                 runAsGroup: ${schema.spec.runAsUser}      # hardcode group to non-root if not set in Dockerfile
                 runAsNonRoot: ${schema.spec.runAsNonRoot} # hardcode to non-root. Redundant to above if Dockerfile is set USER 1000
                 fsGroup: ${schema.spec.runAsUser}
-                fsGroupChangePolicy: OnRootMismatch
+                fsGroupChangePolicy: Always
               volumes: "${
                 [] 
                 + (schema.spec.externalVolumes.config.?name.orValue('') != '' ? [{
