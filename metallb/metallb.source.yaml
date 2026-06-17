@@ -5,4 +5,4 @@ metadata:
   namespace: metallb-system
 spec:
   interval: 30m
-  url: https://metallb.github.io/charts
+  url: https://metallb.github.io/metallb
