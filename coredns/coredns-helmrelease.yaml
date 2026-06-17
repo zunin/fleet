@@ -16,15 +16,14 @@ spec:
   values:
     replicaCount: 1
     serviceType: LoadBalancer
-    serviceAnnotations:
-      metallb.uniboard.io/address-pool: lan-pool
+    isClusterService: false
     image:
       repository: coredns/coredns
       tag: "1.12.1"
     servers:
       - zones:
-          - nikolaiathome.com
-          - local.nikolaiathome.com
+          - zone: nikolaiathome.com
+          - zone: local.nikolaiathome.com
         port: 53
         plugins:
           - name: etcd
@@ -35,19 +34,14 @@ spec:
           - name: log
           - name: errors
       - zones:
-          - .
+          - zone: .
         port: 53
         plugins:
           - name: forward
             parameters: . /etc/resolv.conf
+          - name: cache
+            parameters: 30
           - name: log
           - name: errors
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                  - slaaensoe
+    serviceMonitor:
+      enabled: false
