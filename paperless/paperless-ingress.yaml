@@ -4,6 +4,7 @@ metadata:
   name: minimal-ingress
   namespace: paperless
   annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   rules:

@@ -57,6 +57,7 @@ spec:
       secretMounts: "[]SecretMount | default=[]"
       configMapMounts: "[]ConfigMapMount | default=[]"
       filebrowser: FileBrowserConfig
+      localUrl: string | default=""
       runAsUser: integer | default=1000
       runAsNonRoot: boolean | default=true
       resources: ResourceLimit
@@ -214,8 +215,8 @@ spec:
                   }
                 })
                 }"
-              hostNetwork: ${schema.spec.filebrowser.?enabled.orValue(false)}
-              dnsPolicy: "${schema.spec.filebrowser.?enabled.orValue(false) ? 'ClusterFirstWithHostNet' : 'Default'}"
+              hostNetwork: false
+              dnsPolicy: "ClusterFirstWithHostNet"
               containers: "${
                 [] +
                 [{
@@ -396,6 +397,7 @@ spec:
             app.kubernetes.io/name: ${schema.spec.name}
             app.kubernetes.io/instance: ${schema.spec.name}-ingress
             app.kubernetes.io/component: ingress
+            cert-manager.io/cluster-issuer: cloudflare-issuer
             gatus.home-operations.com/endpoint: |
               name: ${schema.spec.name}
               conditions:
@@ -418,6 +420,37 @@ spec:
                     backend:
                       service:
                         name: ${service.metadata.name} # Use the service name
+                        port:
+                          number: 80
+    - id: localIngress
+      includeWhen:
+        - ${schema.spec.localUrl != ""}
+        - ${schema.spec.filebrowser.?enabled.orValue(false)}
+      template:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: ${schema.spec.name}-copyparty-ingress
+          namespace: ${schema.spec.namespace}
+          annotations:
+            app.kubernetes.io/name: ${schema.spec.name}
+            app.kubernetes.io/instance: ${schema.spec.name}-copyparty-ingress
+            app.kubernetes.io/component: ingress
+            cert-manager.io/cluster-issuer: cloudflare-issuer
+        spec:
+          tls:
+          - hosts:
+            - ${schema.spec.localUrl}
+            secretName: ${schema.spec.name}-copyparty-http-tls
+          rules:
+            - host: ${schema.spec.localUrl}
+              http:
+                paths:
+                  - path: "/"
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: ${filebrowserservice.metadata.name}
                         port:
                           number: 80
     - id: copypartyconfig

@@ -24,6 +24,8 @@ spec:
       repository: freshrss/freshrss
     ingress:
       enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: cloudflare-issuer
       hosts:
         - host: "rss.nikolaiathome.com"
           paths:

@@ -205,6 +205,7 @@ spec:
             app.kubernetes.io/name: ${schema.spec.name}
             app.kubernetes.io/instance: ${schema.spec.name}-ingress
             app.kubernetes.io/component: ingress
+            cert-manager.io/cluster-issuer: cloudflare-issuer
         spec:
           tls:
             - hosts:

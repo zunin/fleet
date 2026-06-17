@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: spoolman
   namespace: spoolman
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
 spec:
   rules:
   - host: spoolman.nikolaiathome.com

@@ -30,6 +30,7 @@ spec:
       main:
         enabled: true
         annotations:
+          cert-manager.io/cluster-issuer: cloudflare-issuer
           nginx.ingress.kubernetes.io/proxy-body-size: 200m
         hosts:
           - host: "books.nikolaiathome.com"

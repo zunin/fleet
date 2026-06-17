@@ -46,6 +46,7 @@ spec:
     ingress:
       main:
         annotations:
+          cert-manager.io/cluster-issuer: cloudflare-issuer
           nginx.ingress.kubernetes.io/proxy-body-size: 100m
           projectcontour.io/websocket-routes: "/"
         enabled: true
