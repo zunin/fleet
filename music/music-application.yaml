@@ -12,6 +12,7 @@ spec:
     tag: 0.58.0
     port: 4533
   url: "music.nikolaiathome.com"
+  localUrl: "copyparty.music.local.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
