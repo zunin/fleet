@@ -23,7 +23,9 @@ spec:
           tag: "0.10.4"
         env:
           - name: UNIFI_HOST
-            value: https://192.168.1.1
+            value: https://api.ui.com
+          - name: UNIFI_CONSOLE_ID
+            value: E063DA21B66500000000044870740000000004777DCF000000005DADF5F3
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
