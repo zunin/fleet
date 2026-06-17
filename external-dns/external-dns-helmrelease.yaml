@@ -28,7 +28,7 @@ spec:
       - ingress
       - service
     txtOwnerId: fleet
-    txtPrefix: k8s.fleet.-
+    txtPrefix: fleet-
     domainFilters:
       - nikolaiathome.com
       - local.nikolaiathome.com
