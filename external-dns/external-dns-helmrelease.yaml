@@ -25,7 +25,7 @@ spec:
           - name: UNIFI_HOST
             value: https://api.ui.com
           - name: UNIFI_CONSOLE_ID
-            value: E063DA21B66500000000044870740000000004777DCF000000005DADF5F3
+            value: E063DA21B66500000000044870740000000004777DCF000000005DADF5F3:595290879
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
