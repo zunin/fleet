@@ -12,7 +12,7 @@ spec:
     tag: 10.11.6
     port: 8096
   url: "video.nikolaiathome.com"
-  localUrl: "copyparty.video.local.nikolaiathome.com"
+  localUrl: "video-copyparty.local.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
