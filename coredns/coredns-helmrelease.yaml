@@ -31,6 +31,8 @@ spec:
             configBlock: |
               path /skydns
               endpoint http://etcd-cluster:2379
+          - name: health
+          - name: ready
           - name: log
           - name: errors
       - zones:
@@ -41,6 +43,8 @@ spec:
             parameters: . /etc/resolv.conf
           - name: cache
             parameters: 30
+          - name: health
+          - name: ready
           - name: log
           - name: errors
     serviceMonitor:
