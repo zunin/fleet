@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: external-dns-unifi
+  name: external-dns-coredns
   namespace: external-dns
 spec:
   interval: 5m
@@ -14,44 +14,21 @@ spec:
         namespace: external-dns
       interval: 5m
   values:
-    fullnameOverride: external-dns-unifi
+    fullnameOverride: external-dns-coredns
     provider:
-      name: webhook
-      webhook:
-        image:
-          repository: ghcr.io/home-operations/external-dns-unifi-webhook
-          tag: "0.10.4"
-        env:
-          - name: UNIFI_HOST
-            value: https://api.ui.com
-          - name: UNIFI_CONSOLE_ID
-            value: E063DA21B66500000000044870740000000004777DCF000000005DADF5F3:595290879
-          - name: UNIFI_SITE
-            value: "5d6d8b0679cf180456253065"
-          - name: UNIFI_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: unifi-dns-secret
-                key: UNIFI_API_KEY
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: http-webhook
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: http-webhook
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+      name: coredns
+    extraArgs:
+      - --coredns-prefix=/skydns/
+    env:
+      - name: ETCD_URLS
+        value: http://etcd-cluster.coredns.svc.cluster.local:2379
     triggerLoopOnEvent: true
     policy: sync
     sources:
       - ingress
       - service
     txtOwnerId: fleet
-    txtPrefix: k8s.fleet.-%{record_type}-
+    txtPrefix: k8s.fleet.-
     domainFilters:
       - nikolaiathome.com
       - local.nikolaiathome.com

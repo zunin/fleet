@@ -1,0 +1,53 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coredns
+  namespace: coredns
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: coredns
+      sourceRef:
+        kind: HelmRepository
+        name: coredns
+        namespace: coredns
+      interval: 5m
+  values:
+    replicaCount: 1
+    serviceType: LoadBalancer
+    serviceAnnotations:
+      metallb.uniboard.io/address-pool: lan-pool
+    image:
+      repository: coredns/coredns
+      tag: "1.12.1"
+    servers:
+      - zones:
+          - nikolaiathome.com
+          - local.nikolaiathome.com
+        port: 53
+        plugins:
+          - name: etcd
+            parameters: nikolaiathome.com local.nikolaiathome.com
+            configBlock: |
+              path /skydns
+              endpoint http://etcd-cluster:2379
+          - name: log
+          - name: errors
+      - zones:
+          - .
+        port: 53
+        plugins:
+          - name: forward
+            parameters: . /etc/resolv.conf
+          - name: log
+          - name: errors
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - slaaensoe
