@@ -216,7 +216,6 @@ spec:
                 })
                 }"
               hostNetwork: false
-              dnsPolicy: "ClusterFirstWithHostNet"
               containers: "${
                 [] +
                 [{
