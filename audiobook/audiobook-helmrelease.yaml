@@ -58,6 +58,10 @@ spec:
                 service:
                   identifier: main 
                   port: http
+        tls:
+          - hosts:
+              - "audiobook.nikolaiathome.com"
+            secretName: audiobookshelf-http-tls
     persistence:
       config:
         enabled: true

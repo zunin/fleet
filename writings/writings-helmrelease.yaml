@@ -55,6 +55,10 @@ spec:
                 service:
                   identifier: main
                   port: http 
+        tls:
+          - hosts:
+              - "writings.nikolaiathome.com"
+            secretName: writings-http-tls
     persistence:
       data:
         existingClaim: writefreely-data-volume

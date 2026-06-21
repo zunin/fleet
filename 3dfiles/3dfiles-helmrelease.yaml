@@ -63,6 +63,10 @@ spec:
                 service:
                   identifier: main 
                   port: http
+        tls:
+          - hosts:
+              - "3dfiles.nikolaiathome.com"
+            secretName: manyfold-http-tls
     persistence:
       config:
         enabled: true

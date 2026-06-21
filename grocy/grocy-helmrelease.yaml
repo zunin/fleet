@@ -50,6 +50,10 @@ spec:
                 service:
                   identifier: main 
                   port: http
+        tls:
+          - hosts:
+              - "grocy.nikolaiathome.com"
+            secretName: grocy-http-tls
     persistence:
       php-conf:
         enabled: true

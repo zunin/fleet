@@ -39,6 +39,10 @@ spec:
                 service:
                 identifier: main
                 port: http
+        tls:
+          - hosts:
+              - "books.nikolaiathome.com"
+            secretName: calibreweb-http-tls
     env:
       TZ: "Europe/Copenhagen"
     persistence:

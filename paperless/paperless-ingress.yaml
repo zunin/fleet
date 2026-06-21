@@ -7,6 +7,10 @@ metadata:
     cert-manager.io/cluster-issuer: cloudflare-issuer
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
+  tls:
+  - hosts:
+      - "paperless.nikolaiathome.com"
+    secretName: paperless-http-tls
   rules:
   - host: "paperless.nikolaiathome.com"
     http:
