@@ -95,6 +95,7 @@ spec:
           replicas: ${schema.spec.replicas} # Use the replicas provided by user
           strategy:
             type: Recreate
+            rollingUpdate: null
           selector:
             matchLabels:
               app.kubernetes.io/name: ${schema.spec.name}
