@@ -4,7 +4,8 @@ metadata:
   name: search-data
   namespace: search
   labels:
-    name: search-data
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: hister
 spec:
   accessModes:
     - ReadWriteOnce

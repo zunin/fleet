@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: video-volume
   namespace: video
+  labels:
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: video
 spec:
   accessModes:
     - ReadWriteOnce

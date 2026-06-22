@@ -17,16 +17,13 @@ spec:
   ingress:
     enabled: true
   externalVolumes:
-    config:
-      name: data
+    - name: data
       persistentVolumeClaim: jellyfin-db-volume
       containerMountPath: /config
-    data:
-      name: video-volume
+    - name: video-volume
       persistentVolumeClaim: video-volume
       containerMountPath: /media
-    cache:
-      name: jellyfin-server-cache
+    - name: jellyfin-server-cache
       persistentVolumeClaim: jellyfin-server-cache
       containerMountPath: /cache
   env:

@@ -24,11 +24,13 @@ spec:
       SecretMount:
         secretName: string
         mountPath: string
+        subPath: string | default=""
         items: "map[string]string | default={}"
         defaultMode: integer | default=420
       ConfigMapMount:
         configMapName: string
         mountPath: string
+        subPath: string | default=""
         items: "map[string]string | default={}"
         defaultMode: integer | default=420
       FileBrowserConfig:
@@ -47,10 +49,7 @@ spec:
       ingress:
         enabled: boolean | default=true
         websocketRoutes: string | default=""
-      externalVolumes:
-        config: Volume
-        data: Volume
-        cache: Volume
+      externalVolumes: "[]Volume | default=[]"
       env: "map[string]string | default={}"
       envFromSecrets: "map[string]SecretBinding | default={}"
       envFromConfigMaps: "[]string | default=[]"
@@ -65,55 +64,22 @@ spec:
       node: string | default="unset"
       readOnlyRootFilesystem: boolean | default=true
     status:
-      # Fields the controller will inject into instances status.
       deploymentConditions: ${deployment.status.conditions}
       availableReplicas: ${deployment.status.availableReplicas}
+      volumeCount: ${string(size(volumeClaims))}
 
-  # Define the resources this API will manage.
   resources:
-    - id: dataVolumeClaim
-      includeWhen:
-        - ${schema.spec.externalVolumes.?data.?persistentVolumeClaim.orValue("") != ""}
+    - id: volumeClaims
       externalRef:
         apiVersion: v1
         kind: PersistentVolumeClaim
         metadata:
-          name: ${schema.spec.externalVolumes.?data.?persistentVolumeClaim}
           namespace: ${schema.spec.namespace}
-      readyWhen:
-        - ${dataVolumeClaim.status.phase == "Bound"}
-    - id: dataVolume
-      includeWhen: 
-        - ${schema.spec.externalVolumes.?data.?persistentVolumeClaim.orValue("") != ""}
-      externalRef:
-        apiVersion: v1
-        kind: PersistentVolume
-        metadata:
-          name: ${dataVolumeClaim.spec.volumeName}
-      readyWhen:
-        - ${dataVolume.status.phase == "Bound"}
-    - id: configVolumeClaim
-      includeWhen:
-        - ${schema.spec.externalVolumes.?config.?persistentVolumeClaim.orValue("") != ""}
-      externalRef:
-        apiVersion: v1
-        kind: PersistentVolumeClaim
-        metadata:
-          name: ${schema.spec.externalVolumes.?config.?persistentVolumeClaim}
-          namespace: ${schema.spec.namespace}
-      readyWhen:
-        - ${configVolumeClaim.status.phase == "Bound"}
-    - id: cacheVolumeClaim
-      includeWhen:
-        - ${schema.spec.externalVolumes.?cache.?persistentVolumeClaim.orValue("") != ""}
-      externalRef:
-        apiVersion: v1
-        kind: PersistentVolumeClaim
-        metadata:
-          name: ${schema.spec.externalVolumes.?cache.?persistentVolumeClaim}
-          namespace: ${schema.spec.namespace}
-      readyWhen:
-        - ${cacheVolumeClaim.status.phase == "Bound"}
+          selector:
+            matchLabels:
+              app.kubernetes.io/component: volume
+              app.kubernetes.io/app: ${schema.spec.name}
+
     - id: deployment
       template:
         apiVersion: apps/v1
@@ -173,24 +139,12 @@ spec:
                     'medium': 'Memory'
                   }
                 }] : [])
-                + (schema.spec.externalVolumes.config.?name.orValue('') != '' ? [{
-                  'name': schema.spec.externalVolumes.config.?name.orValue(''),
+                + schema.spec.externalVolumes.map(v, {
+                  'name': v.name,
                   'persistentVolumeClaim': {
-                    'claimName': schema.spec.externalVolumes.config.?persistentVolumeClaim.orValue('')
+                    'claimName': v.persistentVolumeClaim
                   }
-                }] : [])
-                + (schema.spec.externalVolumes.data.?name.orValue('') != '' ? [{
-                  'name': schema.spec.externalVolumes.data.?name.orValue(''),
-                  'persistentVolumeClaim': {
-                    'claimName': schema.spec.externalVolumes.data.?persistentVolumeClaim.orValue('')
-                  }
-                }] : [])
-                + (schema.spec.externalVolumes.cache.?name.orValue('') != '' ? [{
-                  'name': schema.spec.externalVolumes.cache.?name.orValue(''),
-                  'persistentVolumeClaim': {
-                    'claimName': schema.spec.externalVolumes.cache.?persistentVolumeClaim.orValue('')
-                  }
-                }] : [])
+                })
                 + (schema.spec.filebrowser.?enabled.orValue(false) ? [{
                   'name': schema.spec.name+'-filebrowser-config',
                   'configMap': {
@@ -222,16 +176,11 @@ spec:
                   'name': schema.spec.name,
                   'image': schema.spec.container.image + ':' + schema.spec.container.tag,
                   'volumeMounts': [
-                      schema.spec.externalVolumes.config, 
-                      schema.spec.externalVolumes.data,
-                      schema.spec.externalVolumes.cache
-                    ].filter(y, y.?name.orValue('') != '' && y.?containerMountPath.orValue('') != '' && y.?readOnly.orValue('') != '').map(x,
-                      {
-                        'name': x.name,
-                        'mountPath': x.containerMountPath,
-                        'readOnly': x.readOnly
-                      }
-                    )
+                      ] + schema.spec.externalVolumes.map(v, {
+                        'name': v.name,
+                        'mountPath': v.containerMountPath,
+                        'readOnly': v.readOnly
+                      })
                     + (schema.spec.readOnlyRootFilesystem ? [{
                       'name': 'tmpdir',
                       'mountPath': '/tmp'
@@ -239,11 +188,13 @@ spec:
                     + schema.spec.secretMounts.map(sm, {
                       'name': sm.secretName,
                       'mountPath': sm.mountPath,
+                      'subPath': sm.?subPath.orValue(''),
                       'readOnly': true
                     })
                     + schema.spec.configMapMounts.map(cm, {
                       'name': cm.configMapName,
                       'mountPath': cm.mountPath,
+                      'subPath': cm.?subPath.orValue(''),
                       'readOnly': true
                     }),
                   'env': [] + schema.spec.env.map(k, k).sort().map(envKey, 
@@ -326,17 +277,11 @@ spec:
                         'name': schema.spec.name+'-filebrowser-config',
                         'readOnly': true
                       }
-                    ] + [
-                      schema.spec.externalVolumes.config, 
-                      schema.spec.externalVolumes.data,
-                      schema.spec.externalVolumes.cache
-                    ].filter(y, y.?name.orValue('') != '' && y.?containerMountPath.orValue('') != '' && y.?readOnly.orValue('') != '').map(x,
-                      {
-                        'name': x.name,
-                        'mountPath': '/w' + x.containerMountPath,
-                        'readOnly': x.readOnly
-                      }
-                    )
+                    ] + schema.spec.externalVolumes.map(v, {
+                      'name': v.name,
+                      'mountPath': '/w' + v.containerMountPath,
+                      'readOnly': v.readOnly
+                    })
                     + (schema.spec.readOnlyRootFilesystem ? [{
                       'name': 'tmpdir',
                       'mountPath': '/tmp'

@@ -4,7 +4,8 @@ metadata:
   name: navidrome-data-volume
   namespace: music
   labels:
-    name: navidrome-data-volume
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: music
 spec:
   accessModes:
     - ReadWriteOnce

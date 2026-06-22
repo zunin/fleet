@@ -11,6 +11,10 @@ spec:
     tag: v5.15.0
     port: 8080
   url: "gatus.nikolaiathome.com"
+  externalVolumes:
+    - name: gatus-data
+      persistentVolumeClaim: gatus-data
+      containerMountPath: /data
   resources:
     memory: "200Mi"
     cpu: "0.5"

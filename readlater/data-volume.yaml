@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: data
   namespace: readlater
+  labels:
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: readlater
 spec:
   accessModes:
     - ReadWriteOnce

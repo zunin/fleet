@@ -16,12 +16,10 @@ spec:
   ingress:
     enabled: true
   externalVolumes:
-    config:
-      name: data
+    - name: data
       persistentVolumeClaim: data
       containerMountPath: /var/www/wallabag/data
-    data:
-      name: images
+    - name: images
       persistentVolumeClaim: images
       containerMountPath: /var/www/wallabag/web/assets/images
   env:

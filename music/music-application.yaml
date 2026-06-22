@@ -17,12 +17,10 @@ spec:
   ingress:
     enabled: true
   externalVolumes:
-    config:
-      name: data
+    - name: data
       persistentVolumeClaim: navidrome-data-volume
       containerMountPath: /data
-    data:
-      name: music
+    - name: music
       persistentVolumeClaim: music-volume
       containerMountPath: /music
   env:

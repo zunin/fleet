@@ -16,8 +16,7 @@ spec:
     enabled: true
     websocketRoutes: "/"
   externalVolumes:
-    data:
-      name: search-data
+    - name: search-data
       persistentVolumeClaim: search-data
       containerMountPath: /hister/search-data
       readOnly: false

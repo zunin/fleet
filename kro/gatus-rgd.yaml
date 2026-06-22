@@ -13,6 +13,11 @@ spec:
         image: string
         tag: string
         port: integer | default=8080
+      Volume:
+        name: string
+        persistentVolumeClaim: string
+        containerMountPath: string
+        readOnly: boolean | default=false
       ResourceLimit:
         memory: string | default=200Mi pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
         cpu: string | default=0.5 pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
@@ -22,6 +27,7 @@ spec:
       namespace: string
       container: Container
       url: string
+      externalVolumes: "[]Volume | default=[]"
       resources: ResourceLimit
       runAsUser: integer | default=1000
       runAsNonRoot: boolean | default=true
@@ -30,17 +36,19 @@ spec:
     status:
       endpointCount: ${string(size(healthCheckConfigs))}
       endpointNames: ${healthCheckConfigs.sortBy(c, c.metadata.name).map(c, c.metadata.name).join(",")}
+      volumeCount: ${string(size(volumeClaims))}
 
   resources:
-    - id: dataPVC
+    - id: volumeClaims
       externalRef:
         apiVersion: v1
         kind: PersistentVolumeClaim
         metadata:
-          name: gatus-data
           namespace: ${schema.spec.namespace}
-      readyWhen:
-        - ${dataPVC.status.phase == "Bound"}
+          selector:
+            matchLabels:
+              app.kubernetes.io/component: volume
+              app.kubernetes.io/app: ${schema.spec.name}
 
     - id: healthCheckConfigs
       externalRef:
@@ -115,10 +123,13 @@ spec:
                 [{
                   'name': 'gatus-config',
                   'configMap': {'name': gatusConfig.metadata.name}
-                }, {
-                  'name': 'gatus-data',
-                  'persistentVolumeClaim': {'claimName': 'gatus-data'}
                 }]
+                + schema.spec.externalVolumes.map(v, {
+                  'name': v.name,
+                  'persistentVolumeClaim': {
+                    'claimName': v.persistentVolumeClaim
+                  }
+                })
                 + healthCheckConfigs.map(c, {
                   'name': c.metadata.name,
                   'configMap': {
@@ -141,10 +152,12 @@ spec:
                       'mountPath': '/config/config.yaml',
                       'subPath': 'config.yaml',
                       'readOnly': true
-                    }, {
-                      'name': 'gatus-data',
-                      'mountPath': '/data'
                     }]
+                    + schema.spec.externalVolumes.map(v, {
+                      'name': v.name,
+                      'mountPath': v.containerMountPath,
+                      'readOnly': v.readOnly
+                    })
                     + healthCheckConfigs.map(c, {
                       'name': c.metadata.name,
                       'mountPath': '/config/' + c.metadata.name + '.yaml',
