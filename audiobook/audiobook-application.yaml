@@ -1,0 +1,44 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: audiobook
+  namespace: audiobook
+spec:
+  name: audiobook
+  namespace: audiobook
+  container:
+    image: ghcr.io/advplyr/audiobookshelf
+    # renovate: datasource=github-releases depName=advplyr/audiobookshelf
+    tag: 2.30.0
+    port: 80
+  url: "audiobook.nikolaiathome.com"
+  localUrl: "audiobook-copyparty.local.nikolaiathome.com"
+  replicas: 1
+  ingress:
+    enabled: true
+    websocketRoutes: "/"
+  externalVolumes:
+    - name: config
+      persistentVolumeClaim: config
+      containerMountPath: /config
+    - name: audiobook
+      persistentVolumeClaim: audiobook
+      containerMountPath: /audiobook
+    - name: metadata
+      persistentVolumeClaim: metadata
+      containerMountPath: /metadata
+    - name: podcast
+      persistentVolumeClaim: podcast
+      containerMountPath: /podcast
+  env:
+    TZ: "Europe/Copenhagen"
+  filebrowser:
+    enabled: true
+    port: 3927
+  resources:
+    memory: "300Mi"
+    cpu: "1"
+  runAsUser: 1000
+  runAsNonRoot: true
+  livenessProbePath: "/"
+  readOnlyRootFilesystem: false

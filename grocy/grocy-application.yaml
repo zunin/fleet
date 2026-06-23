@@ -1,0 +1,39 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: grocy
+  namespace: grocy
+spec:
+  name: grocy
+  namespace: grocy
+  container:
+    image: quay.io/linuxserver.io/grocy
+    tag: "4.2.0"
+    port: 80
+  url: "grocy.nikolaiathome.com"
+  replicas: 1
+  ingress:
+    enabled: true
+  externalVolumes:
+    - name: config
+      persistentVolumeClaim: grocy-config-pvc
+      containerMountPath: /config
+  env:
+    TZ: "Europe/Copenhagen"
+    GROCY_CULTURE: "da"
+    GROCY_CURRENCY: "DKK"
+    PUID: "1000"
+    PGID: "1000"
+  configMapMounts:
+    - configMapName: php-conf
+      mountPath: /config/php
+  filebrowser:
+    enabled: false
+    port: 3929
+  resources:
+    memory: "662Mi"
+    cpu: "0.5"
+  runAsUser: 0
+  runAsNonRoot: false
+  livenessProbePath: "/"
+  readOnlyRootFilesystem: false

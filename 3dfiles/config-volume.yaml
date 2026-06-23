@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: config
   namespace: 3dfiles
+  labels:
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: manyfold
 spec:
   accessModes:
     - ReadWriteOnce

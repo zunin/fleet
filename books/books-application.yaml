@@ -1,0 +1,36 @@
+apiVersion: kro.run/v1alpha1
+kind: Application
+metadata:
+  name: books
+  namespace: books
+spec:
+  name: books
+  namespace: books
+  container:
+    image: ghcr.io/linuxserver/calibre-web
+    # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
+    tag: 0.6.26-ls386
+    port: 8083
+  url: "books.nikolaiathome.com"
+  replicas: 1
+  ingress:
+    enabled: true
+  externalVolumes:
+    - name: config
+      persistentVolumeClaim: calibreweb-config
+      containerMountPath: /config
+    - name: books
+      persistentVolumeClaim: calibreweb-books
+      containerMountPath: /books
+  env:
+    TZ: "Europe/Copenhagen"
+  filebrowser:
+    enabled: false
+    port: 3928
+  resources:
+    memory: "300Mi"
+    cpu: "0.25"
+  runAsUser: 0
+  runAsNonRoot: false
+  livenessProbePath: "/"
+  readOnlyRootFilesystem: false

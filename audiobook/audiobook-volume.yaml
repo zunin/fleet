@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: audiobook
   namespace: audiobook
+  labels:
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: audiobook
 spec:
   accessModes:
     - ReadWriteOnce
