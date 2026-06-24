@@ -12,7 +12,6 @@ spec:
     tag: 0.126.0
     port: 3214
   url: "3dfiles.nikolaiathome.com"
-  localUrl: "3dfiles-copyparty.local.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
@@ -32,7 +31,7 @@ spec:
       secretName: manyfold-secret-key
       valuesKey: manyfold-secret-key
   filebrowser:
-    enabled: true
+    enabled: false
     port: 3926
   resources:
     memory: "1Gi"

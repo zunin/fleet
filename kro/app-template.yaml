@@ -223,10 +223,10 @@ spec:
                     ],
                   'securityContext': {
                     'readOnlyRootFilesystem': schema.spec.readOnlyRootFilesystem,
-                    'allowPrivilegeEscalation': false,
-                    'privileged': false, 
-                    'runAsUser':schema.spec.runAsUser,
-                    'runAsGroup': schema.spec.runAsUser
+                    'allowPrivilegeEscalation': schema.spec.runAsNonRoot == false,
+                    'privileged': false,
+                    'runAsUser': schema.spec.runAsNonRoot ? schema.spec.runAsUser : 0,
+                    'runAsGroup': schema.spec.runAsNonRoot ? schema.spec.runAsUser : 0
                   },
                   'resources': {
                     'limits': {
