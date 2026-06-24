@@ -36,7 +36,7 @@ spec:
   resources:
     memory: "1Gi"
     cpu: "0.25"
-  runAsUser: 0
+  runAsUser: 1000
   runAsNonRoot: false
   livenessProbePath: "/"
   readOnlyRootFilesystem: false
