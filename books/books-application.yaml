@@ -24,6 +24,7 @@ spec:
       containerMountPath: /books
   env:
     TZ: "Europe/Copenhagen"
+    DOCKER_MODS: "linuxserver/mods:universal-calibre"
   filebrowser:
     enabled: false
     port: 3928
