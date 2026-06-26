@@ -7,9 +7,8 @@ spec:
   name: books
   namespace: books
   container:
-    image: ghcr.io/linuxserver/calibre-web
-    # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
-    tag: 0.6.26-ls388
+    image: crocodilestick/calibre-web-automated
+    tag: latest
     port: 8083
   url: "books.nikolaiathome.com"
   replicas: 1
@@ -21,16 +20,20 @@ spec:
       containerMountPath: /config
     - name: books
       persistentVolumeClaim: calibreweb-books
-      containerMountPath: /books
+      containerMountPath: /calibre-library
+    - name: ingest
+      persistentVolumeClaim: calibreweb-ingest
+      containerMountPath: /cwa-book-ingest
   env:
     TZ: "Europe/Copenhagen"
-    DOCKER_MODS: "linuxserver/mods:universal-calibre"
+    PUID: "1000"
+    PGID: "1000"
   filebrowser:
     enabled: false
     port: 3928
   resources:
-    memory: "300Mi"
-    cpu: "0.25"
+    memory: "512Mi"
+    cpu: "0.5"
   runAsUser: 0
   runAsNonRoot: false
   livenessProbePath: "/"

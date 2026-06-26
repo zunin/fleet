@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibreweb-ingest
+  namespace: books
+  labels:
+    app.kubernetes.io/component: volume
+    app.kubernetes.io/app: books
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
