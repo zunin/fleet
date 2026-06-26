@@ -414,7 +414,7 @@ spec:
               p: ${string(schema.spec.filebrowser.?port.orValue(0))}
               z
               ansi   # enable colors in log messages
-              cors: "*"  # allow cross-origin uploads from other subdomains
+              allow-csrf  # disable CSRF protection for cross-origin uploads
             [/]            # create a volume at "/" (the webroot), which will
               /w           # share /w (the docker data volume)
                 accs:
