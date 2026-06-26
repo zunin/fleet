@@ -11,6 +11,7 @@ spec:
     tag: latest
     port: 8083
   url: "books.nikolaiathome.com"
+  localUrl: "books-copyparty.local.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
@@ -29,7 +30,7 @@ spec:
     PUID: "1000"
     PGID: "1000"
   filebrowser:
-    enabled: false
+    enabled: true
     port: 3928
   resources:
     memory: "512Mi"
