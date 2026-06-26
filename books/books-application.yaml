@@ -9,7 +9,7 @@ spec:
   container:
     image: ghcr.io/linuxserver/calibre-web
     # renovate: datasource=github-releases depName=linuxserver/docker-calibre-web
-    tag: 0.6.26-ls386
+    tag: 0.6.26-ls388
     port: 8083
   url: "books.nikolaiathome.com"
   replicas: 1
