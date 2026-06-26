@@ -263,7 +263,7 @@ spec:
                       },
                       'requests': {
                         'memory': '100Mi',
-                        'cpu': '0.5'
+                        'cpu': '100m'
                       }
                     },
                     'readinessProbe': {
