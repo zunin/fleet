@@ -35,7 +35,7 @@ spec:
   resources:
     memory: "512Mi"
     cpu: "0.5"
-  runAsUser: 0
+  runAsUser: 1000
   runAsNonRoot: false
   livenessProbePath: "/"
   readOnlyRootFilesystem: false
