@@ -7,28 +7,25 @@ spec:
   name: books
   namespace: books
   container:
-    image: crocodilestick/calibre-web-automated
-    tag: latest
-    port: 8083
+    image: jvmilazz0/kavita
+    # renovate: datasource=github-releases depName=Kareadita/Kavita
+    tag: 0.9.0.2
+    port: 5000
   url: "books.nikolaiathome.com"
   localUrl: "books-copyparty.local.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
+    websocketRoutes: "/"
   externalVolumes:
     - name: config
-      persistentVolumeClaim: calibreweb-config
-      containerMountPath: /config
-    - name: books
-      persistentVolumeClaim: calibreweb-books
-      containerMountPath: /calibre-library
-    - name: ingest
-      persistentVolumeClaim: calibreweb-ingest
-      containerMountPath: /cwa-book-ingest
+      persistentVolumeClaim: kavita-config
+      containerMountPath: /kavita/config
+    - name: media
+      persistentVolumeClaim: kavita-media
+      containerMountPath: /media
   env:
     TZ: "Europe/Copenhagen"
-    PUID: "1000"
-    PGID: "1000"
   filebrowser:
     enabled: true
     port: 3928
@@ -36,6 +33,6 @@ spec:
     memory: "512Mi"
     cpu: "0.5"
   runAsUser: 1000
-  runAsNonRoot: false
+  runAsNonRoot: true
   livenessProbePath: "/"
   readOnlyRootFilesystem: false

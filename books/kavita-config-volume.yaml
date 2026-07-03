@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: calibreweb-ingest
+  name: kavita-config
   namespace: books
   labels:
     app.kubernetes.io/component: volume
