@@ -34,5 +34,5 @@ spec:
     cpu: "0.5"
   runAsUser: 1000
   runAsNonRoot: true
-  livenessProbePath: "/"
+  livenessProbePath: "/api/Health"
   readOnlyRootFilesystem: false
