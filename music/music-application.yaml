@@ -9,7 +9,7 @@ spec:
   container:
     image: deluan/navidrome
     # renovate: datasource=github-releases depName=navidrome/navidrome
-    tag: 0.58.0
+    tag: 0.63.2
     port: 4533
   url: "music.nikolaiathome.com"
   localUrl: "music-copyparty.local.nikolaiathome.com"
