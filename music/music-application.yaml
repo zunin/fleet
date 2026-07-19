@@ -33,7 +33,7 @@ spec:
     ND_ENABLEGRAVATAR: "true"
     ND_DEFAULTTHEME: "CatppuccinMacchiato"
     ND_LASTFM_ENABLED: "true"
-    ND_LYRICSPRIORITY: "nd-lyrics,.ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded"
+    ND_LYRICSPRIORITY: ".ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded,nd-lyrics"
   envFromSecrets:
     ND_SPOTIFY_SECRET:
       secretName: spotify-client
