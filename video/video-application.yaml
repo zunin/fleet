@@ -9,7 +9,7 @@ spec:
   container:
     image: docker.io/jellyfin/jellyfin
     # renovate: datasource=github-releases depName=jellyfin/jellyfin
-    tag: 10.11.6
+    tag: 10.11.11
     port: 8096
   url: "video.nikolaiathome.com"
   localUrl: "video-copyparty.local.nikolaiathome.com"
