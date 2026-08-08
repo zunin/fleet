@@ -9,7 +9,7 @@ spec:
   container:
     image: ghcr.io/advplyr/audiobookshelf
     # renovate: datasource=github-releases depName=advplyr/audiobookshelf
-    tag: 2.30.0
+    tag: 2.36.0
     port: 80
   url: "audiobook.nikolaiathome.com"
   localUrl: "audiobook-copyparty.local.nikolaiathome.com"
