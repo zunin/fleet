@@ -15,7 +15,7 @@ spec:
         namespace: paperless
   values:
     # renovate: datasource=github-releases depName=paperless-ngx/paperless-ngx
-    appversion: 2.18.2
+    appversion: 3.1.3
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
     env:
