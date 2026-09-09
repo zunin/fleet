@@ -15,10 +15,10 @@ spec:
         namespace: rss
   values:
     # renovate: datasource=docker depName=docker.io/freshrss/freshrss
-    appversion: 1.29.1
+    appversion: 1.30.0
     image:
       # renovate: datasource=docker depName=docker.io/freshrss/freshrss
-      tag: 1.29.1
+      tag: 1.30.0
       type: alpine
       registry: docker.io
       repository: freshrss/freshrss
