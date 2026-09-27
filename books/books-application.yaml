@@ -9,7 +9,7 @@ spec:
   container:
     image: jvmilazz0/kavita
     # renovate: datasource=github-releases depName=Kareadita/Kavita
-    tag: 0.9.0.2
+    tag: 0.9.1.4
     port: 5000
   url: "books.nikolaiathome.com"
   localUrl: "books-copyparty.local.nikolaiathome.com"
