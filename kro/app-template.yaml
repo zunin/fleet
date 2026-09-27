@@ -351,6 +351,8 @@ spec:
               client:
                 timeout: 5s
             projectcontour.io/websocket-routes: ${schema.spec.ingress.websocketRoutes}
+            # Envoy's default route timeout is 15s, which kills large uploads/downloads.
+            projectcontour.io/response-timeout: infinity
         spec:
           tls:
           - hosts:
@@ -382,6 +384,8 @@ spec:
             app.kubernetes.io/instance: ${schema.spec.name}-copyparty-ingress
             app.kubernetes.io/component: ingress
             cert-manager.io/cluster-issuer: cloudflare-issuer
+            # Envoy's default route timeout is 15s, which kills large uploads/downloads.
+            projectcontour.io/response-timeout: infinity
         spec:
           tls:
           - hosts:
