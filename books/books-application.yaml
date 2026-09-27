@@ -36,3 +36,4 @@ spec:
   runAsNonRoot: true
   livenessProbePath: "/api/Health"
   readOnlyRootFilesystem: false
+  node: tangesoe
