@@ -12,6 +12,10 @@ spec:
     port: 4433
   url: hister.nikolaiathome.com
   replicas: 1
+  node: tangesoe
+  resources:
+    memory: 2Gi
+    cpu: 500m
   ingress:
     enabled: true
     websocketRoutes: "/"
