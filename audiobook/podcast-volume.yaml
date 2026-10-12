@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: podcast
   namespace: audiobook
-  annotations:
-    recurring-job.longhorn.io/backup-audiobook: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: audiobook
+    recurring-job.longhorn.io/source: enabled
+    recurring-job.longhorn.io/backup-audiobook: enabled
 spec:
   accessModes:
     - ReadWriteOnce

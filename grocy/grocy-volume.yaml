@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: grocy-config-pvc
   namespace: grocy
-  annotations:
-    recurring-job.longhorn.io/backup-grocy: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: grocy
+    recurring-job.longhorn.io/source: enabled
+    recurring-job.longhorn.io/backup-grocy: enabled
 spec:
   accessModes:
     - ReadWriteOnce

@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: navidrome-data-volume
   namespace: music
-  annotations:
-    recurring-job.longhorn.io/backup-music: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: music
+    recurring-job.longhorn.io/source: enabled
+    recurring-job.longhorn.io/backup-music: enabled
 spec:
   accessModes:
     - ReadWriteOnce

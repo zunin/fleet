@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: config
   namespace: 3dfiles
-  annotations:
-    recurring-job.longhorn.io/backup-manyfold: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: manyfold
+    recurring-job.longhorn.io/source: enabled
+    recurring-job.longhorn.io/backup-manyfold: enabled
 spec:
   accessModes:
     - ReadWriteOnce

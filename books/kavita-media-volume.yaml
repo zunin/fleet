@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: kavita-media
   namespace: books
-  annotations:
-    recurring-job.longhorn.io/backup-books: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: books
+    recurring-job.longhorn.io/source: enabled
+    recurring-job.longhorn.io/backup-books: enabled
 spec:
   accessModes:
     - ReadWriteOnce
