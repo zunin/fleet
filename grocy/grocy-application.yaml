@@ -6,6 +6,10 @@ metadata:
 spec:
   name: grocy
   namespace: grocy
+  recurringJob:
+    enabled: true
+    cron: "0 0 * * *"
+    retain: 3
   container:
     image: quay.io/linuxserver.io/grocy
     tag: "4.2.0"

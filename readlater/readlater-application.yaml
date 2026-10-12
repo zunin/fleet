@@ -6,6 +6,10 @@ metadata:
 spec:
   name: readlater
   namespace: readlater
+  recurringJob:
+    enabled: true
+    cron: "30 0 * * *"
+    retain: 3
   container:
     image: docker.io/wallabag/wallabag
     # renovate: datasource=github-releases depName=wallabag/wallabag

@@ -6,6 +6,10 @@ metadata:
 spec:
   name: video
   namespace: video
+  recurringJob:
+    enabled: true
+    cron: "0 7 * * *"
+    retain: 2
   container:
     image: docker.io/jellyfin/jellyfin
     # renovate: datasource=github-releases depName=jellyfin/jellyfin

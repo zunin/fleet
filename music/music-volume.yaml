@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: music-volume
   namespace: music
+  annotations:
+    recurring-job.longhorn.io/backup-music: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: music

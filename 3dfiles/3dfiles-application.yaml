@@ -6,6 +6,10 @@ metadata:
 spec:
   name: manyfold
   namespace: 3dfiles
+  recurringJob:
+    enabled: true
+    cron: "0 2 * * *"
+    retain: 3
   container:
     image: ghcr.io/manyfold3d/manyfold-solo
     # renovate: datasource=github-releases depName=manyfold3d/manyfold

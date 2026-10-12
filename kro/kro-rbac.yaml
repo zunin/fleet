@@ -30,6 +30,18 @@ rules:
       - patch
       - update
   - apiGroups:
+      - longhorn.io
+    resources:
+      - recurringjobs
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
       - apps
     resources:
       - deployments

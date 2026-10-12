@@ -6,6 +6,10 @@ metadata:
 spec:
   name: music
   namespace: music
+  recurringJob:
+    enabled: true
+    cron: "0 3 * * *"
+    retain: 2
   container:
     image: deluan/navidrome
     # renovate: datasource=github-releases depName=navidrome/navidrome

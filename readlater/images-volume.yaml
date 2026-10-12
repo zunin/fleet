@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: images
   namespace: readlater
+  annotations:
+    recurring-job.longhorn.io/backup-readlater: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: readlater

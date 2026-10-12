@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: search-data
   namespace: search
+  annotations:
+    recurring-job.longhorn.io/backup-hister: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: hister

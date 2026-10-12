@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: kavita-config
   namespace: books
+  annotations:
+    recurring-job.longhorn.io/backup-books: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: books

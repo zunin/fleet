@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: video-volume
   namespace: video
+  annotations:
+    recurring-job.longhorn.io/backup-video: enabled
   labels:
     app.kubernetes.io/component: volume
     app.kubernetes.io/app: video

@@ -6,6 +6,10 @@ metadata:
 spec:
   name: hister
   namespace: search
+  recurringJob:
+    enabled: true
+    cron: "0 1 * * *"
+    retain: 3
   container:
     image: ghcr.io/asciimoo/hister
     tag: v0.15.0

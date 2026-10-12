@@ -36,6 +36,11 @@ spec:
       FileBrowserConfig:
         enabled: boolean | default=true
         port: integer
+      RecurringJob:
+        enabled: boolean | default=true
+        cron: string | default="0 3 * * *"
+        retain: integer | default=3
+        concurrency: integer | default=1
       ResourceLimit:
         memory: string | default=300Mi pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
         cpu: string | default=1 pattern="^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
@@ -60,6 +65,7 @@ spec:
       runAsUser: integer | default=1000
       runAsNonRoot: boolean | default=true
       resources: ResourceLimit
+      recurringJob: RecurringJob
       livenessProbePath: string
       node: string | default="unset"
       readOnlyRootFilesystem: boolean | default=true
@@ -328,6 +334,25 @@ spec:
               protocol: TCP
               port: 80
               targetPort: ${schema.spec.container.port}
+
+    - id: recurringJob
+      includeWhen:
+        - ${schema.spec.recurringJob.enabled}
+      template:
+        apiVersion: longhorn.io/v1beta2
+        kind: RecurringJob
+        metadata:
+          name: backup-${schema.spec.name}
+          namespace: longhorn
+          labels:
+            app.kubernetes.io/managed-by: kro
+            app.kubernetes.io/app: ${schema.spec.name}
+        spec:
+          name: backup-${schema.spec.name}
+          cron: ${schema.spec.recurringJob.cron}
+          task: backup
+          retain: ${schema.spec.recurringJob.retain}
+          concurrency: ${schema.spec.recurringJob.concurrency}
 
     - id: ingress
       includeWhen:

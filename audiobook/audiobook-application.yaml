@@ -6,6 +6,10 @@ metadata:
 spec:
   name: audiobook
   namespace: audiobook
+  recurringJob:
+    enabled: true
+    cron: "0 5 * * *"
+    retain: 2
   container:
     image: ghcr.io/advplyr/audiobookshelf
     # renovate: datasource=github-releases depName=advplyr/audiobookshelf

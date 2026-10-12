@@ -6,6 +6,10 @@ metadata:
 spec:
   name: books
   namespace: books
+  recurringJob:
+    enabled: true
+    cron: "30 1 * * *"
+    retain: 3
   container:
     image: jvmilazz0/kavita
     # renovate: datasource=docker depName=jvmilazz0/kavita
