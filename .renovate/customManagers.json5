@@ -23,5 +23,19 @@
       ],
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
     },
+    {
+      customType: "regex",
+      description: "Pin nixpkgs commits used as nixery image tags",
+      fileMatch: [
+        "(^|/).+\\.ya?ml(?:\\.j2)?$",
+      ],
+      matchStrings: [
+        // # renovate: datasource=git-refs packageName=NixOS/nixpkgs ref=nixos-unstable
+        // image: nixery.dev/shell/rsgain:55bfb4d7437bd4e09ab7cba58a43bd68eb310044
+        "datasource=(?<datasource>git-refs) packageName=(?<packageName>\\S+) ref=(?<currentValue>\\S+)\\n.+nixery\\.dev/\\S+:(?<currentDigest>[0-9a-f]{40})",
+      ],
+      datasourceTemplate: "git-refs",
+      packageNameTemplate: "https://github.com/{{packageName}}",
+    },
   ],
 }

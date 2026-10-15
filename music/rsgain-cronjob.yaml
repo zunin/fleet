@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsgain
+  namespace: music
+  labels:
+    app.kubernetes.io/name: rsgain
+    app.kubernetes.io/component: maintenance
+    app.kubernetes.io/app: music
+spec:
+  schedule: "0 4 * * *"
+  timeZone: "Europe/Copenhagen"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 600
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 21600
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: rsgain
+            app.kubernetes.io/component: maintenance
+            app.kubernetes.io/app: music
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          # MUST match the `node` of the music kro Application. music-volume is a
+          # Longhorn RWO volume attached to this node; a pod on any other node
+          # cannot co-mount it (stuck in ContainerCreating).
+          nodeSelector:
+            kubernetes.io/hostname: julsoe
+          securityContext:
+            runAsUser: 5000
+            runAsGroup: 5000
+            runAsNonRoot: true
+            fsGroup: 5000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+          volumes:
+            - name: music
+              persistentVolumeClaim:
+                claimName: music-volume
+            - name: tmpdir
+              emptyDir: {}
+          containers:
+            - name: rsgain
+              # renovate: datasource=git-refs packageName=NixOS/nixpkgs ref=nixos-unstable
+              image: nixery.dev/shell/rsgain:55bfb4d7437bd4e09ab7cba58a43bd68eb310044
+              command:
+                - rsgain
+              # easy mode, skip files that already have ReplayGain tags, 2 threads
+              args:
+                - easy
+                - --skip-existing
+                - -m
+                - "2"
+                - /music
+              securityContext:
+                readOnlyRootFilesystem: true
+                allowPrivilegeEscalation: false
+                privileged: false
+              volumeMounts:
+                - name: music
+                  mountPath: /music
+                - name: tmpdir
+                  mountPath: /tmp
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: "1"
+                  memory: 512Mi
