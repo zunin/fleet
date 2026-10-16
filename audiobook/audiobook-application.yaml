@@ -11,8 +11,8 @@ spec:
     cron: "0 5 * * *"
     retain: 2
   container:
-    image: ghcr.io/advplyr/audiobookshelf
-    # renovate: datasource=github-releases depName=advplyr/audiobookshelf
+    image: ghcr.io/zunin/audiobookshelf
+    # renovate: datasource=docker depName=ghcr.io/zunin/audiobookshelf
     tag: 2.37.1
     port: 80
   url: "audiobook.nikolaiathome.com"

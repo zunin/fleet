@@ -11,9 +11,9 @@ spec:
     cron: "0 3 * * *"
     retain: 2
   container:
-    image: deluan/navidrome
-    # renovate: datasource=github-releases depName=navidrome/navidrome
-    tag: 0.63.2
+    image: ghcr.io/zunin/navidrome
+    # renovate: datasource=docker depName=ghcr.io/zunin/navidrome
+    tag: 0.64.2
     port: 4533
   url: "music.nikolaiathome.com"
   localUrl: "music-copyparty.local.nikolaiathome.com"
@@ -32,6 +32,7 @@ spec:
     PUID: "5000"
     PGID: "5000"
     ND_PORT: "4533"
+    ND_MUSICFOLDER: "/music"
     ND_BASEURL: "https://music.nikolaiathome.com"
     ND_ENABLESHARING: "true"
     ND_ENABLEGRAVATAR: "true"

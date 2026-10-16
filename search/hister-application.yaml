@@ -11,8 +11,9 @@ spec:
     cron: "0 1 * * *"
     retain: 3
   container:
-    image: ghcr.io/asciimoo/hister
-    tag: v0.15.0
+    image: ghcr.io/zunin/hister
+    # renovate: datasource=docker depName=ghcr.io/zunin/hister
+    tag: 0.20.0
     port: 4433
   url: hister.nikolaiathome.com
   replicas: 1
