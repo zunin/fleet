@@ -20,11 +20,11 @@
   ],
   packageRules: [
     {
-      // For our own nix-built images (ghcr.io/zunin/*) only consider the
-      // bare version tags; ignore the immutable <version>-<run> tags.
+      // For our nix-built images (ghcr.io/zunin/*) track the immutable
+      // <version>-<run> tags (stack patches and app versions alike).
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/zunin/*"],
-      allowedVersions: "/^\\d+\\.\\d+(\\.\\d+)?$/",
+      allowedVersions: "/^\\d+\\.\\d+(\\.\\d+)?(-\\d+)?$/",
     },
   ],
   flux: {
