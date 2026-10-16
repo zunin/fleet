@@ -11,9 +11,9 @@ spec:
     cron: "0 7 * * *"
     retain: 2
   container:
-    image: docker.io/jellyfin/jellyfin
-    # renovate: datasource=github-releases depName=jellyfin/jellyfin
-    tag: "12.1"
+    image: ghcr.io/zunin/jellyfin
+    # renovate: datasource=docker depName=ghcr.io/zunin/jellyfin
+    tag: "12.2"
     port: 8096
   url: "video.nikolaiathome.com"
   localUrl: "video-copyparty.local.nikolaiathome.com"

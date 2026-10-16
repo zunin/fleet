@@ -18,6 +18,15 @@
   ],
   ignorePaths: [
   ],
+  packageRules: [
+    {
+      // For our own nix-built images (ghcr.io/zunin/*) only consider the
+      // bare version tags; ignore the immutable <version>-<run> tags.
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/zunin/*"],
+      allowedVersions: "/^\\d+\\.\\d+(\\.\\d+)?$/",
+    },
+  ],
   flux: {
     fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
