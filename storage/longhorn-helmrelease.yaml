@@ -8,10 +8,11 @@ spec:
     spec:
       chart: longhorn
       interval: 15m
+      reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: "1.8.0"
+      version: "1.9.2"
   interval: 5m0s
   releaseName: longhorn
   targetNamespace: longhorn
