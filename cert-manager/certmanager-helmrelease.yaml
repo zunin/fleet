@@ -13,6 +13,8 @@ spec:
         name: jetstack
         namespace: cert-manager
       interval: 30m
-      version: 1.14.5
-  values: 
-    installCRDs: true
+      version: 1.20.4
+  values:
+    crds:
+      enabled: true
+      keep: true
