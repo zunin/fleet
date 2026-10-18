@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: "1.10.2"
+      version: "1.11.3"
   interval: 5m0s
   releaseName: longhorn
   targetNamespace: longhorn
