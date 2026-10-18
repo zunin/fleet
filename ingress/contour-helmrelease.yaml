@@ -5,11 +5,14 @@ metadata:
   namespace: projectcontour
 spec:
   interval: 1m
+  # Default 5m was exceeded on the 2026-03-29 install, leaving the Helm
+  # release "failed" and the HelmRelease Stalled for 7 months.
+  timeout: 10m
   chart:
     spec:
       chart: contour
-      # renovate: datasource=helm depName=contour/contour
-      version: "0.4.0"
+      # renovate: datasource=helm depName=contour repository=https://projectcontour.github.io/helm-charts/
+      version: "0.8.0"
       sourceRef:
         kind: HelmRepository
         name: contour
