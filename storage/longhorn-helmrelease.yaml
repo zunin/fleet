@@ -12,8 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      # 1.13.0 requires Kubernetes >= 1.34.0; cluster is on v1.32.x.
-      version: "1.12.1"
+      version: "1.13.0"
   interval: 5m0s
   releaseName: longhorn
   targetNamespace: longhorn
