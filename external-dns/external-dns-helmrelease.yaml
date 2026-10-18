@@ -5,9 +5,18 @@ metadata:
   namespace: external-dns
 spec:
   interval: 5m
+  # The 2026-09-30 upgrade to 1.23.0 timed out inside the default 5m wait:
+  # external-dns fatal-exits whenever the CoreDNS etcd is unreachable, so any
+  # etcd blip during a rollout breaks readiness checks. 10m + 1 retry.
+  timeout: 10m
+  upgrade:
+    remediation:
+      retries: 1
   chart:
     spec:
       chart: external-dns
+      # renovate: datasource=helm depName=external-dns repository=https://kubernetes-sigs.github.io/external-dns/
+      version: "1.23.0"
       sourceRef:
         kind: HelmRepository
         name: external-dns
