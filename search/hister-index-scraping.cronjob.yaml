@@ -25,7 +25,7 @@ spec:
           containers:
             - name: crawler
               # renovate: datasource=docker
-              image: ghcr.io/zunin/hister:0.20.0@sha256:df15d55d3052318d364462554c0298a9966aede5f4e5be4c2c7b682ffc414dae
+              image: ghcr.io/zunin/hister:0.20.0@sha256:11324045c5fb8e76e454d088291e47fa2ddda4d134e19156ccaedcc61b796eb6
               workingDir: /hister
               env:
                 - name: ACCESS_TOKEN
@@ -33,6 +33,11 @@ spec:
                     secretKeyRef:
                       name: hister-config # Reuses your existing SealedSecret
                       key: ACCESS_TOKEN
+                # The image bakes HISTER__SERVER__ADDRESS=0.0.0.0:4433 for the
+                # server; the CLI validates that config too and refuses to run
+                # without a base_url.
+                - name: HISTER__SERVER__BASE_URL
+                  value: https://hister.nikolaiathome.com
               command:
                 - /bin/sh
                 - -c
