@@ -11,9 +11,10 @@ spec:
     cron: "0 0 * * *"
     retain: 3
   container:
-    image: quay.io/linuxserver.io/grocy
-    tag: "4.2.0"
-    port: 80
+    image: ghcr.io/zunin/grocy
+    # renovate: datasource=docker depName=ghcr.io/zunin/grocy
+    tag: 4.7.1@sha256:dd4ba1d46c53ace6cabf0a48094ecf59d25099b2a9a48808f277b4ab78b5499a
+    port: 8080
   url: "grocy.nikolaiathome.com"
   replicas: 1
   ingress:
@@ -26,18 +27,13 @@ spec:
     TZ: "Europe/Copenhagen"
     GROCY_CULTURE: "da"
     GROCY_CURRENCY: "DKK"
-    PUID: "1000"
-    PGID: "1000"
-  configMapMounts:
-    - configMapName: php-conf
-      mountPath: /config/php
   filebrowser:
     enabled: false
     port: 3929
   resources:
     memory: "662Mi"
     cpu: "0.5"
-  runAsUser: 0
-  runAsNonRoot: false
+  runAsUser: 1000
+  runAsNonRoot: true
   livenessProbePath: "/"
   readOnlyRootFilesystem: false
