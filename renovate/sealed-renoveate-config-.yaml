@@ -20,7 +20,7 @@ spec:
         {
             platform: 'github',
             token: '{{ index . "TokenSecret" }}',
-            repositories: ["zunin/fleet"]
+            repositories: ["zunin/fleet", "zunin/nix-images"]
         }
 
 
