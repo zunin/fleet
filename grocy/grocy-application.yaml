@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/grocy
     # renovate: datasource=docker depName=ghcr.io/zunin/grocy
-    tag: 4.7.1@sha256:dd4ba1d46c53ace6cabf0a48094ecf59d25099b2a9a48808f277b4ab78b5499a
+    tag: 4.7.1@sha256:ad01c979c856ae1bedf4da944c6861c0dab0f587a8a001b2071ce162cf9a2a79
     port: 8080
   url: "grocy.nikolaiathome.com"
   replicas: 1
@@ -27,6 +27,9 @@ spec:
     TZ: "Europe/Copenhagen"
     GROCY_CULTURE: "da"
     GROCY_CURRENCY: "DKK"
+    # PHP sees plain HTTP behind Caddy; without this grocy emits http://
+    # asset URLs, which the browser blocks as mixed content on the HTTPS page.
+    GROCY_BASE_URL: "https://grocy.nikolaiathome.com"
   filebrowser:
     enabled: false
     port: 3929
