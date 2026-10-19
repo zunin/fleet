@@ -11,34 +11,39 @@ spec:
     cron: "30 0 * * *"
     retain: 3
   container:
-    image: docker.io/wallabag/wallabag
-    # renovate: datasource=github-releases depName=wallabag/wallabag
-    tag: 2.6.14
-    port: 80
+    image: ghcr.io/zunin/wallabag
+    # renovate: datasource=docker depName=ghcr.io/zunin/wallabag
+    tag: 2.6.14@sha256:03bd66a8524263b7cb0c58ab9cccdcb64d85dff56b75d50891d2c5038b39b1e4
+    port: 8080
   url: "readlater.nikolaiathome.com"
   replicas: 1
   ingress:
     enabled: true
   externalVolumes:
+    # data PVC (upstream layout: db/wallabag.sqlite) now holds the whole
+    # wallabag tree: WALLABAG_DATA=/config (app seed, parameters, var/,
+    # web/assets/images, db/).
     - name: data
       persistentVolumeClaim: data
-      containerMountPath: /var/www/wallabag/data
+      containerMountPath: /config
+    # article images: DownloadImages saves to /config/web/assets/images and
+    # the image serves /assets/images/* from there via Caddy.
     - name: images
       persistentVolumeClaim: images
-      containerMountPath: /var/www/wallabag/web/assets/images
+      containerMountPath: /config/web/assets/images
+  secretMounts:
+    - secretName: wallabag-parameters
+      mountPath: /params
   env:
     TZ: "Europe/Copenhagen"
-    PUID: "0"
-    PGID: "0"
-    SYMFONY__ENV__DOMAIN_NAME: "https://readlater.nikolaiathome.com"
   filebrowser:
     enabled: false
     port: 3925
   resources:
     memory: "200Mi"
     cpu: "0.1"
-  runAsUser: 0
-  runAsNonRoot: false
+  runAsUser: 1000
+  runAsNonRoot: true
   livenessProbePath: '/api/info' 
   readOnlyRootFilesystem: false
 

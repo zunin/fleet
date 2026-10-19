@@ -24,7 +24,8 @@ spec:
           restartPolicy: Never
           containers:
             - name: crawler
-              image: ghcr.io/asciimoo/hister:v0.15.0
+              # renovate: datasource=docker
+              image: ghcr.io/zunin/hister:0.20.0@sha256:df15d55d3052318d364462554c0298a9966aede5f4e5be4c2c7b682ffc414dae
               workingDir: /hister
               env:
                 - name: ACCESS_TOKEN
@@ -44,13 +45,13 @@ spec:
                   # ── Add your news / rapidly-changing sites below ──
 
                   echo "==> Crawling dr.dk..."
-                  /hister/hister index \
+                  hister index \
                     --server-url "$SERVER" \
                     --token "$TOKEN" \
                     https://dr.dk/
 
                   echo "==> Crawling dr.dk/nyheder..."
-                  /hister/hister index --recursive \
+                  hister index --recursive \
                     --server-url "$SERVER" \
                     --token "$TOKEN" \
                     --max-depth 1 \

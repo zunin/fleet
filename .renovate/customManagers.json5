@@ -37,5 +37,20 @@
       datasourceTemplate: "git-refs",
       packageNameTemplate: "https://github.com/{{packageName}}",
     },
+    {
+      customType: "regex",
+      description: "Digest-pinned single-line zunin image refs (raw manifests, e.g. cronjobs)",
+      fileMatch: [
+        "(^|/).+\\.ya?ml(?:\\.j2)?$",
+      ],
+      matchStrings: [
+        // # renovate: datasource=docker
+        // image: ghcr.io/zunin/hister:0.20.0@sha256:0123abc...(64 hex)
+        // (kro Application CRs use the generic annotated-deps manager above:
+        //  depName= annotation + separate `tag: <version>@sha256:<digest>` line)
+        "# renovate: datasource=docker\\n\\s*image:\\s*(?<depName>ghcr\\.io/zunin/[a-z0-9-]+):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[0-9a-f]{64})",
+      ],
+      datasourceTemplate: "docker",
+    },
   ],
 }
