@@ -7,7 +7,7 @@ metadata:
   namespace: renovate
 spec:
   encryptedData:
-    TokenSecret: AgBV8sFSlf8+HXrhAb7C3FeUXaoYhqjb4U1HkuZxUnapg0WfR6SjL0qD34kKHVNwMxTgG+V/8TzJ26diI075VWktjE/lpENWKR3tvf9R/3roMA50u8Zb9dGLwM1rcGNa0V6macHZWm31hEKt5yal4JlF8g7nDwNoE5e9y1EDbFEX5ZgAM5ziNxxnlTc2Om3LD7S5OnU1set3bTwpDIl4CXpJSBQx2yN7KWvuuCQT6W5D2Ie3LWxHvnJWbeZtnqvCAgjGFX9IOF/o2SYTv9EgKE6EkasVpJUZvTsjzd9737SkL0b1KYKuQSv/5zzb6uBxyC3TiYD/l0v/wjHKnxHdE4bEhBDa9Hayb9GadEZiofaz3a9pas9LADcKsMOhRYggd5EaRl/hF1DIyQb6F/8KyrtU+ugoXKMCHgZxrXRe5NtqSEwir5g+pNRVeJVEznKSuc2N0w6Vi67FkOFJJnoLwT5CwRD0+4GEtiUxTh0cZG5d6Zq5ILbzpFTIoGIr5EJtscXCWEfxGxp8SK+JPQ93q1aE4Qnf886jh6xdd2GSnHwaajVcfPgF+uclgHhX1xepAnFLUfzO58di4MxIUYWBPnBFT+tH/uC1NCbmvZTQpds2q5ObI92msS7d75/mhiFiRJ11/CXlr9DJ2wAkmauRieMirlPdnM2E00dd2pUnhU7eNXcCY9j6AwdIGfvdY1T3zIBUAnCSC3LVC4N+5A6aEHZXvIgITYsoYDHv19u3YSe4veIdrGoRvrin8LupdKp67bdYBXhjId0Yk+Y5G7GthCVMu7m5DZ2rJYneOVkyvhhFakxOB+b9fyJb3/jpaiY=
+    TokenSecret: AgAC4Vfhl1cPNpIKKQT1UiemGvjFnlCCprypDsnJA04JWP4ADyLsb0fa6b+lvTVKCTIneBvJcZbN7MaojsMDt/LPCnm7KIjDzQk5bhLVkmcsUWKLWpuzIC9Pv14ASGaftX91/mJOZtm1si8qQn3h+aHJS1imGPlXk5K1DlXVb2iW+hNd2bQEYx2wAd9WyglE0jLeld0thS1XeLcYBF1Z9PS6afj/Lj9/zmCPIg7Pf5/LiNm3Y7rxEQ9/HWgsluvbxUUNPagC/K3NWf+yVvMW9RMbbLIGhtYC/5gsvpv1xZmugEELhb2K/+5tm7pVu7yz+wYGst+6PB/4KXQGJDL/lOyzbW71decR7bZz+o1AHPQycywjGK6mLzDaR7O8bSKIxaWTFCkJnLVPDyFXpaYaj9o1qfe4BTFzDWJO2sE2C6WiQmpBkd4hIHECmGsXAhOX6sRfNsxtqYcd1EdYLCjafCbreAvxPjPL91xYQyhmBdEn7YNi0i+EeGDEmiDsl4Ud4iiRo1I1pLFu9snay+ioep//xlUpnBREDBLbx9n687qgqWNXfXZppAyuQal6xtDtcQ3xRq94Ku3n2xbfVeIZry3V+PpjEiYlcMZNGJh9s1L7YyxYVhZTreBPwE73lSfOsuTYGXBHSPs74WwG9z/9UOSTfq16vC8XQ3btFWyBbvl0Mh5VjUIu7+9sK/vpWp66ZkS0oWK+KlAnfj2hjukCrT8eS6uh5osWQD+Sf/hZ/Qt/acTPXrFeWhuAJvwRqxaX7/7LwqwufOqDfvBBSordDQZr8WKT4Bi1008IbDsclp7Z5mRgk2PDbWxNHDW2c7Q=
   template:
     metadata:
       annotations:
@@ -20,7 +20,7 @@ spec:
         {
             platform: 'github',
             token: '{{ index . "TokenSecret" }}',
-            repositories: ["zunin/fleet"]
+            repositories: ["zunin/fleet", "zunin/nix-images"]
         }
 
 
