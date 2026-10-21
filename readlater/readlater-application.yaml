@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/wallabag
     # renovate: datasource=docker depName=ghcr.io/zunin/wallabag
-    tag: 2.6.14@sha256:dbceb18c706cb7587190ee04cace245ec75225e4251e1070630d01700eb4eab3
+    tag: 2.6.14@sha256:7fe323cad4ad49cf052d00e55ff5ea19d22f7de976e3e0402347285e13491029
     port: 8080
   url: "readlater.nikolaiathome.com"
   replicas: 1
