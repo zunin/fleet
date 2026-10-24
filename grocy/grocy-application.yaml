@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/grocy
     # renovate: datasource=docker depName=ghcr.io/zunin/grocy
-    tag: 4.7.1@sha256:e5aac228362f32d2566cad8e69bcd9751392fe90ee4e91ce87e46027a24c9516
+    tag: 4.7.1@sha256:d18e4726e55cd1778986d70aa0dea72d97df43f5f268af4ab3e422c763e1221c
     port: 8080
   url: "grocy.nikolaiathome.com"
   replicas: 1
