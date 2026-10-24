@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/navidrome
     # renovate: datasource=docker depName=ghcr.io/zunin/navidrome
-    tag: 0.64.2-19
+    tag: 0.64.2-19@sha256:5826897410d4741db1fb12c71224495c84f2247b6892a4e6cfa50812b6804af6
     port: 4533
   url: "music.nikolaiathome.com"
   localUrl: "music-copyparty.local.nikolaiathome.com"
