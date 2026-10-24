@@ -7,8 +7,9 @@ spec:
   name: gatus
   namespace: health
   container:
-    image: ghcr.io/twin/gatus
-    tag: v5.15.0
+    image: ghcr.io/zunin/gatus
+    # renovate: datasource=docker depName=ghcr.io/zunin/gatus
+    tag: 5.37.0-76@sha256:c8c67aa4955cc27cc6415ee417bdc346101b53c1d2a129e1866faace94c606fe
     port: 8080
   url: "gatus.nikolaiathome.com"
   externalVolumes:
