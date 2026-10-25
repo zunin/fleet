@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/audiobookshelf
     # renovate: datasource=docker depName=ghcr.io/zunin/audiobookshelf
-    tag: 2.37.1-20@sha256:0809320b73d6e66fc0a21fc2d61860165d9d207e9b3369d0c40e82edeccb78f7
+    tag: 2.37.1@sha256:923ac049816936132d26ec6c086bb69a8e96f56efcbca5a89e23f30e6567dac8
     port: 80
   url: "audiobook.nikolaiathome.com"
   localUrl: "audiobook-copyparty.local.nikolaiathome.com"
