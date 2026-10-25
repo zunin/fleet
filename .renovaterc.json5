@@ -20,8 +20,10 @@
   ],
   packageRules: [
     {
-      // For our nix-built images (ghcr.io/zunin/*) track the immutable
-      // <version>-<run> tags (stack patches and app versions alike).
+      // For our nix-built images (ghcr.io/zunin/*) pin the mutable
+      // <version>@sha256:<digest> (bare version + digest). Run-suffixed
+      // tags are invisible to renovate (prerelease sorting + immutable
+      // digests), so <version>-<run>@sha256 pins never get updates.
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/zunin/*"],
       allowedVersions: "/^\\d+\\.\\d+(\\.\\d+)?(-\\d+)?$/",
