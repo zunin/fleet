@@ -28,7 +28,7 @@
       matchPackageNames: ["ghcr.io/zunin/*"],
       allowedVersions: "/^\\d+\\.\\d+(\\.\\d+)?(-\\d+)?$/",
       prBodyNotes: [
-        "Built from https://github.com/zunin/nix-images. Digest-only updates are base/OS (nixpkgs) rebuilds of the same app version — the image's `dev.zunin.nixpkgs-revision` label identifies the stack, and the weekly flake-update PR in that repo carries the upstream nixpkgs compare link.",
+        "Built from https://github.com/zunin/nix-images. Digest-only updates are base/OS (nixpkgs) rebuilds of the same app version — the image's `dev.zunin.nixpkgs-revision` label identifies the stack, and the daily flake.lock bump PR (renovate nix manager) in that repo carries the upstream nixpkgs change.",
       ],
     },
   ],

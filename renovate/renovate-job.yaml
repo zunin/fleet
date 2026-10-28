@@ -11,8 +11,19 @@ spec:
       template:
         spec:
           containers:
-            - image: renovate/renovate:38.128.6
-              name: renovate-bot
+            - name: renovate-bot
+              # renovate: datasource=docker
+              image: ghcr.io/zunin/renovate:44.151.2@sha256:d42e3d11edfcb3e167e69b3969e70efc22a7de2dccbb955b25aa6e8427911e32
+              # nix-images-built image: renovate + git/nix/nodejs (the nix
+              # manager's flake.lock lockFileMaintenance); rootless nix store
+              # lives in the /tmp/renovate emptyDir, so rootfs stays writable.
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 512Mi
+                limits:
+                  cpu: "2"
+                  memory: 2Gi
               env:
                 - name: RENOVATE_BASE_DIR
                   value: '/tmp/renovate/'
