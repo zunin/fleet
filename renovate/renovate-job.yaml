@@ -36,8 +36,6 @@ spec:
                   mountPath: "/opt/renovate/config.json"
                   subPath: config.js
                   readonly: true
-                - name: work-volume
-                  mountPath: /tmp/renovate/
           restartPolicy: Never
           volumes:
             - name: config-volume
@@ -46,5 +44,9 @@ spec:
                 items:
                   - key: config.js
                     path: config.js
-            - name: work-volume
-              emptyDir: {}
+            # No emptyDir at /tmp/renovate anymore: an emptyDir is
+            # root-owned, and nix refuses a $HOME it doesn't own ("falling
+            # back to the one defined in passwd ('/')") -> /.cache fails.
+            # The image pre-creates /tmp/renovate owned by UID 1000
+            # (apps/renovate.nix) and the rootfs is writable; clones + the
+            # chroot nix store are ephemeral with the pod either way.
