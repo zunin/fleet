@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/hister
     # renovate: datasource=docker depName=ghcr.io/zunin/hister
-    tag: 0.20.0@sha256:b5a72db7220627f9eb3d9ad3378450b12d45883f6b336c0328d21ad85fd844d4
+    tag: 0.21.0@sha256:aa4e05e7229f9cb35b772cd614486c527678d2597bc34b6617cb3a70fe90c7da
     port: 4433
   url: hister.nikolaiathome.com
   replicas: 1
