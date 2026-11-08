@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/kavita
     # renovate: datasource=docker depName=ghcr.io/zunin/kavita
-    tag: 0.9.1.4@sha256:3ff0000271f2de85f9edeff2eb0706d5f6168f11a8bc6e6c91b019fa7ef98f7a
+    tag: 0.9.1.4@sha256:f603890fe0077ee8a105b021d202436e257e3b20693a52a2d3e203a05f8a94db
     port: 5000
   url: "books.nikolaiathome.com"
   localUrl: "books-copyparty.local.nikolaiathome.com"
