@@ -49,7 +49,7 @@ spec:
           containers:
             - name: rsgain
               # renovate: datasource=git-refs packageName=NixOS/nixpkgs ref=nixos-unstable
-              image: nixery.dev/shell/rsgain:f4a03c008967841f2a0b3cb7c436fc6fc31671f6
+              image: nixery.dev/shell/rsgain:d4f25a3e562008648d45bcf2d70bcc7422cad84e
               command:
                 - rsgain
               # easy mode, skip files that already have ReplayGain tags, 2 threads
