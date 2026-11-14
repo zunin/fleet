@@ -55,6 +55,19 @@
         "This PR must include regenerated controller images, CRDs and RBAC, not just the Flux Version header. Review Flux release-specific API migrations before merging.",
       ],
     },
+    {
+      // Updating the chart upgrades cert-manager's controllers and CRDs together.
+      // Keep certificate infrastructure upgrades isolated and manually reviewed.
+      matchDatasources: ["helm"],
+      matchPackageNames: ["cert-manager"],
+      matchFileNames: ["cert-manager/certmanager-helmrelease.yaml"],
+      groupName: null,
+      automerge: false,
+      rebaseWhen: "behind-base-branch",
+      prBodyNotes: [
+        "Review cert-manager upgrade notes and Kubernetes compatibility before merging. The chart manages controller images and CRDs; no separate image bumps are needed.",
+      ],
+    },
   ],
   flux: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
