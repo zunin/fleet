@@ -9,7 +9,7 @@ spec:
   container:
     image: ghcr.io/zunin/gatus
     # renovate: datasource=docker depName=ghcr.io/zunin/gatus
-    tag: 5.37.0@sha256:a84ea7ca32b715a9f710640d72a8d2d66d25711a61d4b4c7cd2e2fb9a2bbdc67
+    tag: 5.38.0@sha256:f0f8c82f6c2ff16abb1a799dffdafa7bc308ecd20a23a4627d78c0f5ed457991
     port: 8080
   url: "gatus.nikolaiathome.com"
   externalVolumes:
