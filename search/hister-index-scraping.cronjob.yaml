@@ -25,7 +25,7 @@ spec:
           containers:
             - name: crawler
               # renovate: datasource=docker
-              image: ghcr.io/zunin/hister:0.21.0@sha256:08f88452cf351b1f5d3665b6fca9c1d7a884afc1ebd0fd0d3fb99de46d703680
+              image: ghcr.io/zunin/hister:0.21.0@sha256:640f3dfa2a5e3091a39436cce3413f3525adc8d32f6084310aef0f03a55e3cd1
               workingDir: /hister
               env:
                 - name: ACCESS_TOKEN
