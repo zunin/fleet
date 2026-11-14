@@ -21,5 +21,5 @@ spec:
   upgrade:
     image: rancher/k3s-upgrade
   # Match the validated control-plane version; upgrade workers one at a time.
-  # Contour 1.33.8 and CloudNativePG 1.30.1 support Kubernetes 1.35.
-  version: "v1.35.10+k3s1"
+  # Contour 1.33.8 and CloudNativePG 1.30.1 support Kubernetes 1.36.
+  version: "v1.36.6+k3s1"
