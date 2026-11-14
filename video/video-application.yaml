@@ -38,7 +38,7 @@ spec:
     enabled: true
     port: 3924
   resources:
-    memory: "1000Mi"
+    memory: "2Gi"
     cpu: "2"
   runAsUser: 5000
   runAsNonRoot: true
