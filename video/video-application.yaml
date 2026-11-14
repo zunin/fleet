@@ -13,7 +13,7 @@ spec:
   container:
     image: ghcr.io/zunin/jellyfin
     # renovate: datasource=docker depName=ghcr.io/zunin/jellyfin
-    tag: "12.2@sha256:ba8f357532877fdd8710bb0f6beffff2a4b09bf0438809bb0429266883ed0200"
+    tag: "12.4@sha256:774c518e40bfa678551a2b4b0a1c647a589dc39cd639e60334c3853ff67ac560"
     port: 8096
   url: "video.nikolaiathome.com"
   localUrl: "video-copyparty.local.nikolaiathome.com"
