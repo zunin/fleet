@@ -35,14 +35,34 @@
         "Built from https://github.com/zunin/nix-images. Digest-only updates are base/OS (nixpkgs) rebuilds of the same app version — the image's `dev.zunin.nixpkgs-revision` label identifies the stack, and the daily flake.lock bump PR (renovate nix manager) in that repo carries the upstream nixpkgs change.",
       ],
     },
+    {
+      // A header-only bump does not upgrade Flux. The bot-packaged helper
+      // downloads a checksum-verified CLI matching the proposed release.
+      matchManagers: ["flux"],
+      matchPackageNames: ["fluxcd/flux2"],
+      matchFileNames: ["flux-system/gotk-components.yaml"],
+      groupName: null,
+      automerge: false,
+      rebaseWhen: "behind-base-branch",
+      // Native generation would use the preinstalled CLI's own version.
+      skipArtifactsUpdate: true,
+      postUpgradeTasks: {
+        commands: ["update-flux {{{newValue}}}"],
+        fileFilters: ["flux-system/gotk-components.yaml"],
+        executionMode: "update",
+      },
+      prBodyNotes: [
+        "This PR must include regenerated controller images, CRDs and RBAC, not just the Flux Version header. Review Flux release-specific API migrations before merging.",
+      ],
+    },
   ],
   flux: {
-    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
   "helm-values": {
-    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
   kubernetes: {
-    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
 }
