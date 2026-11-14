@@ -5,6 +5,23 @@ metadata:
   namespace: rss
 spec:
   interval: 15m
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: freshrss
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: freshrss
+              spec:
+                strategy:
+                  type: Recreate
+                  rollingUpdate: null
   chart:
     spec:
       chart: freshrss
@@ -14,6 +31,8 @@ spec:
         name: christianhuth
         namespace: rss
   values:
+    nodeSelector:
+      kubernetes.io/hostname: julsoe
     # renovate: datasource=docker depName=docker.io/freshrss/freshrss
     appversion: 1.30.4
     image:
