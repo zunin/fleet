@@ -12,6 +12,10 @@
     ":timezone(Europe/Copenhagen)",
   ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  // Older commits on long-lived update branches used this previous account
+  // email. Treating them as manual edits makes Renovate override merged PRs
+  // and recreate identical digest updates on every run.
+  gitIgnoredAuthors: ["nikolai@oellegaard.dk"],
   suppressNotifications: [
     "prEditedNotification",
     "prIgnoreNotification",
