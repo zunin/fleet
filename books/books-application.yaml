@@ -18,6 +18,7 @@ spec:
   url: "books.nikolaiathome.com"
   localUrl: "books-copyparty.local.nikolaiathome.com"
   replicas: 1
+  node: slaaensoe
   ingress:
     enabled: true
     websocketRoutes: "/"

@@ -16,6 +16,14 @@ spec:
       # renovate: datasource=helm depName=cert-manager repository=https://charts.jetstack.io
       version: v1.21.3
   values:
+    nodeSelector:
+      kubernetes.io/hostname: tangesoe
+    webhook:
+      nodeSelector:
+        kubernetes.io/hostname: tangesoe
+    cainjector:
+      nodeSelector:
+        kubernetes.io/hostname: tangesoe
     crds:
       enabled: true
       keep: true

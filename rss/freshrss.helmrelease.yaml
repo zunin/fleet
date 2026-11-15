@@ -32,7 +32,7 @@ spec:
         namespace: rss
   values:
     nodeSelector:
-      kubernetes.io/hostname: julsoe
+      kubernetes.io/hostname: slaaensoe
     # renovate: datasource=docker depName=docker.io/freshrss/freshrss
     appversion: 1.30.4
     image:
