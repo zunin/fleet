@@ -7,7 +7,7 @@ metadata:
   namespace: renovate
 spec:
   encryptedData:
-    TokenSecret: AgAC4Vfhl1cPNpIKKQT1UiemGvjFnlCCprypDsnJA04JWP4ADyLsb0fa6b+lvTVKCTIneBvJcZbN7MaojsMDt/LPCnm7KIjDzQk5bhLVkmcsUWKLWpuzIC9Pv14ASGaftX91/mJOZtm1si8qQn3h+aHJS1imGPlXk5K1DlXVb2iW+hNd2bQEYx2wAd9WyglE0jLeld0thS1XeLcYBF1Z9PS6afj/Lj9/zmCPIg7Pf5/LiNm3Y7rxEQ9/HWgsluvbxUUNPagC/K3NWf+yVvMW9RMbbLIGhtYC/5gsvpv1xZmugEELhb2K/+5tm7pVu7yz+wYGst+6PB/4KXQGJDL/lOyzbW71decR7bZz+o1AHPQycywjGK6mLzDaR7O8bSKIxaWTFCkJnLVPDyFXpaYaj9o1qfe4BTFzDWJO2sE2C6WiQmpBkd4hIHECmGsXAhOX6sRfNsxtqYcd1EdYLCjafCbreAvxPjPL91xYQyhmBdEn7YNi0i+EeGDEmiDsl4Ud4iiRo1I1pLFu9snay+ioep//xlUpnBREDBLbx9n687qgqWNXfXZppAyuQal6xtDtcQ3xRq94Ku3n2xbfVeIZry3V+PpjEiYlcMZNGJh9s1L7YyxYVhZTreBPwE73lSfOsuTYGXBHSPs74WwG9z/9UOSTfq16vC8XQ3btFWyBbvl0Mh5VjUIu7+9sK/vpWp66ZkS0oWK+KlAnfj2hjukCrT8eS6uh5osWQD+Sf/hZ/Qt/acTPXrFeWhuAJvwRqxaX7/7LwqwufOqDfvBBSordDQZr8WKT4Bi1008IbDsclp7Z5mRgk2PDbWxNHDW2c7Q=
+    TokenSecret: AgCoyzHuOGjQyqVX1f588e7UzQ/ahcjqy4CuWZFCru7jO8kE3+NaaRX8BoT4DbN59jrr9UhTxiknK3l2FmAYO4IUSwth+eXR8n3j6FpCAKk7taw6pdDa5Az05SRQ+zhF0C3pFoD7BJ9Rr2wNzc3WAr/65RMfFyDslzeFOdd+2GYk+mLB6bNFW5+f1Mu6qpH4tqSC5LSLYrOePrGCiRJ2+1O4z/NCfbSx+YYGjJ/Q1evxstp1VOVon+LZpSvAexaGJt6bv1OhKBGCOl7YMjOulv/ucfQjf8zkkXAM+t7ilQrEYhCTGaBaTpRse1u9h3t0vBHVRc9Y7JGnlGhEaOcZ4RAUm5dQH59QWJkw22bww3J3nAwblhp2Y5ZN6plOUBEi3/OwseJjtujHT2dWOV0otP01vPK70tFj4Qki99M4M+t/Ym2R8VCu6G9ttr3Da2fyH83GfoJJpyRpMZjR3gx7OXEUW8T/S84IT/88xagFWge2KnfdMg9a4xzP2I8XBexoZ+npK4d8/qn171Tj8Rv06LloY67/Wp8cPxbMn8qfp7Hj7BxeJ6aF+nCh5aHNQFE7KDZQJjQIw4aXTTZDLlyWDrGS4/Hgmx1KL1t/LS6HJ8LIAAWrdM9CnMzGyFaLwqShj5A7snOn0jYQ2SSljAVZOq0jqZBFwiJgur7IcEURFcs4N7udbkipiVvgl36tVtU1IOh10CACkf8HgxwjNZ6H62FbLdmVrrjA1NoazVAUxwR9Mlebz1+CT7yS6cPxGAkqsv5vE5l5Qb0l7/SoXCG/q0gH7TVwZXGse0yKMwUXuaTIuND4QJEJktMh16AczIE=
   template:
     metadata:
       annotations:
@@ -22,5 +22,3 @@ spec:
             token: '{{ index . "TokenSecret" }}',
             repositories: ["zunin/fleet", "zunin/nix-images"]
         }
-
-
