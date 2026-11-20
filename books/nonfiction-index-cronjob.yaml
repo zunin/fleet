@@ -1,0 +1,194 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nonfiction-index
+  namespace: books
+data:
+  export.py: |
+    import html
+    import json
+    import os
+    import posixpath
+    import re
+    import urllib.parse
+    import urllib.request
+    import xml.etree.ElementTree as ET
+    import zipfile
+    from pathlib import Path
+
+    def api(path, body=None):
+        request = urllib.request.Request(
+            'http://books-svc.books.svc.cluster.local' + path,
+            data=json.dumps(body).encode() if body is not None else None,
+            headers={'x-api-key': os.environ['KAVITA_KEY'], 'Content-Type': 'application/json'},
+        )
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.load(response)
+
+    def render(path, title, url):
+        sections = []
+        with zipfile.ZipFile(path) as book:
+            package = ET.fromstring(book.read('META-INF/container.xml')).find('.//{*}rootfile').get('full-path')
+            opf = ET.fromstring(book.read(package))
+            manifest = {item.get('id'): item for item in opf.find('{*}manifest')}
+            for ref in opf.find('{*}spine'):
+                item = manifest[ref.get('idref')]
+                if item.get('media-type') not in ('application/xhtml+xml', 'text/html'):
+                    continue
+                href = urllib.parse.unquote(urllib.parse.urlsplit(item.get('href')).path)
+                member = posixpath.normpath(posixpath.join(posixpath.dirname(package), href))
+                if book.getinfo(member).file_size > 8 * 1024 * 1024:
+                    raise ValueError('EPUB section exceeds 8 MiB')
+                body = ET.fromstring(book.read(member)).find('.//{*}body')
+                if body is None:
+                    continue
+                for parent in body.iter():
+                    for child in list(parent):
+                        if child.tag.rsplit('}', 1)[-1] in ('script', 'style', 'svg'):
+                            parent.remove(child)
+                text = re.sub(r'\s+', ' ', ' '.join(body.itertext())).strip()
+                if text:
+                    sections.append('<p>' + html.escape(text) + '</p>')
+        if not sections:
+            raise ValueError('No text extracted')
+        title = html.escape(title)
+        return (f'<!doctype html><html><head><meta charset="utf-8"><title>{title}</title>'
+                f'<link rel="canonical" href="{html.escape(url)}"></head>'
+                f'<body><article><h1>{title}</h1>{"".join(sections)}</article></body></html>')
+
+    root = Path('/media/nonfiction').resolve(strict=True)
+    seen = set()
+    count = 0
+    for page in range(1, 1001):
+        batch = api(f'/api/Series/all-v2?PageNumber={page}&PageSize=20', {})
+        if not batch:
+            break
+        for series in batch:
+            sid = int(series['id'])
+            if sid in seen:
+                raise ValueError(f'Duplicate series during pagination: {sid}')
+            seen.add(sid)
+            if series['libraryId'] != 1 or series['format'] != 3:
+                continue
+            volumes = api(f'/api/Series/volumes?seriesId={sid}')
+            paths = sorted({Path(f['filePath']) for v in volumes for ch in v['chapters']
+                            for f in ch['files'] if f.get('filePath')
+                            and Path(f['filePath']).suffix.lower() == '.epub'
+                            and Path(f['filePath']).is_relative_to('/media/nonfiction')})
+            if sid == 52:
+                paths = [p for p in paths if p.name == 'designingdistributedsystems2ndedition.epub']
+                if not paths:
+                    print('Expected second edition missing for series 52', flush=True)
+                    Path('/work/export-failed').touch()
+                    continue
+            if len(paths) > 1:
+                print(f'Skipping ambiguous series {sid}: {len(paths)} EPUBs', flush=True)
+                Path('/work/export-failed').touch()
+                continue
+            if not paths:
+                continue
+            try:
+                path = paths[0].resolve(strict=True)
+                if not path.is_relative_to(root):
+                    raise ValueError('EPUB outside nonfiction directory')
+                url = f'https://books.nikolaiathome.com/library/1/series/{sid}'
+                if os.environ.get('DRY_RUN') != 'true':
+                    Path(f'/work/{sid}.html').write_text(render(path, series['name'], url), encoding='utf-8')
+                print(f'Selected {sid}: {series["name"]}', flush=True)
+                count += 1
+            except (OSError, ValueError, KeyError, ET.ParseError, zipfile.BadZipFile) as error:
+                print(f'Failed to export series {sid}: {error}', flush=True)
+                Path('/work/export-failed').touch()
+    else:
+        raise ValueError('Pagination limit reached')
+    if not count:
+        raise ValueError('No nonfiction EPUBs selected')
+    print(f'Selected {count} nonfiction EPUBs', flush=True)
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nonfiction-index
+  namespace: books
+spec:
+  schedule: "15 4 * * 0"
+  timeZone: Europe/Copenhagen
+  suspend: false
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 3600
+      template:
+        spec:
+          automountServiceAccountToken: false
+          restartPolicy: Never
+          nodeSelector:
+            kubernetes.io/hostname: slaaensoe
+          initContainers:
+            - name: export
+              # renovate: datasource=docker depName=python
+              image: python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 512Mi
+              command: [python3, /scripts/export.py]
+              env:
+                - name: DRY_RUN
+                  value: "false"
+                - name: KAVITA_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: nonfiction-index-auth
+                      key: kavita-key
+              volumeMounts:
+                - {name: scripts, mountPath: /scripts, readOnly: true}
+                - {name: media, mountPath: /media, readOnly: true}
+                - {name: work, mountPath: /work}
+          containers:
+            - name: import
+              image: ghcr.io/zunin/hister:0.20.0@sha256:b5a72db7220627f9eb3d9ad3378450b12d45883f6b336c0328d21ad85fd844d4
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 512Mi
+              command: [sh, -ec]
+              args:
+                - |
+                  for file in /work/*.html; do
+                    [ -f "$file" ] || continue
+                    hister import file --server-url http://hister-svc.search.svc.cluster.local --label books-nonfiction --client-timeout 120 "$file"
+                    sleep 10
+                  done
+                  if [ -f /work/export-failed ]; then
+                    echo 'One or more books failed conversion or selection' >&2
+                    exit 1
+                  fi
+              env:
+                - name: HISTER__SERVER__ADDRESS
+                  value: 127.0.0.1:4433
+                - name: HISTER__INDEXER__MAX_FILE_SIZE_MB
+                  value: "16"
+                - name: HISTER__APP__ACCESS_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: nonfiction-index-auth
+                      key: hister-token
+              volumeMounts:
+                - {name: work, mountPath: /work, readOnly: true}
+          volumes:
+            - name: scripts
+              configMap:
+                name: nonfiction-index
+            - name: media
+              persistentVolumeClaim:
+                claimName: kavita-media
+                readOnly: true
+            - name: work
+              emptyDir:
+                sizeLimit: 512Mi

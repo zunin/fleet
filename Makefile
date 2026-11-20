@@ -3,7 +3,7 @@
 export INPUT_DIR KUBE_CONTEXT
 
 secrets := cifs-secret cloudflare-api-token extraconfig hister-config lastfm-api \
-	manyfold-secret-key registrationsharedsecret renovate-config spotify-client \
+	manyfold-secret-key nonfiction-index-auth registrationsharedsecret renovate-config spotify-client \
 	synapse-postgres-password synapse-redis-password tunnel-credentials \
 	wallabag-parameters writefreely-config
 
@@ -14,6 +14,7 @@ secret.extraconfig := chat/extraconfig.sealedsecret.yaml chat namespace-wide cli
 secret.hister-config := search/sealed-hister-config.yaml search strict ACCESS_TOKEN
 secret.lastfm-api := music/lastfm-api.sealedsecret.yaml music namespace-wide apikey apisharedsecret
 secret.manyfold-secret-key := 3dfiles/manyfold-secret-key.sealedsecret.yaml 3dfiles namespace-wide manyfold-secret-key
+secret.nonfiction-index-auth := books/nonfiction-index-auth.sealedsecret.yaml books strict kavita-key hister-token
 secret.registrationsharedsecret := chat/registrationSharedSecret.sealedsecret.yaml chat namespace-wide registrationsharedsecret
 secret.renovate-config := renovate/sealed-renoveate-config-.yaml renovate namespace-wide TokenSecret
 secret.spotify-client := music/spotify-client.sealedsecret.yaml music namespace-wide clientid clientsecret
