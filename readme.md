@@ -1,21 +1,18 @@
 ## Generating a sealed secret
 
-To rotate values in a registered SealedSecret, run `make help` to list targets
-and `make help-spotify-client` (for example) to see the required keys.
+To rotate values in a SealedSecret, run `make help` to list the targets.
 
 ```sh
 make reseal-spotify-client
 ```
 
-The script shows the target context and Secret before prompting for each value
-without echoing it. Press Enter to keep a value, or Ctrl+C to cancel the whole
-rotation. If you skip every key, the manifest is left unchanged. It uses the current `kubectl` context unless you pass
-`KUBE_CONTEXT=my-cluster`. For multiline values or non-interactive use, pass
-`INPUT_DIR=/path/to/values` with one file per key outside the repository.
+Each target passes named options to `scripts/reseal.sh`. The script prompts for
+each value without echoing it. Press Enter to keep a value, or Ctrl+C to cancel
+before writing. If you skip every key, the manifest is left unchanged. The
+commands use the current kubeconfig context. Prompts accept single-line values
+and require a terminal.
 
-The Makefile's reseal targets require GNU Make, Bash, [Mike Farah's `yq` v4](https://github.com/mikefarah/yq), standard shell utilities (`base64`, `tr`, `sort`, `dirname`, `mktemp`, `cp`, `mv`, `rm`), `kubectl`, `kubeseal`, and access to the Sealed Secrets controller in the selected context. Python is not required. The command validates the result
-before replacing the manifest. It does not apply anything to the cluster;
-review the diff before committing it for Flux.
+The reseal targets require GNU Make, Bash, [Mike Farah's `yq` v4](https://github.com/mikefarah/yq), `kubeseal`, and access to the Sealed Secrets controller in the current context. They validate the result before writing the manifest, but the final write is not atomic. They do not apply anything to the cluster; review the diff before committing it for Flux.
 
 Replace the quoted placeholders. Keep the namespace explicit.
 

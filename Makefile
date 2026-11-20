@@ -1,42 +1,69 @@
 .DEFAULT_GOAL := help
 
-export INPUT_DIR KUBE_CONTEXT
+# Discover explicit reseal targets from the Makefiles read so far.
+reseal_targets := $(shell awk '/^reseal-[a-z0-9-]+:$$/ {sub(/:$$/, ""); print}' $(MAKEFILE_LIST))
 
-secrets := cifs-secret cloudflare-api-token extraconfig hister-config lastfm-api \
-	manyfold-secret-key nonfiction-index-auth registrationsharedsecret renovate-config spotify-client \
-	synapse-postgres-password synapse-redis-password tunnel-credentials \
-	wallabag-parameters writefreely-config
-
-# Each entry is: manifest namespace scope key [key ...]
-secret.cifs-secret := storage/cifs-secret.sealedsecret.yaml longhorn namespace-wide CIFS_PASSWORD CIFS_USERNAME
-secret.cloudflare-api-token := cert-manager/cloudflare-api-token.sealedsecret.yaml cert-manager namespace-wide token
-secret.extraconfig := chat/extraconfig.sealedsecret.yaml chat namespace-wide client_secret signing_key
-secret.hister-config := search/sealed-hister-config.yaml search strict ACCESS_TOKEN
-secret.lastfm-api := music/lastfm-api.sealedsecret.yaml music namespace-wide apikey apisharedsecret
-secret.manyfold-secret-key := 3dfiles/manyfold-secret-key.sealedsecret.yaml 3dfiles namespace-wide manyfold-secret-key
-secret.nonfiction-index-auth := books/nonfiction-index-auth.sealedsecret.yaml books strict kavita-key hister-token
-secret.registrationsharedsecret := chat/registrationSharedSecret.sealedsecret.yaml chat namespace-wide registrationsharedsecret
-secret.renovate-config := renovate/sealed-renoveate-config-.yaml renovate namespace-wide TokenSecret
-secret.spotify-client := music/spotify-client.sealedsecret.yaml music namespace-wide clientid clientsecret
-secret.synapse-postgres-password := chat/sealed-synapse-postgres-password.yaml chat strict password
-secret.synapse-redis-password := chat/sealed-synapse-redis-password.yaml chat strict password
-secret.tunnel-credentials := cloudflare-tunnel/sealed-tunnel-credentials.yaml default strict credentials.json
-secret.wallabag-parameters := readlater/wallabag-parameters.sealedsecret.yaml readlater namespace-wide Secret
-secret.writefreely-config := writings/sealed-writefreely-config.yaml writings strict ClientSecret
-
-reseal_targets := $(addprefix reseal-,$(secrets))
-help_targets := $(addprefix help-,$(secrets))
-
-.PHONY: help $(reseal_targets) $(help_targets)
+.PHONY: help $(reseal_targets)
 help:
-	@printf '%s\n' 'Reseal targets (run make help-<name> for details):' $(reseal_targets)
+	@printf '%s\n' 'Reseal targets (values are prompted for without echo; Enter keeps a value):' $(reseal_targets)
 
-$(help_targets): help-%:
-	@printf '%s\n' 'Usage: make reseal-$* [INPUT_DIR=/path/to/values] [KUBE_CONTEXT=context]' \
-		'Manifest: $(word 1,$(secret.$*))' 'Namespace: $(word 2,$(secret.$*))' \
-		'Required keys: $(wordlist 4,999,$(secret.$*))' \
-		'Omit INPUT_DIR for hidden prompts; press Enter to keep a value. With INPUT_DIR, provide one file per key.' \
-		'Omit KUBE_CONTEXT to use the current kubectl context.'
+reseal-cifs-secret:
+	@bash scripts/reseal.sh --manifest storage/cifs-secret.sealedsecret.yaml \
+		--name cifs-secret --namespace longhorn --scope namespace-wide \
+		--key CIFS_PASSWORD --key CIFS_USERNAME
 
-$(reseal_targets): reseal-%:
-	@bash scripts/reseal.sh '$(word 1,$(secret.$*))' '$*' $(wordlist 2,999,$(secret.$*))
+reseal-cloudflare-api-token:
+	@bash scripts/reseal.sh --manifest cert-manager/cloudflare-api-token.sealedsecret.yaml \
+		--name cloudflare-api-token --namespace cert-manager --scope namespace-wide --key token
+
+reseal-extraconfig:
+	@bash scripts/reseal.sh --manifest chat/extraconfig.sealedsecret.yaml \
+		--name extraconfig --namespace chat --scope namespace-wide --key client_secret --key signing_key
+
+reseal-hister-config:
+	@bash scripts/reseal.sh --manifest search/sealed-hister-config.yaml \
+		--name hister-config --namespace search --scope strict --key ACCESS_TOKEN
+
+reseal-lastfm-api:
+	@bash scripts/reseal.sh --manifest music/lastfm-api.sealedsecret.yaml \
+		--name lastfm-api --namespace music --scope namespace-wide --key apikey --key apisharedsecret
+
+reseal-manyfold-secret-key:
+	@bash scripts/reseal.sh --manifest 3dfiles/manyfold-secret-key.sealedsecret.yaml \
+		--name manyfold-secret-key --namespace 3dfiles --scope namespace-wide --key manyfold-secret-key
+
+reseal-nonfiction-index-auth:
+	@bash scripts/reseal.sh --manifest books/nonfiction-index-auth.sealedsecret.yaml \
+		--name nonfiction-index-auth --namespace books --scope strict --key kavita-key --key hister-token
+
+reseal-registrationsharedsecret:
+	@bash scripts/reseal.sh --manifest chat/registrationSharedSecret.sealedsecret.yaml \
+		--name registrationsharedsecret --namespace chat --scope namespace-wide --key registrationsharedsecret
+
+reseal-renovate-config:
+	@bash scripts/reseal.sh --manifest renovate/sealed-renoveate-config-.yaml \
+		--name renovate-config --namespace renovate --scope namespace-wide --key TokenSecret
+
+reseal-spotify-client:
+	@bash scripts/reseal.sh --manifest music/spotify-client.sealedsecret.yaml \
+		--name spotify-client --namespace music --scope namespace-wide --key clientid --key clientsecret
+
+reseal-synapse-postgres-password:
+	@bash scripts/reseal.sh --manifest chat/sealed-synapse-postgres-password.yaml \
+		--name synapse-postgres-password --namespace chat --scope strict --key password
+
+reseal-synapse-redis-password:
+	@bash scripts/reseal.sh --manifest chat/sealed-synapse-redis-password.yaml \
+		--name synapse-redis-password --namespace chat --scope strict --key password
+
+reseal-tunnel-credentials:
+	@bash scripts/reseal.sh --manifest cloudflare-tunnel/sealed-tunnel-credentials.yaml \
+		--name tunnel-credentials --namespace default --scope strict --key credentials.json
+
+reseal-wallabag-parameters:
+	@bash scripts/reseal.sh --manifest readlater/wallabag-parameters.sealedsecret.yaml \
+		--name wallabag-parameters --namespace readlater --scope namespace-wide --key Secret
+
+reseal-writefreely-config:
+	@bash scripts/reseal.sh --manifest writings/sealed-writefreely-config.yaml \
+		--name writefreely-config --namespace writings --scope strict --key ClientSecret
