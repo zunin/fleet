@@ -13,7 +13,7 @@ spec:
           containers:
             - name: renovate-bot
               # renovate: datasource=docker
-              image: ghcr.io/zunin/renovate:44.181.0@sha256:075c61a1a52da27e6efd32ffb7cc465527ad27baf96e5692a903d7505f42f126
+              image: ghcr.io/zunin/renovate:44.247.1@sha256:c970f19f8bd4578e237631f384ba81c993aa2a2ffd1995e320f41657a63a618a
               # nix-images-built image: renovate + git/nix/nodejs/flux (the nix
               # manager's flake.lock lockFileMaintenance); rootless nix store
               # lives in the /tmp/renovate emptyDir, so rootfs stays writable.
